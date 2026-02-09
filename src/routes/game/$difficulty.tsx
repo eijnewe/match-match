@@ -8,10 +8,12 @@ export const Route = createFileRoute('/game/$difficulty')({
 function GamePage() {
   const { difficulty } = Route.useParams()
   return (
-    <div>
-      Hello "/game/$difficulty"!
-      {difficulty}
+    <>
+      <p>
+        Hello "/game/$difficulty"!
+        {difficulty}
+      </p>
       <Gameboard words="hello" />
-    </div>
+    </>
   )
 }
