@@ -1,9 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/game/$difficulty')({
-  component: RouteComponent,
+  component: GamePage,
 })
 
-function RouteComponent() {
-  return <div>Hello "/game/$difficulty"!</div>
+function GamePage() {
+  const { difficulty } = Route.useParams()
+  return <div>Hello "/game/$difficulty"!
+    {difficulty}
+  </div>
 }
