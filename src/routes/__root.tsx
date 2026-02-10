@@ -11,7 +11,6 @@ function RootComponent() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <ModeToggle />
-      <div>Hello "__root"!</div>
       <Outlet />
     </ThemeProvider>
   )
