@@ -1,6 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { Link } from '@tanstack/react-router'
 import { HowToPlay } from '@/components/how-to-play'
 
 export const Route = createFileRoute('/')({
