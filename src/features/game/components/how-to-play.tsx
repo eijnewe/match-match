@@ -3,7 +3,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "./ui/accordion";
+} from "../../../components/ui/accordion";
 
 const rules: string = 
 `Try to sort all the words into categories!
