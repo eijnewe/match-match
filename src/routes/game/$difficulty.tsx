@@ -14,6 +14,6 @@ function GamePage() {
       Hello "/game/$difficulty"!
       {difficulty}
       <Gameboard words="hello" />
-    </div>
+    </>
   )
 }

@@ -9,30 +9,28 @@ function GameIndex() {
   const difficulties = ['easy', 'medium', 'hard']
 
   return (
-    <div className="flex place-content-center">
-      <div>
-        <p>Choose difficulty</p>
-        <ul className="flex flex-col items-stretch">
-          {difficulties.map((d) => (
-            <li key={d}>
-              <Button
-                size="lg"
-                className={'w-full'}
-                nativeButton={false}
-                render={
-                  <Link
-                    to="/game/$difficulty"
-                    className="capitalize"
-                    params={{ difficulty: d }}
-                  >
-                    {d}
-                  </Link>
-                }
-              ></Button>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div>
+      <p>Choose difficulty</p>
+      <ul className="flex flex-col items-stretch">
+        {difficulties.map((d) => (
+          <li key={d}>
+            <Button
+              size="lg"
+              className={'w-full'}
+              nativeButton={false}
+              render={
+                <Link
+                  to="/game/$difficulty"
+                  className="capitalize"
+                  params={{ difficulty: d }}
+                >
+                  {d}
+                </Link>
+              }
+            ></Button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
