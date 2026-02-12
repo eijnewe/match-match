@@ -9,11 +9,10 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   return (
-    <div className="flex flex-col justify-center items-center gap-4">
-      <Button>
+    <div>
+      <Button size="lg" >
         <Link to="/game">Start game</Link>
       </Button>
-      <HowToPlay />
     </div>
   )
 }

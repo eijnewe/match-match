@@ -3,6 +3,7 @@ import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ModeToggle } from '@/components/mode-toggle'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { Header } from '@/components/header'
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -11,9 +12,8 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Header/>
       <div className="flex flex-col min-h-screen items-stretch">
-        <ModeToggle />
-        <div>Hello "__root"!</div>
         <PageContainer>
           <Outlet />
         </PageContainer>

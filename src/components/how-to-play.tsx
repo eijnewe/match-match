@@ -1,10 +1,3 @@
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-//   AccordionTrigger,
-// } from "./ui/accordion";
-
 const rules: string = `Try to sort all the words into categories!
 
 First select a word and assign it to an empty category. When you find another word that fits, select it and then select the category: if it's the right category, you will get a point! If not, the word remains on the screen and you will score an "error" point.
