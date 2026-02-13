@@ -7,12 +7,9 @@ export function PageContainer({
   return (
     <main
       className={cn(
-        'mx-auto p-4 md:p-6 w-full flex place-content-center justify-center items-center',
+        'mx-auto p-4 md:p-6 w-full grow flex place-content-center justify-center items-center',
         className,
       )}
-      style={{
-        minHeight: 'calc(100vh - var(--header-height, 80px))',
-      }}
     >
       {children}
     </main>

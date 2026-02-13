@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { HowToPlay } from '@/features/game/components/how-to-play'
-import { PointCounter } from '@/features/game/components/PointCounter'
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -10,11 +8,9 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <div>
-      <Button size="lg" >
+      <Button size="lg" className="w-29.5" >
         <Link to="/game">Start game</Link>
       </Button>
-      <HowToPlay />
-      <PointCounter/>
     </div>
   )
 }

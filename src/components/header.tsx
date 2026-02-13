@@ -5,26 +5,30 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ModeToggle } from "./mode-toggle";
-import { HowToPlay } from "./how-to-play";
+import { HowToPlay } from "@/features/game/components/how-to-play";
 import { Switch } from "./ui/switch";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
-
-const errors = "0000";
-const points = "0000";
+import { useState, useEffect } from "react";
+import { PointCounter } from "@/features/game/components/PointCounter";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
+
+  useEffect(() => {
+    setIsHamburgerOpen(false);
+    setIsHowToPlayOpen(false);
+  }, [pathname]);
 
   const isCompactHeader = pathname === "/" || pathname === "/game";
 
   const fullscreenButton = (
     <Button
-      className="bg-orange-100"
+      className="bg-accent"
       onClick={() => setIsHeaderHidden((prev) => !prev)}
       aria-label={isHeaderHidden ? "Show header" : "Hide header"}
     >
@@ -33,14 +37,21 @@ export function Header() {
   );
 
   return (
-    <div className="relative" style={{ '--header-height': 'auto' } as React.CSSProperties}>
+    <div
+      className="relative">
       {isHeaderHidden && (
         <div className="fixed top-2 right-2 z-50">{fullscreenButton}</div>
       )}
 
       {!isHeaderHidden && (
-        <div className="bg-orange-100 relative z-40">
-          <Collapsible>
+        <div className="bg-accent relative z-40">
+          <Collapsible
+            open={isHamburgerOpen}
+            onOpenChange={(open) => {
+              setIsHamburgerOpen(open);
+              if (!open) setIsHowToPlayOpen(false);
+            }}
+          >
             <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2 ">
               <Link to="/">
                 <img
@@ -51,15 +62,8 @@ export function Header() {
               </Link>
 
               {!isCompactHeader && (
-                <div className="flex items-center gap-5 font-mono text-sm pt-1.5 pl-2">
-                  <div className="justify-items-center">
-                    <p className="font-semibold">Points:</p>
-                    <p>{points}</p>
-                  </div>
-                  <div className="justify-items-center">
-                    <p className="font-semibold">Errors:</p>
-                    <p>{errors}</p>
-                  </div>
+                <div className="font-mono pl-2">
+                  <PointCounter />
                 </div>
               )}
 
@@ -68,7 +72,7 @@ export function Header() {
 
                 <CollapsibleTrigger
                   render={
-                    <Button className="bg-orange-100">
+                    <Button className="bg-accent">
                       <img
                         src="/src/assets/hamburger.png"
                         alt="Menu"
@@ -80,9 +84,9 @@ export function Header() {
               </div>
             </div>
 
-            <div className="absolute left-0 right-0 shadow-xl bg-orange-100 z-50">
-              <CollapsibleContent className=" flex flex-col text-sm">
-                <div className="ml-auto w-[40vw] flex flex-col gap-2 p-2.5 pb-0">
+            <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
+              <CollapsibleContent className=" flex flex-col text-sm shadow-xl">
+                <div className="ml-auto w-[40vw] flex flex-col gap-2 pl-2.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
                       <span>
@@ -116,7 +120,7 @@ export function Header() {
                       <span>
                         <CollapsibleTrigger
                           render={
-                            <Button className="bg-orange-100">
+                            <Button className="bg-accent">
                               <img
                                 src={
                                   isHowToPlayOpen
@@ -134,7 +138,7 @@ export function Header() {
                       </span>
                     </div>
                   </div>
-                  <CollapsibleContent className="bg-orange-50 pt-4 pb-4 p-2.5 border-t border-accent-foreground ">
+                  <CollapsibleContent className="bg-muted pt-4 pb-4 p-2.5 border-t border-border ">
                     <HowToPlay />
                   </CollapsibleContent>
                 </Collapsible>

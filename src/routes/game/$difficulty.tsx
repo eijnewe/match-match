@@ -1,4 +1,4 @@
-import { Gameboard } from '@/components/GameBoard'
+import { Gameboard } from "@/features/game/components/GameBoard"
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/game/$difficulty')({
