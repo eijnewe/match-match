@@ -10,6 +10,7 @@ import { useCategoryColor } from "../hooks/useCategoryColor"
 type CustomCardProps =
     | { type: "category"; categoryTitle: string }
     | { type: "article"; articleTitle: string }
+    | { type: "plus" }
 
 
 export function CustomCard(props: CustomCardProps) {
@@ -20,14 +21,16 @@ export function CustomCard(props: CustomCardProps) {
     const { categoryName, setCategoryName } = useCategoryName(props.type === "category" ? props.categoryTitle : "")
     const { categoryColor, setCategoryColor } = useCategoryColor("card")
 
-    return props.type === "category"
-        ? (
+    let content;
+
+    if (props.type === "category") {
+        content = (
             <Tooltip>
                 <TooltipTrigger>
                     <Popover>
                         <PopoverTrigger>
                             <Card className={`${categoryColor} cursor-pointer hover:brightness-95`}>
-                                <CardContent className="font-bold uppercase">
+                                <CardContent>
                                     {categoryName}
                                 </CardContent>
                             </Card>
@@ -68,12 +71,30 @@ export function CustomCard(props: CustomCardProps) {
                     </span>
                 </TooltipContent>
             </Tooltip>
-
-        ) : (
-            <Card>
+        );
+    } else if (props.type === "article") {
+        content = (
+            <Card className="cursor-pointer hover:brightness-95">
                 <CardContent>
                     {props.articleTitle}
                 </CardContent>
             </Card>
-        )
+        );
+    } else {
+        content =
+            <Tooltip>
+                <TooltipTrigger>
+                    <Card className="pr-1 pl-1 text-center cursor-pointer hover:brightness-95">
+                        <CardContent>
+                            +
+                        </CardContent>
+                    </Card>
+                </TooltipTrigger>
+                <TooltipContent>
+                    Add a Category card
+                </TooltipContent>
+            </Tooltip>
+    }
+
+    return content
 }

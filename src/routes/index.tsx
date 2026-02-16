@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { CustomCard } from '@/features/game/components/CustomCard'
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -14,7 +13,6 @@ function Index() {
       className="w-29.5" 
       render={<Link to="/game">Start game</Link>}>
       </Button>
-      <CustomCard type="category" categoryTitle='Test Category'/>
     </div>
   )
 }
