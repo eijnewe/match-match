@@ -10,6 +10,8 @@ import { Switch } from "./ui/switch";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { PointCounter } from "@/features/game/components/PointCounter";
+import { ChevronDown, ChevronUp, Maximize2, Menu } from "lucide-react";
+import { Label } from "./ui/label";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -24,21 +26,32 @@ export function Header() {
     setIsHowToPlayOpen(false);
   }, [pathname]);
 
+  const handleFullscreenToggle = () => {
+    setIsHeaderHidden((prev) => {
+      const newHiddenState = !prev;
+      if (newHiddenState) {
+        setIsHamburgerOpen(false);
+        setIsHowToPlayOpen(false);
+      }
+      return newHiddenState;
+    });
+  };
+
   const isCompactHeader = pathname === "/" || pathname === "/game";
 
   const fullscreenButton = (
     <Button
       className="bg-accent"
-      onClick={() => setIsHeaderHidden((prev) => !prev)}
+      onClick={handleFullscreenToggle}
       aria-label={isHeaderHidden ? "Show header" : "Hide header"}
+      size="icon"
     >
-      <img src="/src/assets/expand.png" alt="Fullscreen" className="h-4" />
+      <Maximize2 className="!h-4 !w-4 text-accent-foreground" />
     </Button>
   );
 
   return (
-    <div
-      className="relative">
+    <div className="relative">
       {isHeaderHidden && (
         <div className="fixed top-2 right-2 z-50">{fullscreenButton}</div>
       )}
@@ -52,7 +65,7 @@ export function Header() {
               if (!open) setIsHowToPlayOpen(false);
             }}
           >
-            <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2 ">
+            <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2">
               <Link to="/">
                 <img
                   src="/src/assets/memory-game.png"
@@ -67,17 +80,13 @@ export function Header() {
                 </div>
               )}
 
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
                 {fullscreenButton}
 
                 <CollapsibleTrigger
                   render={
-                    <Button className="bg-accent">
-                      <img
-                        src="/src/assets/hamburger.png"
-                        alt="Menu"
-                        className="h-5"
-                      />
+                    <Button className="bg-accent" size="icon">
+                      <Menu className="!h-5 !w-5 text-accent-foreground" />
                     </Button>
                   }
                 />
@@ -85,60 +94,66 @@ export function Header() {
             </div>
 
             <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
-              <CollapsibleContent className=" flex flex-col text-sm shadow-xl">
-                <div className="ml-auto w-[40vw] flex flex-col gap-2 pl-2.5 pr-2.5">
+              <CollapsibleContent className="flex flex-col text-sm shadow-xl">
+                <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-2.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
-                      <span>
-                        <Link to="/">Home</Link>
-                      </span>
-                      <span />
+                      <Link to="/" className="flex-1">
+                        Home
+                      </Link>
                     </div>
                   )}
 
                   <div className="flex items-center justify-between">
-                    <span>Dark Mode</span>
-                    <span>
-                      <ModeToggle />
-                    </span>
+                    <Label
+                      htmlFor="dark-mode"
+                      className="flex-1 cursor-pointer text-sm"
+                    >
+                      Dark Mode
+                    </Label>
+                    <ModeToggle />
                   </div>
 
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
-                      <span>Grid</span>
-                      <span>
-                        <Switch />
-                      </span>
+                      <Label
+                        htmlFor="grid-mode"
+                        className="flex-1 cursor-pointer text-sm"
+                      >
+                        Grid
+                      </Label>
+                      <Switch id="grid-mode" />
                     </div>
                   )}
                 </div>
 
-                <Collapsible onOpenChange={setIsHowToPlayOpen}>
-                  <div className="ml-auto w-[40vw] flex flex-col pl-2.5 pr-1.5 pt-0.5 pb-1">
-                    <div className="flex items-center justify-between">
-                      <span>How to play</span>
-                      <span>
-                        <CollapsibleTrigger
-                          render={
-                            <Button className="bg-accent">
-                              <img
-                                src={
-                                  isHowToPlayOpen
-                                    ? "/src/assets/up-arrow.png"
-                                    : "/src/assets/down-arrow.png"
-                                }
-                                alt={
-                                  isHowToPlayOpen ? "Arrow up" : "Arrow down"
-                                }
-                                className="h-4.5"
-                              />
-                            </Button>
-                          }
-                        />
-                      </span>
-                    </div>
+                <Collapsible
+                  open={isHowToPlayOpen}
+                  onOpenChange={setIsHowToPlayOpen}
+                >
+                  <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col pl-2.5 pr-1.5 pt-0.5 pb-1">
+                    <CollapsibleTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          className="bg-accent w-full p-0 border-0"
+                          size="icon"
+                        >
+                          <div className="flex items-center justify-between w-full text-sm">
+                            <span>How to play</span>
+                            <div className="pr-2 text-accent-foreground">
+                              {isHowToPlayOpen ? (
+                                <ChevronUp className="!h-4.5 !w-4.5" />
+                              ) : (
+                                <ChevronDown className="!h-4.5 !w-4.5" />
+                              )}
+                            </div>
+                          </div>
+                        </Button>
+                      }
+                    />
                   </div>
-                  <CollapsibleContent className="bg-muted pt-4 pb-4 p-2.5 border-t border-border ">
+                  <CollapsibleContent className="bg-muted pt-4 pb-4 p-2.5 border-t border-border">
                     <HowToPlay />
                   </CollapsibleContent>
                 </Collapsible>
