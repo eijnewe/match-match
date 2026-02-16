@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import type { Difficulty } from '@/types/game'
 import { createFileRoute, Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/game/')({
@@ -6,13 +7,13 @@ export const Route = createFileRoute('/game/')({
 })
 
 function GameIndex() {
-  const difficulties = ['easy', 'medium', 'hard']
+  const difficulties: Difficulty[] = ['easy', 'medium', 'hard']
 
   return (
     <div>
       <p>Choose difficulty</p>
       <ul className="flex flex-col items-stretch">
-        {difficulties.map((d) => (
+        {difficulties.map((d: Difficulty) => (
           <li key={d}>
             <Button
               size="lg"
