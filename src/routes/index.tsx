@@ -15,6 +15,7 @@ function Index() {
       render={<Link to="/game">Start game</Link>}>
       </Button>
       <CustomCard type="category" categoryTitle='Test Category'/>
+      <CustomCard type='plus'/>
     </div>
   )
 }
