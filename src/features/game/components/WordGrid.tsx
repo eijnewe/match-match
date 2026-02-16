@@ -1,12 +1,27 @@
-type WordGridProps = {
-  words: string[];
-  columns: number;
-};
+import clsx from 'clsx'
+import { CustomCard } from './CustomCard'
 
-export function WordGrid({ words, columns }: WordGridProps) {
+type WordGridProps = {
+  words: string[]
+  display: string
+}
+
+export function WordGrid({ words, display }: WordGridProps) {
+  const isGrid = display == 'grid'
   return (
-    <div>
-      {words.map((word, rowIndex) => (
+    <div
+      className={clsx(
+        'gap-4',
+        isGrid ?
+          'grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] [auto-rows:1fr]'
+        : 'flex flex-wrap',
+      )}
+    >
+      {words.map((w) => (
+        <CustomCard key={w} type="article" articleTitle={w} />
+      ))}
+
+      {/*   {words.map((word, rowIndex) => (
         <div
           key={rowIndex}
           style={{
@@ -26,7 +41,7 @@ export function WordGrid({ words, columns }: WordGridProps) {
             </div>
           ))}
         </div>
-      ))}
+      ))} */}
     </div>
-  );
+  )
 }
