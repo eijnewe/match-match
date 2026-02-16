@@ -14,6 +14,7 @@ function GamePage() {
         {difficulty}
       </p>
       <Gameboard words="hello" />
+      {/* det ska egentligen vara såhär: <Gameboard difficulty={difficulty} /> */}
     </>
   )
 }

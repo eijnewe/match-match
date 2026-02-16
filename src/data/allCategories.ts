@@ -5,11 +5,23 @@ export const ALL_CATEGORIES = {
   },
   710421: {
     name: 'Cat breeds',
-    stripPatterns: [],
+    stripPatterns: [' cat'],
   },
   37691805: {
     name: 'European Countries',
     stripPatterns: [' (country)'],
+  },
+  6202752: {
+    name: 'Best Actress Academy Award winners',
+    stripPatterns: [],
+  },
+  38559183: {
+    name: 'Walt Disney Pictures films',
+    stripPatterns: [],
+  },
+  12246605: {
+    name: 'Swedish brands',
+    stripPatterns: [],
   },
 } as const satisfies Record<
   number,
@@ -18,4 +30,3 @@ export const ALL_CATEGORIES = {
     stripPatterns: readonly string[]
   }
 >
-
