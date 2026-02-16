@@ -4,6 +4,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Edit } from "lucide-react"
 import { useCategoryName } from "../hooks/categoryName"
+import { ColorChanger } from "./ColorChanger"
+import { useCategoryColor } from "../hooks/useCategoryColor"
 
 type CustomCardProps =
     | { type: "category"; categoryTitle: string }
@@ -16,6 +18,7 @@ export function CustomCard(props: CustomCardProps) {
 
     const defaultCategoryTitle = "Unknown category"
     const { categoryName, setCategoryName } = useCategoryName(props.type === "category" ? props.categoryTitle : "")
+    const { categoryColor, setCategoryColor } = useCategoryColor("card")
 
     return props.type === "category"
         ? (
@@ -23,19 +26,22 @@ export function CustomCard(props: CustomCardProps) {
                 <TooltipTrigger>
                     <Popover>
                         <PopoverTrigger>
-                            <Card>
-                                <CardContent>
+                            <Card className={`${categoryColor} cursor-pointer hover:brightness-95`}>
+                                <CardContent className="font-bold uppercase">
                                     {categoryName}
                                 </CardContent>
                             </Card>
                         </PopoverTrigger>
                         <PopoverContent className={"flex flex-col w-fit"}>
                             <span className="flex flex-row items-center">
-                                <Edit className="mr-2">
-                                    <title>
-                                        Edit name
-                                    </title>
-                                </Edit>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Edit className="mr-2" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Edit the Category title
+                                    </TooltipContent>
+                                </Tooltip>
                                 <Textarea
                                     value={categoryName}
                                     className="resize-none w-full min-h-8"
@@ -47,9 +53,7 @@ export function CustomCard(props: CustomCardProps) {
                                     }}
                                 />
                             </span>
-                            <span className="flex flex-row">
-                                [Replace this with Color Changer Component]
-                            </span>
+                            <ColorChanger handleClick={setCategoryColor} />
                         </PopoverContent>
                     </Popover>
                 </TooltipTrigger>
