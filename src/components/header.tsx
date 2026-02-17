@@ -10,7 +10,13 @@ import { Switch } from "./ui/switch";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { PointCounter } from "@/features/game/components/PointCounter";
-import { ChevronDown, ChevronUp, Maximize2, Menu } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Maximize2,
+  Menu,
+  Edit,
+} from "lucide-react";
 import { Label } from "./ui/label";
 
 export function Header() {
@@ -39,7 +45,7 @@ export function Header() {
 
   const isCompactHeader = pathname === "/" || pathname === "/game";
 
-  const fullscreenButton = (
+  const fullscreenBtn = (
     <Button
       className="bg-transparent"
       onClick={handleFullscreenToggle}
@@ -50,10 +56,22 @@ export function Header() {
     </Button>
   );
 
+  const editBtn = (
+    <Button 
+      className="bg-transparent" 
+      size="icon"
+    >
+      <Edit className="!h-4 !w-4 text-accent-foreground" />
+    </Button>
+  );
+
   return (
     <div className="relative">
       {isHeaderHidden && (
-        <div className="fixed top-2 right-2 z-50">{fullscreenButton}</div>
+        <div className="fixed top-2 right-2 z-50 flex flex-col">
+          {fullscreenBtn}
+          {editBtn}
+        </div>
       )}
 
       {!isHeaderHidden && (
@@ -80,9 +98,9 @@ export function Header() {
                 </div>
               )}
 
-              <div className="flex items-center gap-2">
-                {fullscreenButton}
-
+              <div className="flex items-center gap-1.5">
+                {editBtn}
+                {fullscreenBtn}
                 <CollapsibleTrigger
                   render={
                     <Button className="bg-accent" size="icon">
