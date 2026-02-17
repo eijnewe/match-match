@@ -41,7 +41,7 @@ export function Header() {
 
   const fullscreenButton = (
     <Button
-      className="bg-accent"
+      className="bg-transparent"
       onClick={handleFullscreenToggle}
       aria-label={isHeaderHidden ? "Show header" : "Hide header"}
       size="icon"
@@ -95,7 +95,7 @@ export function Header() {
 
             <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
               <CollapsibleContent className="flex flex-col text-sm shadow-xl">
-                <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-2.5 pr-2.5">
+                <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
                       <Link to="/" className="flex-1">
@@ -131,23 +131,21 @@ export function Header() {
                   open={isHowToPlayOpen}
                   onOpenChange={setIsHowToPlayOpen}
                 >
-                  <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col pl-2.5 pr-1.5 pt-0.5 pb-1">
+                  <div className=" first ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col justify-center pl-2.5 pr-1.5 pt-0.5 pb-1">
                     <CollapsibleTrigger
                       render={
                         <Button
                           variant="ghost"
-                          className="bg-accent w-full p-0 border-0"
+                          className="bg-accent w-full p-0 pl-1 border-0 flex items-center justify-between text-sm"
                           size="icon"
                         >
-                          <div className="flex items-center justify-between w-full text-sm">
-                            <span>How to play</span>
-                            <div className="pr-2 text-accent-foreground">
-                              {isHowToPlayOpen ? (
-                                <ChevronUp className="!h-4.5 !w-4.5" />
-                              ) : (
-                                <ChevronDown className="!h-4.5 !w-4.5" />
-                              )}
-                            </div>
+                          <span>How to play</span>
+                          <div className="third pr-1.5 text-accent-foreground">
+                            {isHowToPlayOpen ? (
+                              <ChevronUp className="!h-5.5 !w-5.5" />
+                            ) : (
+                              <ChevronDown className="!h-5.5 !w-5.5" />
+                            )}
                           </div>
                         </Button>
                       }
