@@ -23,6 +23,8 @@ export function CategoryBanner({
       {pinnedCategories.map((cat) => (
         <CustomCard key={cat} type="category" categoryTitle={cat} />
       ))}
+      <CustomCard type='completedCategory' categoryTitle='Horses'/>
+      <CustomCard type="plus"/>
       {/* <span
           key={cat}
           className="px-2 py-1 bg-primary/10 rounded text-sm flex items-center gap-1"
