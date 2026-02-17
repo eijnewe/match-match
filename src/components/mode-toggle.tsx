@@ -30,6 +30,7 @@ export function ModeToggle() {
       checked={isDark}
       onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
       aria-label="Toggle theme"
+      id="dark-mode"
     />
   );
 }

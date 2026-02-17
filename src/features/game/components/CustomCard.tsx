@@ -4,10 +4,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Edit } from "lucide-react"
 import { useCategoryName } from "../hooks/categoryName"
+import { ColorChanger } from "./ColorChanger"
+import { useCategoryColor } from "../hooks/useCategoryColor"
 
 type CustomCardProps =
     | { type: "category"; categoryTitle: string }
     | { type: "article"; articleTitle: string }
+    | { type: "plus" }
 
 
 export function CustomCard(props: CustomCardProps) {
@@ -16,14 +19,17 @@ export function CustomCard(props: CustomCardProps) {
 
     const defaultCategoryTitle = "Unknown category"
     const { categoryName, setCategoryName } = useCategoryName(props.type === "category" ? props.categoryTitle : "")
+    const { categoryColor, setCategoryColor } = useCategoryColor("card")
 
-    return props.type === "category"
-        ? (
+    let content;
+
+    if (props.type === "category") {
+        content = (
             <Tooltip>
                 <TooltipTrigger className="h-full w-full">
                     <Popover>
                         <PopoverTrigger className="h-full w-full">
-                            <Card className="h-full w-full flex justify-center p-1 leading-4">
+                            <Card className={`${categoryColor} cursor-pointer hover:brightness-95 h-full w-full flex justify-center p-1 leading-4`}>
                                 <CardContent>
                                     {categoryName}
                                 </CardContent>
@@ -31,11 +37,14 @@ export function CustomCard(props: CustomCardProps) {
                         </PopoverTrigger>
                         <PopoverContent className={"flex flex-col w-fit"}>
                             <span className="flex flex-row items-center">
-                                <Edit className="mr-2">
-                                    <title>
-                                        Edit name
-                                    </title>
-                                </Edit>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Edit className="mr-2" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        Edit the Category title
+                                    </TooltipContent>
+                                </Tooltip>
                                 <Textarea
                                     value={categoryName}
                                     className="resize-none w-full min-h-8"
@@ -47,9 +56,7 @@ export function CustomCard(props: CustomCardProps) {
                                     }}
                                 />
                             </span>
-                            <span className="flex flex-row">
-                                [Replace this with Color Changer Component]
-                            </span>
+                            <ColorChanger handleClick={setCategoryColor} />
                         </PopoverContent>
                     </Popover>
                 </TooltipTrigger>
@@ -64,12 +71,30 @@ export function CustomCard(props: CustomCardProps) {
                     </span>
                 </TooltipContent>
             </Tooltip>
-
-        ) : (
-            <Card>
+        );
+    } else if (props.type === "article") {
+        content = (
+            <Card className="cursor-pointer hover:brightness-95">
                 <CardContent>
                     {props.articleTitle}
                 </CardContent>
             </Card>
-        )
+        );
+    } else {
+        content =
+            <Tooltip>
+                <TooltipTrigger>
+                    <Card className="pr-1 pl-1 text-center cursor-pointer hover:brightness-95">
+                        <CardContent>
+                            +
+                        </CardContent>
+                    </Card>
+                </TooltipTrigger>
+                <TooltipContent>
+                    Add another Category card
+                </TooltipContent>
+            </Tooltip>
+    }
+
+    return content
 }
