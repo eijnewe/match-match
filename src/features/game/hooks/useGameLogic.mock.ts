@@ -69,7 +69,7 @@ export function useGameLogicMock() {
     // Mockat spelstate
     selectedWords: ['äpple', 'päron'],
     solvedCategories: [1],
-    pinnedCategories: ['Frukt', 'Drycker', 'Sport', 'Färger'],
+    pinnedCategories: ['Frukt', 'Drycker', 'Sport', 'Färger', 'Frukt', 'Drycker', 'Sport', 'Färger', 'Frukt', 'Drycker', 'Sport', 'Färger', 'Frukt', 'Drycker', 'Sport', 'Färger'],
 
     // Mockade actions
     addPinnedCategory: (name: string) => console.log('add pinned:', name),

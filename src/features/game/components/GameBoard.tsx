@@ -9,7 +9,7 @@ export function Gameboard({ difficulty }) {
   console.log(logic.data.allWords)
 
   return (
-    <div className="grow">
+    <div className="grow self-start -mt-4">
       <CategoryBanner
         pinnedCategories={logic.pinnedCategories}
         onAddCategory={logic.addPinnedCategory}

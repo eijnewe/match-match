@@ -20,10 +20,10 @@ export function CustomCard(props: CustomCardProps) {
     return props.type === "category"
         ? (
             <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger className="h-full w-full">
                     <Popover>
-                        <PopoverTrigger>
-                            <Card>
+                        <PopoverTrigger className="h-full w-full">
+                            <Card className="h-full w-full flex justify-center p-1 leading-4">
                                 <CardContent>
                                     {categoryName}
                                 </CardContent>
@@ -39,7 +39,7 @@ export function CustomCard(props: CustomCardProps) {
                                 <Textarea
                                     value={categoryName}
                                     className="resize-none w-full min-h-8"
-                                    maxLength={60}
+                                    maxLength={25}
                                     rows={1}
                                     onChange={(e) => setCategoryName(e.target.value)}
                                     onBlur={() => {
