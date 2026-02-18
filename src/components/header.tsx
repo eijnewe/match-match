@@ -1,68 +1,68 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { ModeToggle } from "./mode-toggle";
-import { HowToPlay } from "@/features/game/components/how-to-play";
-import { Switch } from "./ui/switch";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { PointCounter } from "@/features/game/components/PointCounter";
-import { ChevronDown, ChevronUp, Maximize2, Menu } from "lucide-react";
-import { Label } from "./ui/label";
+} from '@/components/ui/collapsible'
+import { ModeToggle } from './mode-toggle'
+import { HowToPlay } from '@/features/game/components/how-to-play'
+import { Switch } from './ui/switch'
+import { Link, useRouterState } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import { PointCounter } from '@/features/game/components/PointCounter'
+import { ChevronDown, ChevronUp, Maximize2, Menu } from 'lucide-react'
+import { Label } from './ui/label'
 
 export function Header() {
-  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
-  const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
-  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false)
+  const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false)
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false)
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
-  });
+  })
 
   useEffect(() => {
-    setIsHamburgerOpen(false);
-    setIsHowToPlayOpen(false);
-  }, [pathname]);
+    setIsHamburgerOpen(false)
+    setIsHowToPlayOpen(false)
+  }, [pathname])
 
   const handleFullscreenToggle = () => {
     setIsHeaderHidden((prev) => {
-      const newHiddenState = !prev;
+      const newHiddenState = !prev
       if (newHiddenState) {
-        setIsHamburgerOpen(false);
-        setIsHowToPlayOpen(false);
+        setIsHamburgerOpen(false)
+        setIsHowToPlayOpen(false)
       }
-      return newHiddenState;
-    });
-  };
+      return newHiddenState
+    })
+  }
 
-  const isCompactHeader = pathname === "/" || pathname === "/game";
+  const isCompactHeader = pathname === '/' || pathname === '/game'
 
   const fullscreenButton = (
     <Button
       className="bg-accent"
       onClick={handleFullscreenToggle}
-      aria-label={isHeaderHidden ? "Show header" : "Hide header"}
-      size="icon"
+      aria-label={isHeaderHidden ? 'Show header' : 'Hide header'}
+      size="icon-lg"
     >
-      <Maximize2 className="!h-4 !w-4 text-accent-foreground" />
+      <Maximize2 className="text-accent-foreground" />
     </Button>
-  );
+  )
 
   return (
-    <div className="relative">
+    <div className="test shrink-0">
       {isHeaderHidden && (
-        <div className="fixed top-2 right-2 z-50">{fullscreenButton}</div>
+        <div className="fixed top-2 right-2">{fullscreenButton}</div>
       )}
 
       {!isHeaderHidden && (
-        <div className="bg-accent relative z-40">
+        <div className="bg-accent z-40">
           <Collapsible
             open={isHamburgerOpen}
             onOpenChange={(open) => {
-              setIsHamburgerOpen(open);
-              if (!open) setIsHowToPlayOpen(false);
+              setIsHamburgerOpen(open)
+              if (!open) setIsHowToPlayOpen(false)
             }}
           >
             <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2">
@@ -85,8 +85,8 @@ export function Header() {
 
                 <CollapsibleTrigger
                   render={
-                    <Button className="bg-accent" size="icon">
-                      <Menu className="!h-5 !w-5 text-accent-foreground" />
+                    <Button variant={'ghost'} size="icon-lg">
+                      <Menu className="text-accent-foreground" />
                     </Button>
                   }
                 />
@@ -137,16 +137,14 @@ export function Header() {
                         <Button
                           variant="ghost"
                           className="bg-accent w-full p-0 border-0"
-                          size="icon"
+                          size="icon-lg"
                         >
                           <div className="flex items-center justify-between w-full text-sm">
                             <span>How to play</span>
                             <div className="pr-2 text-accent-foreground">
-                              {isHowToPlayOpen ? (
-                                <ChevronUp className="!h-4.5 !w-4.5" />
-                              ) : (
-                                <ChevronDown className="!h-4.5 !w-4.5" />
-                              )}
+                              {isHowToPlayOpen ?
+                                <ChevronUp />
+                              : <ChevronDown />}
                             </div>
                           </div>
                         </Button>
@@ -163,5 +161,5 @@ export function Header() {
         </div>
       )}
     </div>
-  );
+  )
 }
