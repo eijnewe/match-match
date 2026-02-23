@@ -14,6 +14,7 @@ import { ChevronDown, ChevronUp, Maximize2, Menu, Edit } from "lucide-react";
 import { Label } from "./ui/label";
 import { useGameStore } from "@/features/game/store/gameStore";
 import { useGridStore } from "@/features/game/hooks/useGridStore";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -25,18 +26,25 @@ export function Header() {
   const toggleGridMode = useGridStore((s) => s.toggleGridMode);
 
   const editBtn = (
-    <Button
-      className="bg-transparent cursor-pointer data-[state=open]:bg-muted"
-      size="icon-lg"
-      onClick={toggleEditMode}
-      aria-pressed={isEditMode}
-      aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
-      data-state={isEditMode ? "open" : "closed"}
-    >
-      <Edit className="text-accent-foreground" />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="bg-transparent cursor-pointer data-[state=open]:bg-muted"
+          size="icon-lg"
+          onClick={toggleEditMode}
+          aria-pressed={isEditMode}
+          aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
+          data-state={isEditMode ? "open" : "closed"}
+        >
+          <Edit className="text-accent-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Toggle Editing mode
+      </TooltipContent>
+    </Tooltip>
   );
-  
+
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
@@ -60,14 +68,21 @@ export function Header() {
   const isCompactHeader = pathname === "/" || pathname === "/game";
 
   const fullscreenBtn = (
-    <Button
-      className="bg-transparent cursor-pointer"
-      onClick={handleFullscreenToggle}
-      aria-label={isHeaderHidden ? "Show header" : "Hide header"}
-      size="icon-lg"
-    >
-      <Maximize2 className="text-accent-foreground" />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger>
+        <Button
+          className="bg-transparent cursor-pointer"
+          onClick={handleFullscreenToggle}
+          aria-label={isHeaderHidden ? "Show header" : "Hide header"}
+          size="icon-lg"
+        >
+          <Maximize2 className="text-accent-foreground" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Toggle Fullscreen mode
+      </TooltipContent>
+    </Tooltip>
   );
 
 
@@ -88,11 +103,18 @@ export function Header() {
           >
             <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2">
               <Link to="/">
-                <img
-                  src="/src/assets/memory-game.png"
-                  alt="Home"
-                  className="h-12"
-                />
+                <>
+                  <img
+                    src="/src/assets/LightModeIcon.png"
+                    alt="home"
+                    className="h-12 dark:hidden"
+                  />
+                  <img
+                    src="/src/assets/DarkModeIcon.png"
+                    alt="Home"
+                    className="h-12 hidden dark:block"
+                  />
+                </>
               </Link>
 
               {!isCompactHeader && (
@@ -134,19 +156,19 @@ export function Header() {
 
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between *:cursor-pointer">
-                      <Label 
-                      htmlFor="grid-mode" className="flex-1 text-sm"
+                      <Label
+                        htmlFor="grid-mode" className="flex-1 text-sm"
                       >
                         Grid
                       </Label>
-                      <Switch 
-                      id="grid-mode" 
-                      onClick={toggleGridMode}
-                      aria-pressed={isGridMode}
-                      checked={isGridMode}>
+                      <Switch
+                        id="grid-mode"
+                        onClick={toggleGridMode}
+                        aria-pressed={isGridMode}
+                        checked={isGridMode}>
                         {isGridMode ? "Grid" : "Flex"}
-                        
-                        </Switch>
+
+                      </Switch>
                     </div>
                   )}
                 </div>
