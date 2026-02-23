@@ -64,7 +64,7 @@ function AddCard() {
     )
 }
 
-function CategoryCard(props: Extract<CustomCardProps, { type: "category" | "completedCategory" }>) {
+function CategoryCard(props: Extract<CustomCardProps, { type: "category" | "completedCategory" | "editable" }>) {
     const limit = 20 // placeholder; num of categories/words in categories
     const sortedWords = ["Lorem", "Ipsum", "Dolor", "Sit"] // placeholder array of words in category
     const defaultCategoryTitle = "Unknown category"
