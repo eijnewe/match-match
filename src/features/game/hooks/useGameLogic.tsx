@@ -1,245 +1,129 @@
-import type { Difficulty } from "@/types/game";
-import { useGameQuery } from "../api/useGameQuery";
-import { useGameStore } from "../store/gameStore";
-import { useEffect } from "react";
-import type { GameCategory } from "@/types/category";
+import type { Difficulty } from '@/types/game'
+import { useGameQuery } from '../api/useGameQuery'
+import { useGameStore, type WorkingCategory } from '../store/gameStore'
+import { useEffect } from 'react'
+import type { GameCategory } from '@/types/category'
 
 export function useGameLogic(difficulty: Difficulty) {
-  const { data, isLoading, error } = useGameQuery(difficulty);
+  const { data, isLoading, error } = useGameQuery(difficulty)
 
-  const {
-    selectedWord,
-    selectedCategoryId,
-    highlightedWords,
-    solvedCategories,
-    wordsByCategory,
-    isGameWon,
-    selectWord,
-    deselectWord,
-    selectCategory,
-    deselectCategory,
-    clearHighlights,
-    solveCategory,
-    checkGameWon,
-    reset,
-  } = useGameStore();
+  const selectedWord = useGameStore((s) => s.selectedWord)
+  const selectedCategoryId = useGameStore((s) => s.selectedCategoryId)
+  const workingCategories = useGameStore((s) => s.workingCategories)
+  const solvedCategories = useGameStore((s) => s.solvedCategories)
 
+  const setWorkingCategories = useGameStore((s) => s.setWorkingCategories)
+  const selectWord = useGameStore((s) => s.selectWord)
+  const deselectWord = useGameStore((s) => s.deselectWord)
+  const selectCategory = useGameStore((s) => s.selectCategory)
+  const deselectCategory = useGameStore((s) => s.deselectCategory)
+  const addWordToCategory = useGameStore((s) => s.addWordToCategory)
+  const solveCategory = useGameStore((s) => s.solveCategory)
+  const reset = useGameStore((s) => s.reset)
+  const checkGameWon = useGameStore((s) => s.checkGameWon)
+
+  // 1. Initiera workingCategories när spelet laddas (utifrån data.categories)
   useEffect(() => {
-    reset();
-  }, [difficulty, reset]);
+    reset()
+  }, [difficulty, reset])
 
   useEffect(() => {
     if (data) {
-      checkGameWon(data.categories.length);
+      setWorkingCategories(
+        data.categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          words: [],
+          maxWords: cat.words.length,
+          solved: false,
+        })),
+      )
     }
-  }, [solvedCategories, data, checkGameWon]);
+  }, [data, setWorkingCategories])
 
-  const findCategoryForWord = (word: string): GameCategory | null => {
-    if (!data) return null;
-    return data.categories.find((cat) => cat.words.includes(word)) || null;
-  };
+  //2. Ord → kategori lookup (använd data.wordToCategory[word])
 
-  // const findCategoryInProgress = (categoryId: number): number | null => {
-  //   const entries = Object.entries(wordsByCategory);
-  //   if (entries.length === 0) return null;
 
-  //   if (wordsByCategory[categoryId]?.length > 0) {
-  //     return categoryId;
-  //   }
 
-  //   return null;
-  // };
+  function handleWordPlacement(word, categoryId) {
+    /*  alla helper funktioner kallas här */
+  }
 
-  // Matcha ord mot kategori
-  const handleWordToCategory = (
-    categoryId: number,
-  ): { success: boolean; isCorrect: boolean; error?: string } => {
-    if (!selectedWord || !data) {
-      return { success: false, isCorrect: false, error: "No word selected" };
+  useEffect(() => {
+    if (!selectedWord || !selectedCategoryId) return
+    handleWordPlacement(selectedWord, selectedCategoryId)
+  }, [selectedWord, selectedCategoryId])
+
+  // 8. Checka game won (alla kategorier fyllda)
+  useEffect(() => {
+    if (data) {
+      checkGameWon(data.categories.length)
     }
+  }, [solvedCategories, data, checkGameWon])
 
-    // check kat redan löst
-    if (solvedCategories.includes(categoryId)) {
-      return {
-        success: false,
-        isCorrect: false,
-        error: "Category already solved",
-      };
-    }
+//  initWorkingCategories
 
-    // find korrekt kat för ordet
-    const correctCategory = findCategoryForWord(selectedWord);
-    if (!correctCategory) {
-      return { success: false, isCorrect: false, error: "Word not found" };
-    }
+// ✔ handleWordPlacement
+// isCategoryEmpty()
+function isCategoryEmpty(cat) {
+  return cat.words.length === 0;
+}
+// isCategoryFull()
 
-    const isCorrectCategory = correctCategory.id === categoryId;
+function isCategoryFull(cat: WorkingCategory) {
+ return cat.words.length >= cat.maxWords
+}
+// isWordAlreadyPlaced()
 
-    // Case 1: Tom kat - check om selectedWord tillhör rätt kat
-    if (
-      !wordsByCategory[categoryId] ||
-      wordsByCategory[categoryId].length === 0
-    ) {
-      if (!isCorrectCategory) {
-        // fel kat - check om rätt kat påbörjats nån annanstans
-        const categoryInProgressId = Object.entries(wordsByCategory).find(
-          ([_, words]) => {
-            if (words.length === 0) return false;
-            // check om ord i kat tillhör samma kat som selectedWord
-            return data.categories.find(
-              (cat) =>
-                cat.id === correctCategory.id &&
-                cat.words.some((w) => words.includes(w)),
-            );
-          },
-        )?.[0];
+function isWordAlreadyPlaced(word: string) {
+ return workingCategories.some((cat) => cat.words.includes(word))
+}
+// isCorrectCategory()
+function isCorrectCategory(word, cat) {
+  return cat.words.some((w) => word.includes(w))
+}
+// doesAnotherCategoryHaveSameId()
 
-        if (categoryInProgressId) {
-          return {
-            success: false,
-            isCorrect: false,
-            error: "Category already started elsewhere",
-          };
-        }
-      }
+function doesAnotherCategoryHaveSameId(realId:number, selectedCategoryId:number) {
+  return workingCategories.some(cat => cat.id === realId && cat.id !== selectedCategoryId)
+}
 
-      // lägg till ord i kat
-      useGameStore.setState((state) => ({
-        wordsByCategory: {
-          ...state.wordsByCategory,
-          [categoryId]: [selectedWord],
-        },
-      }));
+// ✔ validatePlacement
 
-      // check om kat är complete
-      if (correctCategory.words.length === 1) {
-        solveCategory(categoryId);
-      }
+// ✔ detectSolvedCategories
 
-      deselectWord();
-      clearHighlights();
-      return { success: true, isCorrect: isCorrectCategory };
-    }
+// ✔ computeDerivedState
 
-    // Case 2: Kat har ord - check om selectedWord passar
-    const existingWords = wordsByCategory[categoryId];
-    const firstWord = existingWords[0];
-    const categoryOfFirstWord = findCategoryForWord(firstWord);
+  /*  1. Initiera workingCategories när spelet laddas
+  (utifrån data.categories) X
+  2. Ord → kategori lookup
+  (använd data.wordToCategory[word])
+  3. Reagera på UI‑state
+  När selectedWord + selectedCategoryId finns → försök lägga in ordet.
+  4. Validera drag
+  Är kategorin tom?
+  Finns en annan kategori med samma ID?
+  Är ordet redan placerat?
+  Är kategorin full?
+  5. Tom kategori → sätt ID
+  (uppdatera workingCategory.id)
+  6. Lägg in ord i kategori
+  (kalla store‑action)
+  7. Markera kategori som solved
+  (när words.length === maxWords)
+  8. Checka game won
+  (alla kategorier fyllda) X
+  9. Max antal kategorier
+  (styr plus‑knappen i UI)
+  10. Felhantering
+  (visa feedback, men store ska inte veta något om fel) */
 
-    if (!categoryOfFirstWord) {
-      return { success: false, isCorrect: false, error: "Category error" };
-    }
-
-    // check om ord tillhör samma kat
-    const wordBelongsToSameCategory =
-      categoryOfFirstWord.words.includes(selectedWord);
-    if (!wordBelongsToSameCategory) {
-      // Fel
-      deselectWord();
-      clearHighlights();
-      return {
-        success: false,
-        isCorrect: false,
-        error: "Word does not match category",
-      };
-    }
-
-    // Rätt ++
-    useGameStore.setState((state) => ({
-      wordsByCategory: {
-        ...state.wordsByCategory,
-        [categoryId]: [...existingWords, selectedWord],
-      },
-    }));
-
-    // check om kat är complete
-    const newWordCount = existingWords.length + 1;
-    if (newWordCount === categoryOfFirstWord?.words.length) {
-      solveCategory(categoryId);
-    }
-
-    deselectWord();
-    clearHighlights();
-    return { success: true, isCorrect: true };
-  };
-
-  // Wrappers för UI
-  const handleWordClick = (word: string) => {
-    const isWordMatched = Object.values(wordsByCategory).some((words) =>
-      words.includes(word),
-    );
-    if (isWordMatched) return;
-
-    // avmarkera ord
-    if (selectedWord === word) {
-      deselectWord();
-      return;
-    }
-
-    selectWord(word);
-
-    // kat markerad - matcha direkt
-    if (selectedCategoryId !== null) {
-      const result = handleWordToCategory(selectedCategoryId);
-      if (!result.success) {
-        // error animation?
-        console.error(result.error);
-      }
-    }
-  };
-
-  const handleCategoryClick = (categoryId: number) => {
-    if (solvedCategories.includes(categoryId)) return;
-
-    //avmarkera kat
-    if (selectedCategoryId === categoryId) {
-      deselectCategory();
-      return;
-    }
-
-    selectCategory(categoryId);
-
-    if (selectedWord) {
-      const result = handleWordToCategory(categoryId);
-      if (!result.success) {
-        console.error(result.error);
-        deselectCategory();
-      }
-    }
-  };
-
-  const addPinnedCategory = (name: string) => {
-    if (!data) return;
-    const category = data.categories.find((cat) => cat.name === name);
-    if (category) {
-      selectCategory(category.id);
-    }
-  };
-
-  const removePinnedCategory = (name: string) => {
-    if (!data) return;
-    const category = data.categories.find((cat) => cat.name === name);
-    if (category && selectedCategoryId === category.id) {
-      deselectCategory();
-    }
-  };
+  const maxCategories = data?.categories.length ?? 0
+  const canAddCategory = workingCategories.length < maxCategories
 
   return {
     data,
     isLoading,
     error,
-
-    selectedWord,
-    selectedCategoryId,
-    highlightedWords,
-    solvedCategories,
-    wordsByCategory,
-    isGameWon,
-
-    handleWordClick,
-    handleCategoryClick,
-    addPinnedCategory,
-    removePinnedCategory,
-    reset,
-  };
+  }
 }
