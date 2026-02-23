@@ -9,7 +9,12 @@ export function Gameboard({ difficulty }) {
   console.log(logic.data.allWords)
 
   return (
-    <div className="grow self-start -mt-4">
+    <div className="overflow-y-auto flex-1 p-3">
+      <WordGrid words={logic.data.allWords} display="grid" />
+    </div>
+  )
+  {
+    /* <div className="grow self-start -mt-4">
       <CategoryBanner
         pinnedCategories={logic.pinnedCategories}
         onAddCategory={logic.addPinnedCategory}
@@ -17,6 +22,6 @@ export function Gameboard({ difficulty }) {
         categoryCount={categoryCount}
       />
       <WordGrid words={logic.data.allWords} display="grid" />
-    </div>
-  )
+    </div> */
+  }
 }

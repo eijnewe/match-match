@@ -1,5 +1,13 @@
 import clsx from 'clsx'
 import { CustomCard } from './CustomCard'
+import { Button } from '@/components/ui/button'
+
+/* className={clsx(
+        'gap-2',
+        isGrid ?
+          'grid grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-[4rem]'
+        : 'flex flex-wrap',
+      )} */
 
 type WordGridProps = {
   words: string[]
@@ -11,15 +19,25 @@ export function WordGrid({ words, display }: WordGridProps) {
   return (
     <div
       className={clsx(
-        'gap-4',
+        'gap-2',
         isGrid ?
-          'grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] [auto-rows:1fr]'
-        : 'flex flex-wrap',
+          'grid place-items-stretch grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-auto'
+        : 'flex flex-wrap content-start',
       )}
     >
       {words.map((w) => (
         <CustomCard key={w} type="article" articleTitle={w} />
       ))}
+      {/* <Button
+        variant={'outline'}
+        key={w}
+        className={clsx(
+          'grow whitespace-normal break-normal py-2',
+          isGrid ? 'h-auto' : 'min-h-3.5',
+        )}
+      >
+        {w}
+      </Button> */}
 
       {/*   {words.map((word, rowIndex) => (
         <div

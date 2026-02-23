@@ -16,8 +16,8 @@ export function CategoryBanner({
   return (
     <div
       className={clsx(
-        'grid grid-flow-col gap-1 bg-border dark:bg-border absolute w-full left-0 p-1.5 overflow-x-auto items-stretch max-h-60 auto-rows-fr',
-        isTwoRows ? 'grid-rows-2' : 'grid-rows-1'
+        'grid grid-flow-col gap-2 bg-border dark:bg-border overflow-x-auto items-stretch auto-rows-fr p-3 shrink-0',
+        isTwoRows ? 'grid-rows-2' : 'grid-rows-1',
       )}
     >
       {pinnedCategories.map((cat) => (
