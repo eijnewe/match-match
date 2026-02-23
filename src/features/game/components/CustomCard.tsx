@@ -38,7 +38,7 @@ type CustomCardProps =
 function BaseCard({ children, tooltip, cardClasses, editable, categoryTitle, articleTitle, type }: BaseCardProps) {
     const completedStyling = type === "completedCategory" ? "brightness-50" : "cursor-pointer hover:brightness-95"
     const card = (
-        <Card className={`text-center h-full w-full flex justify-center p-1 leading-4 ${completedStyling} ${cardClasses ?? ""}`}>
+        <Card className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 ${completedStyling} ${cardClasses ?? ""}`}>
             <CardContent className="p-0">
                 {children}
             </CardContent>
@@ -121,7 +121,6 @@ function CategoryCard(
         </span>
         <ColorChanger handleClick={setCategoryColor} />
     </>
-  );
 
   return props.type === "editable" ? (
     <Popover>

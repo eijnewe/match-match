@@ -20,6 +20,7 @@ export function CategoryBanner({
       {pinnedCategories.map((cat) => (
         <CustomCard key={cat} type="category" categoryTitle={cat} />
       ))}
+      <CustomCard type='editable' categoryTitle='Disco Dances'/>
       <CustomCard type='completedCategory' categoryTitle='Horses'/>
       <CustomCard type="plus"/>
     </div>
