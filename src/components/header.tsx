@@ -124,7 +124,7 @@ export function Header() {
               )}
 
               <div className="flex items-center gap-1.5">
-                {editBtn}
+                {!isCompactHeader && editBtn}
                 {fullscreenBtn}
                 <CollapsibleTrigger
                   render={
