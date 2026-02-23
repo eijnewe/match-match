@@ -8,10 +8,6 @@ export function CategoryBanner({
   categoryCount,
 }) {
   const isTwoRows = pinnedCategories.length > categoryCount / 2
-  console.log(categoryCount)
-  console.log(pinnedCategories)
-
-  console.log(isTwoRows)
 
   return (
     <div
@@ -23,13 +19,8 @@ export function CategoryBanner({
       {pinnedCategories.map((cat) => (
         <CustomCard key={cat} type="category" categoryTitle={cat} />
       ))}
-      {/* <span
-          key={cat}
-          className="px-2 py-1 bg-primary/10 rounded text-sm flex items-center gap-1"
-        >
-          {cat}
-          <button onClick={() => onRemoveCategory(cat)}>remove</button>
-        </span> */}
+      <CustomCard type='completedCategory' categoryTitle='Horses'/>
+      <CustomCard type="plus"/>
     </div>
   )
 }

@@ -49,16 +49,21 @@ export function Gameboard({ difficulty }) {
   const pinnedCategories = logic.data?.categories.map((cat) => cat.name) ?? [];
 
   return (
-    <div className="grow self-start -mt-4">
+    <div className="overflow-y-auto flex-1 p-3">
+      <WordGrid words={logic.data.allWords} display="grid" />
+    </div>
+  )
+  {
+    /* <div className="grow self-start -mt-4">
       <CategoryBanner
         pinnedCategories={pinnedCategories}
         onAddCategory={logic.addPinnedCategory}
         onRemoveCategory={logic.removePinnedCategory}
         categoryCount={logic.data?.categories.length ?? 0}
       />
-      <WordGrid 
-        words={remainingWords} 
-        display="grid" 
+      <WordGrid
+        words={remainingWords}
+        display="grid"
         onWordClick={logic.handleCategoryClick}
       />
     </div>
