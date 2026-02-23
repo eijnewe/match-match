@@ -26,8 +26,8 @@ type CustomCardProps =
 function BaseCard({ children, tooltip, cardClasses, editable, categoryTitle, articleTitle, type }: BaseCardProps) {
     const completedStyling = type === "completedCategory" ? "brightness-50" : "cursor-pointer hover:brightness-95"
     const card = (
-        <Card className={`pr-1 pl-1 text-center h-full w-full flex justify-center p-1 leading-4 ${completedStyling} ${cardClasses ?? ""}`}>
-            <CardContent>
+        <Card className={`text-center h-full w-full flex justify-center p-1 leading-4 ${completedStyling} ${cardClasses ?? ""}`}>
+            <CardContent className="p-0">
                 {children}
             </CardContent>
         </Card>
@@ -59,7 +59,7 @@ function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
 function AddCard() {
     return (
         <BaseCard type="plus" tooltip="Add another Category card">
-            +
+            <span className="font-extrabold">+</span>
         </BaseCard>
     )
 }
@@ -82,7 +82,7 @@ function CategoryCard(props: Extract<CustomCardProps, { type: "category" | "comp
             <>
                 {[...sortedWords].sort().join(", ").trim()}
 
-                <span className="font-bold"> {sortedWords.length} / {limit}</span>
+                <span className="font-bold"> {sortedWords.length}/{limit}</span>
 
             </>
         )

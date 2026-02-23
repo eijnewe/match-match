@@ -9,7 +9,7 @@ export function Gameboard({ difficulty }) {
   console.log(logic.data.allWords)
 
   return (
-    <div className="overflow-y-auto flex-1 p-3">
+    <div className="overflow-y-auto flex-1 pt-2 p-3">
       <WordGrid words={logic.data.allWords} display="grid" />
     </div>
   )
