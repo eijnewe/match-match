@@ -127,10 +127,3 @@
     @apply font-sans;
   }
 }
-
-/* .dark img[src*="hamburger.png"],
-.dark img[src*="expand.png"],
-.dark img[src*="up-arrow.png"],
-.dark img[src*="down-arrow.png"] {
-  filter: brightness(0) invert(1);
-} */

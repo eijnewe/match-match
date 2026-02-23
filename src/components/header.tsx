@@ -41,7 +41,7 @@ export function Header() {
 
   const fullscreenButton = (
     <Button
-      className="bg-accent"
+      className="bg-transparent"
       onClick={handleFullscreenToggle}
       aria-label={isHeaderHidden ? 'Show header' : 'Hide header'}
       size="icon-lg"
@@ -95,7 +95,7 @@ export function Header() {
 
             <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
               <CollapsibleContent className="flex flex-col text-sm shadow-xl">
-                <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-2.5 pr-2.5">
+                <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
                       <Link to="/" className="flex-1">
@@ -131,7 +131,7 @@ export function Header() {
                   open={isHowToPlayOpen}
                   onOpenChange={setIsHowToPlayOpen}
                 >
-                  <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col pl-2.5 pr-1.5 pt-0.5 pb-1">
+                  <div className=" first ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col justify-center pl-2.5 pr-1.5 pt-0.5 pb-1">
                     <CollapsibleTrigger
                       render={
                         <Button
