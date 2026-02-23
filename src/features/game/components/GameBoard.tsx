@@ -1,18 +1,18 @@
 // import { WordGrid } from "@/features/game/api/WordGrid";
 // import { useGameLogicMock } from '../hooks/useGameLogic.mock'
-import { useGameLogic } from "../hooks/useGameLogic";
-import { CategoryBanner } from "./CategoryBanner";
-import { WordGrid } from "./WordGrid";
+import { useGameLogic } from '../hooks/useGameLogic'
+import { CategoryBanner } from './CategoryBanner'
+import { WordGrid } from './WordGrid'
 
 export function Gameboard({ difficulty }) {
-  const logic = useGameLogic(difficulty);
+  const logic = useGameLogic(difficulty)
 
   if (logic.isLoading) {
     return (
       <div className="grow self-start -mt-4 flex items-center justify-center">
         Loading...
       </div>
-    );
+    )
   }
 
   if (logic.error) {
@@ -20,7 +20,7 @@ export function Gameboard({ difficulty }) {
       <div className="grow self-start -mt-4 flex items-center justify-center text-red-500">
         Error when loading game
       </div>
-    );
+    )
   }
 
   if (logic.isGameWon) {
@@ -36,23 +36,29 @@ export function Gameboard({ difficulty }) {
           </button>
         </div>
       </div>
-    );
+    )
   }
 
   // Filtrera bort ord som redan matchats
   const remainingWords =
     logic.data?.allWords.filter((word) => {
-      return !Object.values(logic.wordsByCategory).flat().includes(word);
-    }) ?? [];
+      return !Object.values(logic.wordsByCategory).flat().includes(word)
+    }) ?? []
 
   // Extrahera pinnedCategories som array av kategorinamn (för CategoryBanner)
-  const pinnedCategories = logic.data?.categories.map((cat) => cat.name) ?? [];
+  const pinnedCategories = logic.data?.categories.map((cat) => cat.name) ?? []
 
   return (
     <div className="overflow-y-auto flex-1 p-3">
       <WordGrid words={logic.data.allWords} display="grid" />
     </div>
+    /*  <WordGrid
+        words={remainingWords}
+        display="grid"
+        onWordClick={logic.handleCategoryClick}
+      /> */
   )
+
   {
     /* <div className="grow self-start -mt-4">
       <CategoryBanner
@@ -61,11 +67,6 @@ export function Gameboard({ difficulty }) {
         onRemoveCategory={logic.removePinnedCategory}
         categoryCount={logic.data?.categories.length ?? 0}
       />
-      <WordGrid
-        words={remainingWords}
-        display="grid"
-        onWordClick={logic.handleCategoryClick}
-      />
-    </div>
-  );
+    </div> */
+  }
 }

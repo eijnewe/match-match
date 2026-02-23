@@ -1,26 +1,32 @@
 import { create } from "zustand";
 
-interface GameStoreState {
+export interface WorkingCategory {
+
+  id: number,
+  name: string,
+  words: string[]
+
+}
+
+ interface GameStoreState {
   selectedWord: string | null;
   selectedCategoryId: number | null;
-  highlightedWords: string[];
 
+
+  workingCategories: WorkingCategory[]
   solvedCategories: number[];
   wordsByCategory: Record<number, string[]>;
   isGameWon: boolean;
 
+  setWorkingCategories: (cats: WorkingCategory[]) => void
+
   selectWord: (word: string) => void;
   deselectWord: () => void;
+
   selectCategory: (categoryId: number) => void;
   deselectCategory: () => void;
-  highlightWord: (word: string) => void;
-  removeHighlight: (word: string) => void;
-  clearHighlights: () => void;
 
-  matchWordToCategory: (categoryId: number) => {
-    success: boolean;
-    isCorrect: boolean;
-  };
+  addWordToCategory: (categoryId: number, word: string) => void;
   solveCategory: (categoryId: number) => void;
   checkGameWon: (totalCategories: number) => void;
   reset: () => void;
@@ -29,21 +35,24 @@ interface GameStoreState {
 const initialState = {
   selectedWord: null,
   selectedCategoryId: null,
-  highlightedWords: [],
+  workingCategories: [],
   solvedCategories: [],
   wordsByCategory: {},
   isGameWon: false,
 };
 
+
 export const useGameStore = create<GameStoreState>((set, get) => ({
   ...initialState,
 
+  setWorkingCategories: (cats) => set({ workingCategories: cats }),
+
   selectWord: (word: string) => {
-    set({ selectedWord: word, highlightedWords: [word] });
+    set({ selectedWord: word });
   },
 
   deselectWord: () => {
-    set({ selectedWord: null, highlightedWords: [] });
+    set({ selectedWord: null});
   },
 
   selectCategory: (categoryId: number) => {
@@ -54,34 +63,9 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     set({ selectedCategoryId: null });
   },
 
-  highlightWord: (word: string) => {
-    set((state) => ({
-      highlightedWords: [...new Set([...state.highlightedWords, word])],
-    }));
-  },
-
-  removeHighlight: (word: string) => {
-    set((state) => ({
-      highlightedWords: state.highlightedWords.filter((w) => w !== word),
-    }));
-  },
-
-  clearHighlights: () => {
-    set({ highlightedWords: [] });
-  },
-
-  matchWordToCategory: (categoryId: number) => {
-    const state = get();
-    const selectedWord = state.selectedWord;
-
-    if (!selectedWord) {
-      return { success: false, isCorrect: false };
-    }
-
-    // Logiken för att matcha ord med kategori (useGameLogic)
-
-    return { success: false, isCorrect: false };
-  },
+  addWordToCategory: (categoryId: number, word:string) => set((state) => ({
+    workingCategories: state.workingCategories.map(cat => cat.id === categoryId ? { ...cat, words: [...cat.words, word] } : cat)
+  })),
 
   solveCategory: (categoryId: number) => {
     set((state) => {
