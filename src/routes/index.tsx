@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { CustomCard } from '@/features/game/components/CustomCard'
-import { PageContainer } from '@/components/layout/PageContainer'
 
 export const Route = createFileRoute('/')({
   component: Index,

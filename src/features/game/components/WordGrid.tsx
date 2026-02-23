@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import { CustomCard } from './CustomCard'
-import { Button } from '@/components/ui/button'
 
 /* className={clsx(
         'gap-2',
@@ -22,7 +21,7 @@ export function WordGrid({ words, display }: WordGridProps) {
         'gap-2',
         isGrid ?
           'grid place-items-stretch grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-auto'
-        : 'flex flex-wrap content-start',
+        : 'flex flex-wrap content-start *:w-fit *:p-2',
       )}
     >
       {words.map((w) => (

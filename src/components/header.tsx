@@ -13,6 +13,7 @@ import { PointCounter } from "@/features/game/components/PointCounter";
 import { ChevronDown, ChevronUp, Maximize2, Menu, Edit } from "lucide-react";
 import { Label } from "./ui/label";
 import { useGameStore } from "@/features/game/store/gameStore";
+import { useGridStore } from "@/features/game/hooks/useGridStore";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -20,14 +21,17 @@ export function Header() {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const isEditMode = useGameStore((s) => s.isEditMode);
   const toggleEditMode = useGameStore((s) => s.toggleEditMode);
-  
+  const isGridMode = useGridStore((s) => s.isGridMode);
+  const toggleGridMode = useGridStore((s) => s.toggleGridMode);
+
   const editBtn = (
     <Button
-      className="bg-transparent"
+      className="bg-transparent cursor-pointer data-[state=open]:bg-muted"
       size="icon-lg"
       onClick={toggleEditMode}
       aria-pressed={isEditMode}
       aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
+      data-state={isEditMode ? "open" : "closed"}
     >
       <Edit className="text-accent-foreground" />
     </Button>
@@ -57,7 +61,7 @@ export function Header() {
 
   const fullscreenBtn = (
     <Button
-      className="bg-transparent"
+      className="bg-transparent cursor-pointer"
       onClick={handleFullscreenToggle}
       aria-label={isHeaderHidden ? "Show header" : "Hide header"}
       size="icon-lg"
@@ -102,7 +106,7 @@ export function Header() {
                 {fullscreenBtn}
                 <CollapsibleTrigger
                   render={
-                    <Button variant={"ghost"} size="icon-lg">
+                    <Button variant={"ghost"} size="icon-lg" className={"cursor-pointer"}>
                       <Menu className="text-accent-foreground" />
                     </Button>
                   }
@@ -130,10 +134,19 @@ export function Header() {
 
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between *:cursor-pointer">
-                      <Label htmlFor="grid-mode" className="flex-1 text-sm">
+                      <Label 
+                      htmlFor="grid-mode" className="flex-1 text-sm"
+                      >
                         Grid
                       </Label>
-                      <Switch id="grid-mode" />
+                      <Switch 
+                      id="grid-mode" 
+                      onClick={toggleGridMode}
+                      aria-pressed={isGridMode}
+                      checked={isGridMode}>
+                        {isGridMode ? "Grid" : "Flex"}
+                        
+                        </Switch>
                     </div>
                   )}
                 </div>
