@@ -5,11 +5,13 @@ import type { WorkingCategory } from '../store/gameStore'
 type CategoryBannerProps = {
   pinnedCategories?: WorkingCategory[];
   categoryCount?: number;
+  onCategoryClick: (categoryId: number) => void
 };
 
 export function CategoryBanner({
   pinnedCategories = [],
   categoryCount = 0,
+  onCategoryClick
 }: CategoryBannerProps ) {
   const isTwoRows = pinnedCategories.length > categoryCount / 2
 
@@ -20,9 +22,18 @@ export function CategoryBanner({
         isTwoRows ? 'grid-rows-2' : 'grid-rows-1'
       )}
     >
-      {pinnedCategories.map((cat) => (
-        <CustomCard key={cat.id} type="category" categoryTitle={cat.name} />
-      ))}
+      {pinnedCategories.map((cat) => {
+        if (cat.id == null || cat.name == null) return null
+
+        return (
+          <CustomCard
+            key={cat.id}
+            type="category"
+            categoryTitle={cat.name}
+            onClick={() => onCategoryClick(cat.id as number)}
+          />
+        );
+      })}
       <CustomCard type='completedCategory' categoryTitle='Horses'/>
       <CustomCard type="plus"/>
     </div>

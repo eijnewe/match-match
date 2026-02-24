@@ -3,7 +3,7 @@ import { getGameData } from "./getGameData";
 import type { Difficulty, GameData } from "@/types/game";
 
 export function useGameQuery(difficulty: Difficulty) {
-  return useQuery<GameData>({
+  return useQuery<GameData, Error>({
     queryKey: ["game", difficulty],
     queryFn: () => getGameData(difficulty),
     staleTime: Infinity,

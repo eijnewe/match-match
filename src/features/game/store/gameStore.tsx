@@ -2,10 +2,10 @@ import type { GameCategory } from "@/types/category";
 import { create } from "zustand";
 
 export interface WorkingCategory {
-  id: number,
-  name: string,
+  id: number |null,
+  name: string |null,
   words: string[],
-  maxWords: number,
+  maxWords: number |null,
   solved: boolean
 }
 
@@ -27,9 +27,13 @@ export interface WorkingCategory {
   selectCategory: (categoryId: number) => void;
   deselectCategory: () => void;
 
+  addEmptyCategory: () => void;
+  assignCategoryId: (index: number, id: number, name: string, maxWords: number) => void;
+
   addWordToCategory: (categoryId: number, word: string) => void;
   solveCategory: (categoryId: number) => void;
   checkGameWon: (totalCategories: number) => void;
+  
   reset: () => void;
 }
 
@@ -45,6 +49,8 @@ const initialState = {
 
 export const useGameStore = create<GameStoreState>((set, get) => ({
   ...initialState,
+
+  addEmptyCategory: () => set((state) => ({ workingCategories: [ ...state.workingCategories, { id: null, name: null, words: [], maxWords: null, solved: false }, ], })),
 
   setWorkingCategories: (cats) => set({ workingCategories: cats }),
 
@@ -63,6 +69,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   deselectCategory: () => {
     set({ selectedCategoryId: null });
   },
+
+  assignCategoryId: (index, id, name, maxWords) => set((state) => ({ workingCategories: state.workingCategories.map((cat, i) => i === index ? { ...cat, id, name, maxWords } : cat ), })),
 
   addWordToCategory: (categoryId: number, word:string) => set((state) => ({
     workingCategories: state.workingCategories.map(cat => cat.id === categoryId ? { ...cat, words: [...cat.words, word] } : cat)
@@ -84,6 +92,8 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       isGameWon: state.solvedCategories.length === totalCategories,
     }));
   },
+
+  
 
   reset: () => {
     set(initialState);

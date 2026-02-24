@@ -8,22 +8,17 @@ export const Route = createFileRoute('/game/$difficulty')({
   component: GamePage,
 })
 
-
-
 function GamePage() {
   const { difficulty } = Route.useParams()
-  console.log(difficulty)
-  /*  const logic = useGameLogicMock() */
-    const logic = useGameLogic(difficulty as Difficulty)
-  
-  const categoryCount = logic.data?.categories.length
+  const logic = useGameLogic(difficulty as Difficulty)
+  const categoryCount = logic.data?.categories.length ?? 0
   return (
     <main className="flex-1 flex flex-col min-h-0">
        <CategoryBanner
-        pinnedCategories={logic.workingCategories} 
+        pinnedCategories={logic.workingCategories}
         categoryCount={categoryCount}
+        onCategoryClick={logic.onCategoryClick}
       /> 
-    
       <Gameboard difficulty={difficulty} />
     </main>
   )

@@ -21,13 +21,25 @@ export function useGameLogic(difficulty: Difficulty) {
   const solveCategory = useGameStore((s) => s.solveCategory);
   const reset = useGameStore((s) => s.reset);
   const checkGameWon = useGameStore((s) => s.checkGameWon);
+  const addEmptyCategory = useGameStore((s) => s.addEmptyCategory)
+  const assignCategoryId = useGameStore((s) => s.assignCategoryId)
+
+  const onWordClick = (word: string) => {
+    if (selectedWord === word) return deselectWord();
+    selectWord(word);
+  }
+
+  const onCategoryClick = (categoryId: number) => {
+    if (selectedCategoryId === categoryId) return deselectCategory();
+    selectCategory(categoryId);
+  };
 
   // 1. Initiera workingCategories när spelet laddas (utifrån data.categories)
   useEffect(() => {
     reset();
   }, [difficulty, reset]);
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (data) {
       setWorkingCategories(
         data.categories.map((cat) => ({
@@ -38,10 +50,25 @@ export function useGameLogic(difficulty: Difficulty) {
           solved: false,
         })),
       );
-    }
+    } 
   }, [data, setWorkingCategories]);
+ */
+  useEffect(() => { if (!data)  return console.log('nodata')
+    setWorkingCategories(
+        data.categories.map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          words: [],
+          maxWords: cat.words.length,
+          solved: false,
+        })),)
+        // console.log('data', data)
+        // console.log('workingcat', workingCategories)
+    }, [data, setWorkingCategories])
 
   //2. Ord → kategori lookup (använd data.wordToCategory[word])
+
+
 
   // isCategoryEmpty()
   function isCategoryEmpty(cat: WorkingCategory) {
@@ -80,11 +107,13 @@ export function useGameLogic(difficulty: Difficulty) {
     if (!data) return;
 
     const selectedCategory = workingCategories.find((cat) => cat.id === categoryId);
+    console.log("selected cat:", selectedCategory)
     if (!selectedCategory) return;
 
     const correctCategoryId = data.categories.find((cat) =>
       cat.words.includes(word),    
     )?.id;
+    console.log("correct cat:", correctCategoryId)
 
     if (
       isCategoryFull(selectedCategory) ||
@@ -129,6 +158,7 @@ export function useGameLogic(difficulty: Difficulty) {
     handleWordPlacement(selectedWord, selectedCategoryId);
   }, [selectedWord, selectedCategoryId, handleWordPlacement]);
 
+  
   
   // 8. Checka game won (alla kategorier fyllda)
   useEffect(() => {
@@ -175,6 +205,8 @@ export function useGameLogic(difficulty: Difficulty) {
   const maxCategories = data?.categories.length ?? 0;
   const canAddCategory = workingCategories.length < maxCategories;
 
+  // console.log('workingcategories gamelogic end',workingCategories)
+
   return {
     data,
     isLoading,
@@ -183,7 +215,9 @@ export function useGameLogic(difficulty: Difficulty) {
     reset,
     workingCategories,
     canAddCategory,
-    
+    onWordClick,
+    onCategoryClick,
+    addEmptyCategory
   };
 }
 
