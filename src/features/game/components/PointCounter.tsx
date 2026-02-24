@@ -12,7 +12,7 @@ export function PointCounter() {
                         <span className="font-bold">
                             Points:
                         </span>
-                        <span>
+                        <span className="scale-100">
                             {points}
                         </span>
                     </div>
@@ -28,7 +28,7 @@ export function PointCounter() {
                         <span className="font-bold">
                             Errors:
                         </span>
-                        <span>
+                        <span className="scale-100">
                             {errors}
                         </span>
                     </div>
@@ -41,3 +41,5 @@ export function PointCounter() {
         </div >
     )
 }
+
+// Point change styling="font-bold scale-150 transition-transform ease-in-out duration-300"

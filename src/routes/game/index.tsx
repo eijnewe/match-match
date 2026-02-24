@@ -14,7 +14,7 @@ function GameIndex() {
     <PageContainer>
       <div>
         <p>Choose difficulty</p>
-        <ul className="flex flex-col items-stretch">
+        <ul className="flex flex-col items-stretch *:m-2">
           {difficulties.map((d: Difficulty) => (
             <li key={d}>
               <Button

@@ -27,7 +27,7 @@
   --chart-1: oklch(0.905 0.182 98.111);
   --chart-2: oklch(0.795 0.184 86.047);
   --chart-3: oklch(0.681 0.162 75.834);
-  --chart-4: oklch(0.554 0.135 66.442);
+  --chart-4: #fb1717;
   --chart-5: #64C87A;
   --radius: 0.45rem;
   --sidebar: oklch(0.985 0.002 247.839);
@@ -62,7 +62,7 @@
   --chart-1: oklch(0.905 0.182 98.111);
   --chart-2: oklch(0.795 0.184 86.047);
   --chart-3: oklch(0.681 0.162 75.834);
-  --chart-4: oklch(0.554 0.135 66.442);
+  --chart-4: oklch(47.374% 0.17038 33.983);
   --chart-5: #386F45;
   --sidebar: oklch(0.21 0.034 264.665);
   --sidebar-foreground: oklch(0.985 0.002 247.839);
@@ -126,4 +126,36 @@
   html {
     @apply font-sans;
   }
+}
+
+@theme {
+  --animate-shake: shake 0.3s cubic-bezier(.36,.07,.19,.97) 2;
+}
+
+@keyframes shake {
+  0% { 
+    transform: translateX(0);  
+        background-color: var(--chart-4) ;
+        border-color: var(--chart-4) ;
+  }
+  25% { 
+    transform: translateX(3px); 
+        background-color: var(--chart-4) ;
+        border-color: var(--chart-4) ;
+  }
+  50% { 
+    transform: translateX(-3px);
+        background-color: var(--chart-4) ;
+        border-color: var(--chart-4) ;
+   }
+  75% { 
+    transform: translateX(3px);
+        background-color: var(--chart-4) ;
+        border-color: var(--chart-4) ;
+   }
+  100% { 
+    transform: translateX(0);
+        background-color: var(--chart-4) ;
+        border-color: var(--chart-4) ;
+   }
 }
