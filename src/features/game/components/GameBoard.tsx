@@ -42,7 +42,7 @@ export function Gameboard({ difficulty }) {
   // Filtrera bort ord som redan matchats
   const remainingWords =
     logic.data?.allWords.filter((word) => {
-      return !Object.values(logic.wordsByCategory).flat().includes(word)
+      return !Object.values(logic.workingCategories).flat().includes(word)
     }) ?? []
 
   // Extrahera pinnedCategories som array av kategorinamn (för CategoryBanner)
@@ -50,7 +50,7 @@ export function Gameboard({ difficulty }) {
 
   return (
     <div className="overflow-y-auto flex-1 p-3">
-      <WordGrid words={logic.data.allWords} display="grid" />
+      <WordGrid words={logic.data?.allWords} display="grid" />
     </div>
     /*  <WordGrid
         words={remainingWords}

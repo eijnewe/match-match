@@ -1,12 +1,16 @@
 import clsx from 'clsx'
 import { CustomCard } from './CustomCard'
+import type { WorkingCategory } from '../store/gameStore'
+
+type CategoryBannerProps = {
+  pinnedCategories?: WorkingCategory[];
+  categoryCount?: number;
+};
 
 export function CategoryBanner({
-  pinnedCategories,
-  onAddCategory,
-  onRemoveCategory,
-  categoryCount,
-}) {
+  pinnedCategories = [],
+  categoryCount = 0,
+}: CategoryBannerProps ) {
   const isTwoRows = pinnedCategories.length > categoryCount / 2
 
   return (
@@ -17,7 +21,7 @@ export function CategoryBanner({
       )}
     >
       {pinnedCategories.map((cat) => (
-        <CustomCard key={cat} type="category" categoryTitle={cat} />
+        <CustomCard key={cat.id} type="category" categoryTitle={cat.name} />
       ))}
       <CustomCard type='completedCategory' categoryTitle='Horses'/>
       <CustomCard type="plus"/>

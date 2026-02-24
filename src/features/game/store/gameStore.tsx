@@ -2,15 +2,11 @@ import type { GameCategory } from "@/types/category";
 import { create } from "zustand";
 
 export interface WorkingCategory {
-
   id: number,
   name: string,
   words: string[],
-
   maxWords: number,
-
   solved: boolean
-
 }
 
  interface GameStoreState {
