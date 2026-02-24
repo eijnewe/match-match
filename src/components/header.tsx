@@ -15,6 +15,7 @@ import { Label } from "./ui/label";
 import { useGameStore } from "@/features/game/store/gameStore";
 import { useGridStore } from "@/features/game/hooks/useGridStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { BackButton } from "./BackButton";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -138,6 +139,7 @@ export function Header() {
 
             <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
               <CollapsibleContent className="flex flex-col text-sm shadow-xl">
+
                 <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
