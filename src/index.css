@@ -5,7 +5,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
+  --font-climate: "Climate Crisis", sans-serif;
+  --font-inter: "Inter", sans-serif;
   --background: #ebded4;
   --foreground: #283e3b;
   --card: #f2e9e1;
@@ -38,6 +41,7 @@
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: #EBCB4E;
+  --stark: #000000;
 }
 
 .dark {
@@ -72,6 +76,7 @@
   --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: #87742D;
+  --stark: #FFFFFF;
 }
 
 @theme inline {
@@ -118,6 +123,7 @@
 
 @layer base {
   * {
+    font-family: var(--font-inter);
     @apply border-border outline-ring/50;
   }
   body {
@@ -126,6 +132,15 @@
   html {
     @apply font-sans;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-climate);
+    @apply tracking-wide;
+    letter-spacing: 2px;
+  }
+
+  h1 { @apply text-4xl md:text-5xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
 }
 
 @theme {

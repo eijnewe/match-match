@@ -20,7 +20,7 @@ function GameIndex() {
       <BackButton type='back' />
       <PageContainer>
         <div className='flex items-center flex-col'>
-          <p>Choose difficulty</p>
+          <h3>Choose difficulty</h3>
           <ul className="flex flex-col *:m-2">
             {difficulties.map((d: Difficulty) => (
               <li key={d}>
@@ -42,10 +42,10 @@ function GameIndex() {
             ))}
             <Tooltip>
               <TooltipTrigger>
-                <p className='-mb-3 text-sm flex items-center justify-center'>
+                <h4 className='-mb-3 flex items-center justify-center text-md'>
                   Custom difficulty
                   <InfoIcon size="16" className='ml-1' />
-                </p>
+                </h4>
               </TooltipTrigger>
               <TooltipContent className="text-center">
                 Choose a custom amount of <b>Category</b> cards.<br/>

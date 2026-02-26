@@ -15,7 +15,6 @@ import { Label } from "./ui/label";
 import { useGameStore } from "@/features/game/store/gameStore";
 import { useGridStore } from "@/features/game/hooks/useGridStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { BackButton } from "./BackButton";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -104,18 +103,11 @@ export function Header() {
           >
             <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2">
               <Link to="/">
-                <>
-                  <img
-                    src="/src/assets/LightModeIcon.png"
-                    alt="home"
-                    className="h-12 dark:hidden"
-                  />
-                  <img
-                    src="/src/assets/DarkModeIcon.png"
-                    alt="Home"
-                    className="h-12 hidden dark:block"
-                  />
-                </>
+                <img
+                  src="/src/assets/IconWoHand.png"
+                  alt="home"
+                  className="h-12"
+                />
               </Link>
 
               {!isCompactHeader && (
@@ -143,9 +135,13 @@ export function Header() {
                 <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
-                      <Link to="/" className="flex-1">
-                        Home
-                      </Link>
+                      <Label
+                        htmlFor="grid-mode" className="flex-1 text-sm"
+                      >
+                        <Link to="/" className="flex-1">
+                          Home
+                        </Link>
+                      </Label>
                     </div>
                   )}
 
@@ -183,7 +179,11 @@ export function Header() {
                     <CollapsibleTrigger
                       render={
                         <div className="flex items-center justify-between w-full text-sm text-accent-foreground">
-                          <span>How to play</span>
+                          <Label
+                            htmlFor="how-to-play" className="flex-1 text-sm cursor-pointer"
+                          >
+                            How to play
+                          </Label>
                           {isHowToPlayOpen ? (
                             <ChevronUp className="h-4" />
                           ) : (
