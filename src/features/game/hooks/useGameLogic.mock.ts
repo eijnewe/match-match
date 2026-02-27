@@ -124,7 +124,7 @@ export function useGameLogicMock() {
       'Frukt',
       'Drycker',
       'Sport',
-      'Färger',
+      'Färger och andra långa ord',
       'Frukt',
       'Drycker',
       'Sport',

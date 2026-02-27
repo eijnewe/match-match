@@ -15,6 +15,7 @@ import { useCategoryName } from "../hooks/categoryName";
 import { ColorChanger } from "./ColorChanger";
 import { useCategoryColor } from "../hooks/useCategoryColor";
 import type React from "react";
+import { useGameStore } from "@/features/game/store/gameStore";
 
 type BaseCardProps = {
   children: React.ReactNode;
@@ -48,14 +49,16 @@ function BaseCard({
 }: BaseCardProps) {
   const completedStyling =
     type === "completedCategory"
-      ? "brightness-50"
+      ? "brightness-60 hover:brightness-70"
       : "cursor-pointer hover:brightness-95";
   const card = (
     <Card
       onClick={onClick}
-      className={`pr-1 pl-1 text-center h-full w-full flex justify-center p-1 leading-4 ${completedStyling} ${cardClasses ?? ""}`}
+      className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${cardClasses ?? ""}`}
     >
-      <CardContent>{children}</CardContent>
+      <CardContent className="p-0">
+        {children}
+      </CardContent>
     </Card>
   );
 
@@ -82,8 +85,12 @@ function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
 
 function AddCard(props: Extract<CustomCardProps, {type: "plus" }>) {
   return (
-    <BaseCard type="plus" tooltip="Add another Category card" onClick={props.onClick}>
-      +
+    <BaseCard
+      type="plus"
+      tooltip="Add another Category card"
+      onClick={props.onClick}
+    >
+      <span>+</span>
     </BaseCard>
   );
 }
@@ -171,9 +178,13 @@ function CategoryCard(
 }
 
 export function CustomCard(props: CustomCardProps) {
+  const isEditMode = useGameStore((s) => s.isEditMode);
+
   switch (props.type) {
     case "category":
-      return (
+      return isEditMode ? (
+        <CategoryCard type="editable" categoryTitle={props.categoryTitle} />
+      ) : (
         <CategoryCard
           type="category"
           categoryTitle={props.categoryTitle}
@@ -184,14 +195,6 @@ export function CustomCard(props: CustomCardProps) {
       return (
         <CategoryCard
           type="completedCategory"
-          categoryTitle={props.categoryTitle}
-          onClick={props.onClick}
-        />
-      );
-    case "editable":
-      return (
-        <CategoryCard
-          type="editable"
           categoryTitle={props.categoryTitle}
           onClick={props.onClick}
         />
@@ -210,3 +213,7 @@ export function CustomCard(props: CustomCardProps) {
       return null;
   }
 }
+
+// Styling: 
+// For selected cards="border-black brightness-95"
+// For error selection="animate-shake"

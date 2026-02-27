@@ -35,6 +35,10 @@ export interface WorkingCategory {
   checkGameWon: (totalCategories: number) => void;
   
   reset: () => void;
+
+  isEditMode: boolean;
+  toggleEditMode: () => void;
+  setEditMode: (value: boolean) => void;
 }
 
 const initialState = {
@@ -44,6 +48,7 @@ const initialState = {
   solvedCategories: [],
   wordsByCategory: {},
   isGameWon: false,
+  isEditMode: false,
 };
 
 
@@ -97,5 +102,13 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   reset: () => {
     set(initialState);
+  },
+
+  toggleEditMode: () => {
+    set((state) => ({ isEditMode: !state.isEditMode }));
+  },
+
+  setEditMode: (value: boolean) => {
+    set({ isEditMode: value });
   },
 }));

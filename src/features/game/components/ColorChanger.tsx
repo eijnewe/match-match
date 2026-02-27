@@ -8,11 +8,11 @@ interface BProps {
 export function ColorChanger({ handleClick }: BProps) {
 
     const colors = [
-        { id: "2", circleClass: "fill-input", cardClass: "bg-[var(--input)]" },
         { id: "1", circleClass: "fill-sidebar-ring", cardClass: "bg-[var(--sidebar-ring)]" },
-        { id: "3", circleClass: "fill-primary", cardClass: "bg-[var(--primary)]" },
-        { id: "4", circleClass: "fill-sidebar-primary", cardClass: "bg-[var(--sidebar-primary)]" },
-        { id: "5", circleClass: "fill-secondary", cardClass: "bg-[var(--secondary)]" }
+        { id: "2", circleClass: "fill-primary", cardClass: "bg-[var(--primary)]" },
+        { id: "3", circleClass: "fill-sidebar-primary", cardClass: "bg-[var(--sidebar-primary)]" },
+        { id: "4", circleClass: "fill-secondary", cardClass: "bg-[var(--secondary)]" },
+        { id: "5", circleClass: "fill-chart-5", cardClass: "bg-[var(--chart-5)]" }
     ]
 
     return <div className="flex">
