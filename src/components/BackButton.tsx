@@ -9,7 +9,7 @@ export function BackButton( { type }: { type: ButtonType }) {
 
   return (
     <Button
-      className="w-fit ml-2 cursor-pointer"
+      className="w-fit ml-2 mt-2 cursor-pointer"
       onClick={() => 
         type === "back" 
         ? router.history.back()
