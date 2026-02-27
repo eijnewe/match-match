@@ -1,13 +1,45 @@
-const rules: string = `Try to sort all the words into categories!
-
-First select a word and assign it to an empty category. When you find another word that fits, select it and then select the category: if it's the right category, you will get a point! If not, the word remains on the screen and you will score an "error" point.
-
-You will get bonus points when you have completed a category, and it will move to the furthest right in the category bar.
-
-If a word won't go into an empty category, that means you've already got its category in another card!
-
-Select a category card for the full list of words assigned to it. There you can also customize the category's color and give it a temporary title to help you along.`;
+import { WordTag } from "@/components/WordTag";
 
 export function HowToPlay() {
-  return <div style={{ whiteSpace: "pre-line" }}>{rules}</div>;
+  return <div style={{ whiteSpace: "pre-line" }} className="*:p-2 *:rounded-2xl *:border-2 *:mb-2 leading-relaxed *:[&>h3]:mb-2">
+    <div>
+      <h3>
+        What's matchmatch?
+      </h3>
+      <p>
+        Try to sort all the <WordTag type="words" bgColor="primary" /> into <WordTag type="categories" bgColor="chart-5" />!
+      </p>
+      <p>
+        In the game you will be presented with a <WordTag type="grid" bgColor="secondary" /> of <WordTag type="words" bgColor="primary" /> under a banner of empty <WordTag type="category" bgColor="chart-5" /> cards. Your goal is to sort all the <WordTag type="words" bgColor="primary" /> into their right <WordTag type="category" bgColor="chart-5" />- but you don't know what the <WordTag type="categories" bgColor="chart-5" /> are!
+      </p>
+    </div>
+    <div>
+      <h3>
+        How to matchmatch
+      </h3>
+      <p>
+        Click a <WordTag type="word" bgColor="primary" /> to select it, and then click the <WordTag type="category" bgColor="chart-5" /> card you believe it belongs to. If they are a match, the  <WordTag type="word" bgColor="primary" /> card will disappear and you will get a point! If not, the  <WordTag type="word" bgColor="primary" /> card remains on the <WordTag type="grid" bgColor="secondary" /> and you will get an error point.
+      </p>
+      <p>
+        You can also select a <WordTag type="category" bgColor="chart-5" /> card and then click on various <WordTag type="word" bgColor="primary" /> cards you want to match- the <WordTag type="category" bgColor="chart-5" /> card will remain selected even if you make an error.
+      </p>
+      <p>
+        If a <WordTag type="word" bgColor="primary" /> won't go into an empty <WordTag type="category" bgColor="chart-5" />, that means you've already started on its <WordTag type="category" bgColor="chart-5" /> in another card!
+      </p>
+    </div>
+    <div>
+      <h3>
+        Tailoring matchmatch
+      </h3>
+      <p>
+        Hover over a <WordTag type="category" bgColor="chart-5" /> card to see the full list of <WordTag type="words" bgColor="primary" /> assigned to it.
+      </p>
+      <p>
+        Click the pen at the top of the page to enter <b>Editing Mode</b>, where you can customize the <WordTag type="category" bgColor="chart-5" /> cards' color, as well as give them customized temporary titles to help you along.
+      </p>
+      <p>
+        Open the sidebar and toggle <b>Grid Mode</b> to optimize the amount of cards you see on your screen! In the sidebar you can also turn on <b>Dark Mode</b>.
+      </p>
+    </div>
+  </div>;
 }

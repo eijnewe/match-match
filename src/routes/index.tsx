@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { HowToPlay } from '@/features/game/components/how-to-play'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -8,19 +11,32 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   return (
-    <PageContainer>
-      <div className='flex flex-col items-center *:m-2'>
-        <Button
-          size="lg"
-          className="w-29.5"
-          render={<Link to="/game">Start game</Link>}
-        />
-        <Button
-          size="lg"
-          className="w-29.5"
-          render={<Link to="/">How to Play</Link>}
-        />
-      </div>
-    </PageContainer>
+    <>
+      <PageContainer className='gap-4 sm:flex-row flex-col'>
+        <div className='flex items-center flex-col'>
+          <img src='/src/assets/IconWoHand.png' alt='logo' width="100px" className='animate-bounce [animation-duration:3s] mb-4' />
+          <h2 className='text-(--stark) sm:text-3xl text-md'>matchmatch</h2>
+        </div>
+        <div className='flex flex-col items-center *:m-2'>
+          <Button
+            size="lg"
+            className="w-29.5"
+            render={<Link to="/game">Start game</Link>}
+          />
+          <AlertDialog>
+            <AlertDialogTrigger>
+              How to play
+            </AlertDialogTrigger>
+            <AlertDialogContent className={"flex flex-col items-center"}>
+              <HowToPlay />
+              <AlertDialogCancel className={"w-fit cursor-pointer"}>
+                Let's Go!
+              </AlertDialogCancel>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </PageContainer>
+      <Footer />
+    </>
   )
 }
