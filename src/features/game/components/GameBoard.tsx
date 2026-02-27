@@ -1,7 +1,6 @@
 // import { WordGrid } from "@/features/game/api/WordGrid";
 // import { useGameLogicMock } from '../hooks/useGameLogic.mock'
 import { useGameLogic } from '../hooks/useGameLogic'
-import { CategoryBanner } from './CategoryBanner'
 import { WordGrid } from './WordGrid'
 
 export function Gameboard({ difficulty }) {

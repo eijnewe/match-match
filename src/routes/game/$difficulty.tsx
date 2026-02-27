@@ -14,7 +14,7 @@ function GamePage() {
   const categoryCount = logic.data?.categories.length ?? 0
   return (
     <main className="flex-1 flex flex-col min-h-0">
-       <CategoryBanner
+      <CategoryBanner
         pinnedCategories={logic.workingCategories}
         categoryCount={categoryCount}
         onCategoryClick={logic.onCategoryClick}

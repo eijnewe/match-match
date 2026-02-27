@@ -34,7 +34,7 @@ type CustomCardProps =
       onClick?: () => void;
     }
   | { type: "article"; articleTitle: string; onClick?: () => void }
-  | { type: "plus" };
+  | { type: "plus"; onClick?: () => void };
 
 function BaseCard({
   children,
@@ -80,9 +80,9 @@ function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
   );
 }
 
-function AddCard() {
+function AddCard(props: Extract<CustomCardProps, {type: "plus" }>) {
   return (
-    <BaseCard type="plus" tooltip="Add another Category card">
+    <BaseCard type="plus" tooltip="Add another Category card" onClick={props.onClick}>
       +
     </BaseCard>
   );
@@ -149,6 +149,7 @@ function CategoryCard(
           tooltip={customTooltipContent}
           cardClasses={`${categoryColor}`}
           type={props.type}
+          onClick={props.onClick}
         >
           {categoryName}
         </BaseCard>
@@ -162,6 +163,7 @@ function CategoryCard(
       tooltip={customTooltipContent}
       cardClasses={`${categoryColor}`}
       type={props.type}
+      onClick={props.onClick}
     >
       {categoryName}
     </BaseCard>
@@ -203,7 +205,7 @@ export function CustomCard(props: CustomCardProps) {
         />
       );
     case "plus":
-      return <AddCard />;
+      return <AddCard type="plus" onClick={props.onClick} />;
     default:
       return null;
   }
