@@ -1,7 +1,7 @@
 import type { Difficulty } from "@/types/game";
 import { useGameQuery } from "../api/useGameQuery";
 import { useGameStore, type WorkingCategory } from "../store/gameStore";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export function useGameLogic(difficulty: Difficulty) {
   const { data, isLoading, error } = useGameQuery(difficulty);
@@ -68,8 +68,6 @@ export function useGameLogic(difficulty: Difficulty) {
 
   //2. Ord → kategori lookup (använd data.wordToCategory[word])
 
-
-
   // isCategoryEmpty()
   function isCategoryEmpty(cat: WorkingCategory) {
     return cat.words.length === 0;
@@ -101,19 +99,20 @@ export function useGameLogic(difficulty: Difficulty) {
     );
   }
 
-
-  function handleWordPlacement(word: string, categoryId: number) {
+  const handleWordPlacement = useCallback((word: string, categoryId: number) => {
     /*  alla helper funktioner kallas här */
     if (!data) return;
-
+    
     const selectedCategory = workingCategories.find((cat) => cat.id === categoryId);
     console.log("selected cat:", selectedCategory)
     if (!selectedCategory) return;
-
-    const correctCategoryId = data.categories.find((cat) =>
-      cat.words.includes(word),    
-    )?.id;
-    console.log("correct cat:", correctCategoryId)
+    
+    console.log("is Cat full:", isCategoryFull(selectedCategory));
+    
+    // const correctCategoryId = data.categories.find((cat) =>
+    //   cat.words.includes(word),    
+    // )?.id;
+    // console.log("correct cat:", correctCategoryId)
 
     if (
       isCategoryFull(selectedCategory) ||
@@ -124,34 +123,46 @@ export function useGameLogic(difficulty: Difficulty) {
       return;
     }
 
-    if(correctCategoryId !== undefined){
-      if(isCategoryEmpty(selectedCategory)) {
-        if(doesAnotherCategoryHaveSameId(correctCategoryId, categoryId)) {
-          return error
-        }
-        else {
+    // if(correctCategoryId !== undefined){
+    //   if(isCategoryEmpty(selectedCategory)) {
+    //     if(doesAnotherCategoryHaveSameId(correctCategoryId, categoryId)) {
+    //       return error
+    //     }
+    //     else {
           
-        }
-        } /* assingidtillcategory */
+    //     }
+    //     } /* assingidtillcategory */
 
-      } if(!isCorrectCategory(word, categoryId)) {
-        return error
-      } /* addWordToCategory */
+    //   } if(!isCorrectCategory(word, categoryId)) {
+    //     return error
+    //   } /* addWordToCategory */
         
     
     addWordToCategory(categoryId, word);
 
-    const nextWordCount = isCategoryEmpty(selectedCategory)
-      ? 1
-      : selectedCategory.words.length + 1;
-
-    if (nextWordCount >= selectedCategory.maxWords) {
+    // const nextWordCount = isCategoryEmpty(selectedCategory);
+    // ? 1
+    // : selectedCategory.words.length + 1;
+    const nextWordCount = selectedCategory.words.length + 1;
+    if (selectedCategory.maxWords != null && nextWordCount >= selectedCategory.maxWords) {
       solveCategory(categoryId);
       deselectCategory();
     }
 
     deselectWord();
-  }
+    // if (nextWordCount >= selectedCategory.maxWords) {
+    //   solveCategory(categoryId);
+    //   deselectCategory();
+    // }
+
+  }, [
+    data,
+    workingCategories,
+    deselectWord,
+    addWordToCategory,
+    solveCategory,
+    deselectCategory,
+  ]);
 
   useEffect(() => {
     if (!selectedWord || selectedCategoryId == null) return;

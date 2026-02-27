@@ -72,8 +72,13 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
 
   assignCategoryId: (index, id, name, maxWords) => set((state) => ({ workingCategories: state.workingCategories.map((cat, i) => i === index ? { ...cat, id, name, maxWords } : cat ), })),
 
-  addWordToCategory: (categoryId: number, word:string) => set((state) => ({
-    workingCategories: state.workingCategories.map(cat => cat.id === categoryId ? { ...cat, words: [...cat.words, word] } : cat)
+  addWordToCategory: (categoryId: number, word:string) => 
+    set((state) => ({
+    workingCategories: state.workingCategories.map((cat) => {
+      if (cat.id !== categoryId) return cat;
+      if (cat.words.includes(word)) return cat;
+      return { ...cat, words: [...cat.words, word] };
+    }),
   })),
 
   solveCategory: (categoryId: number) => {

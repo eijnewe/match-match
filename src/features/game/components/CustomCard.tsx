@@ -185,7 +185,6 @@ export function CustomCard(props: CustomCardProps) {
         <CategoryCard
           type="completedCategory"
           categoryTitle={props.categoryTitle}
-          onClick={props.onClick}
         />
       );
     case "editable":
