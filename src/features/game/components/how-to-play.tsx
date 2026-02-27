@@ -1,11 +1,11 @@
 import { WordTag } from "@/components/WordTag";
 
 export function HowToPlay() {
-  return <div style={{ whiteSpace: "pre-line" }} className="*:p-2 *:rounded-2xl *:border-2 *:mb-2 leading-relaxed *:[&>h3]:mb-2">
+  return <div style={{ whiteSpace: "pre-line" }} className="*:p-2 *:rounded-2xl *:border-2 *:mb-2 leading-relaxed *:[&>h4]:mb-2">
     <div>
-      <h3>
+      <h4>
         What's matchmatch?
-      </h3>
+      </h4>
       <p>
         Try to sort all the <WordTag type="words" bgColor="primary" /> into <WordTag type="categories" bgColor="chart-5" />!
       </p>
@@ -14,9 +14,9 @@ export function HowToPlay() {
       </p>
     </div>
     <div>
-      <h3>
+      <h4>
         How to matchmatch
-      </h3>
+      </h4>
       <p>
         Click a <WordTag type="word" bgColor="primary" /> to select it, and then click the <WordTag type="category" bgColor="chart-5" /> card you believe it belongs to. If they are a match, the  <WordTag type="word" bgColor="primary" /> card will disappear and you will get a point! If not, the  <WordTag type="word" bgColor="primary" /> card remains on the <WordTag type="grid" bgColor="secondary" /> and you will get an error point.
       </p>
@@ -28,9 +28,9 @@ export function HowToPlay() {
       </p>
     </div>
     <div>
-      <h3>
+      <h4>
         Tailoring matchmatch
-      </h3>
+      </h4>
       <p>
         Hover over a <WordTag type="category" bgColor="chart-5" /> card to see the full list of <WordTag type="words" bgColor="primary" /> assigned to it.
       </p>
