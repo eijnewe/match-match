@@ -1,8 +1,10 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useGameLogic } from "../hooks/useGameLogic";
 
 export function PointCounter() {
-    const points = 0;
-    const errors = 0;
+    const logic = useGameLogic()
+    const points = logic.points;
+    const errors = logic.errors;
 
     return (
         <div className="flex *:m-2 text-xs">

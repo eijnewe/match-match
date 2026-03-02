@@ -187,14 +187,6 @@ export function CustomCard(props: CustomCardProps) {
           categoryTitle={props.categoryTitle}
         />
       );
-    case "editable":
-      return (
-        <CategoryCard
-          type="editable"
-          categoryTitle={props.categoryTitle}
-          onClick={props.onClick}
-        />
-      );
     case "article":
       return (
         <ArticleCard

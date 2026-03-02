@@ -3,7 +3,7 @@ import { useGameQuery } from "../api/useGameQuery";
 import { useGameStore, type WorkingCategory } from "../store/gameStore";
 import { useCallback, useEffect } from "react";
 
-export function useGameLogic(difficulty: Difficulty) {
+export function useGameLogic(difficulty?: Difficulty) {
   const { data, isLoading, error } = useGameQuery(difficulty);
 
   const selectedWord = useGameStore((s) => s.selectedWord);
@@ -11,6 +11,8 @@ export function useGameLogic(difficulty: Difficulty) {
   const workingCategories = useGameStore((s) => s.workingCategories);
   const solvedCategories = useGameStore((s) => s.solvedCategories);
   const isGameWon = useGameStore((s) => s.isGameWon);
+  const points = useGameStore((s) => s.points);
+  const errors = useGameStore((s) => s.errors);
 
   const setWorkingCategories = useGameStore((s) => s.setWorkingCategories);
   const selectWord = useGameStore((s) => s.selectWord);
@@ -23,6 +25,8 @@ export function useGameLogic(difficulty: Difficulty) {
   const checkGameWon = useGameStore((s) => s.checkGameWon);
   const addEmptyCategory = useGameStore((s) => s.addEmptyCategory)
   const assignCategoryId = useGameStore((s) => s.assignCategoryId)
+  const addPoint = useGameStore((s) => s.addPoint);
+  const addError = useGameStore((s) => s.addError);
 
   const onWordClick = (word: string) => {
     if (selectedWord === word) return deselectWord();
@@ -79,7 +83,7 @@ export function useGameLogic(difficulty: Difficulty) {
   // isWordAlreadyPlaced()
 
   function isWordAlreadyPlaced(word: string) {
-    return workingCategories.some((cat) => cat.words.includes(word));
+    return addError() && workingCategories.some((cat) => cat.words.includes(word));
   }
   // isCorrectCategory()
   function isCorrectCategory(word: string, categoryId: number) {
@@ -87,14 +91,14 @@ export function useGameLogic(difficulty: Difficulty) {
     const correctCategory = data.categories.find((cat) =>
       cat.words.includes(word),
     );
-    return correctCategory?.id === categoryId;
+    return correctCategory?.id === categoryId && addPoint();
   }
   // doesAnotherCategoryHaveSameId()
   function doesAnotherCategoryHaveSameId(
     realId: number,
     selectedCategoryId: number,
   ) {
-    return workingCategories.some(
+    return addError() && workingCategories.some(
       (cat) => cat.id === realId && cat.id !== selectedCategoryId,
     );
   }
@@ -228,7 +232,9 @@ export function useGameLogic(difficulty: Difficulty) {
     canAddCategory,
     onWordClick,
     onCategoryClick,
-    addEmptyCategory
+    addEmptyCategory,
+    points,
+    errors,
   };
 }
 

@@ -44,3 +44,13 @@ export function CategoryBanner({
     </div>
   );
 }
+
+// const isGrid = display == 'flex'
+//   return (
+//     <div
+//       className={clsx(
+//         'gap-2',
+//         isGrid ?
+//           'grid place-items-stretch grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-auto'
+//         : 'flex flex-wrap content-start *:w-fit *:p-2',
+//       )}
