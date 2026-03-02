@@ -1,7 +1,7 @@
 export const ALL_CATEGORIES = {
   13461733: {
     name: 'Premier League Clubs',
-    stripPatterns: [' F.C.', ' FC'],
+    stripPatterns: [' F.C.', ' FC', ' A.F.C.'],
   },
   710421: {
     name: 'Cat breeds',
