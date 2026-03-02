@@ -38,16 +38,16 @@ export interface WorkingCategory {
      maxWords: number,
    ) => void;
 
-   addWordToCategory: (categoryId: number, word: string) => void;
-   solveCategory: (categoryId: number) => void;
-   checkGameWon: (totalCategories: number) => void;
+  addWordToCategory: (categoryId: number, word: string) => void;
+  solveCategory: (categoryId: number) => void;
+  checkGameWon: (totalCategories: number) => void;
+  
+  reset: () => void;
 
-   reset: () => void;
-
-   isEditMode: boolean;
-   toggleEditMode: () => void;
-   setEditMode: (value: boolean) => void;
- }
+  isEditMode: boolean;
+  toggleEditMode: () => void;
+  setEditMode: (value: boolean) => void;
+}
 
 const initialState = {
   selectedWord: null,

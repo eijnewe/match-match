@@ -1,10 +1,12 @@
 // import { WordGrid } from "@/features/game/api/WordGrid";
 // import { useGameLogicMock } from '../hooks/useGameLogic.mock'
 import { useGameLogic } from '../hooks/useGameLogic'
+import { useGridStore } from '../hooks/useGridStore'
 import { WordGrid } from './WordGrid'
 
 export function Gameboard({ difficulty }) {
   const logic = useGameLogic(difficulty)
+  const isGridMode = useGridStore((s) => s.isGridMode);
 
   if (logic.isLoading) {
     return (
@@ -51,20 +53,18 @@ export function Gameboard({ difficulty }) {
 
   return (
     <div className="overflow-y-auto flex-1 p-3">
-      
-      <WordGrid 
-        words={remainingWords} 
-        display="grid" 
+      <WordGrid
+        words={remainingWords}
+        display={isGridMode ? "grid" : "flex"}
         onWordClick={logic.onWordClick}
       />
-      
     </div>
     /*  <WordGrid
         words={remainingWords}
         display="grid"
         onWordClick={logic.handleCategoryClick}
       /> */
-  )
+  );
 
   {
     /* <div className="grow self-start -mt-4">

@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { CustomCard } from '@/features/game/components/CustomCard'
 import { PageContainer } from '@/components/layout/PageContainer'
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog'
+import { HowToPlay } from '@/features/game/components/how-to-play'
+import { Footer } from '@/components/footer'
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -9,16 +11,32 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   return (
-    <div className='flex flex-col items-center *:m-4'>
-      <Button 
-      size="lg" 
-      className="w-29.5" 
-      render={<Link to="/game">Start game</Link>}>
-      </Button>
-      <CustomCard type="category" categoryTitle='Standard Category: non-editable'/>
-      <CustomCard type='article' articleTitle='Word Card'/>
-      <CustomCard type='completedCategory' categoryTitle='Completed Category'/>
-      <CustomCard type='editable' categoryTitle="Editable Category"/>
-    </div>
+    <>
+      <PageContainer className='gap-4 sm:flex-row flex-col'>
+        <div className='flex items-center flex-col'>
+          <img src='/src/assets/IconWoHand.png' alt='logo' width="100px" className='animate-bounce [animation-duration:3s] mb-4' />
+          <h2 className='text-(--stark) sm:text-3xl text-md'>matchmatch</h2>
+        </div>
+        <div className='flex flex-col items-center *:m-2'>
+          <Button
+            size="lg"
+            className="w-29.5"
+            render={<Link to="/game">Start game</Link>}
+          />
+          <AlertDialog>
+            <AlertDialogTrigger>
+              How to play
+            </AlertDialogTrigger>
+            <AlertDialogContent className={"flex flex-col items-center max-h-[90vh] overflow-scroll lg:overflow-hidden"}>
+              <HowToPlay />
+              <AlertDialogCancel className={"w-fit cursor-pointer -mt-3"}>
+                Let's Go!
+              </AlertDialogCancel>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </PageContainer>
+      <Footer />
+    </>
   )
 }
