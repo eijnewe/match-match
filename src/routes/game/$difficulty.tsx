@@ -18,10 +18,10 @@ function GamePage() {
         pinnedCategories={logic.workingCategories}
         categoryCount={categoryCount}
         canAddCategory={logic.canAddCategory}
-        onAddCategoryClick={logic.addEmptyCategory}
+        onAddCategoryClick={logic.onAddCategoryClick}
         onCategoryClick={logic.onCategoryClick}
       />
-      <Gameboard difficulty={difficulty} />
+      <Gameboard logic={logic} />
     </main>
   );
 }

@@ -1,47 +1,56 @@
 import { create } from "zustand";
 
 export interface WorkingCategory {
-  id: number |null,
-  name: string |null,
-  words: string[],
-  maxWords: number |null,
-  solved: boolean
+  id: number | null;
+  name: string | null;
+  words: string[];
+  maxWords: number | null;
+  solved: boolean;
 }
 
- interface GameStoreState {
-   selectedWord: string | null;
-   selectedCategoryId: number | null;
+interface GameStoreState {
+  selectedWord: string | null;
+  selectedCategoryId: number | null;
 
-   workingCategories: WorkingCategory[];
-   solvedCategories: number[];
-   wordsByCategory: Record<number, string[]>;
-   isGameWon: boolean;
-   points: number;
-   errors: number;
+  workingCategories: WorkingCategory[];
+  solvedCategories: number[];
+  wordsByCategory: Record<number, string[]>;
+  isGameWon: boolean;
+  points: number;
+  errors: number;
 
-   addPoint: () => void | null;
-   addError: () => void | null;
+  addPoint: () => void | null;
+  addError: () => void | null;
 
-   setWorkingCategories: (cats: WorkingCategory[]) => void;
+  setWorkingCategories: (cats: WorkingCategory[]) => void;
 
-   selectWord: (word: string) => void;
-   deselectWord: () => void;
+  selectWord: (word: string) => void;
+  deselectWord: () => void;
 
-   selectCategory: (categoryId: number) => void;
-   deselectCategory: () => void;
+  selectCategory: (categoryId: number) => void;
+  deselectCategory: () => void;
 
-   addEmptyCategory: () => void;
-   assignCategoryId: (
-     index: number,
-     id: number,
-     name: string,
-     maxWords: number,
-   ) => void;
+  addEmptyCategory: () => void;
+
+  assignCategoryId: (
+    index: number,
+    id: number,
+    name: string,
+    maxWords: number,
+  ) => void;
+
+  assignCategoryAndAddWord: (
+    tempCategoryId: number,
+    id: number,
+    name: string,
+    maxWords: number,
+    word: string,
+  ) => void;
 
   addWordToCategory: (categoryId: number, word: string) => void;
   solveCategory: (categoryId: number) => void;
   checkGameWon: (totalCategories: number) => void;
-  
+
   reset: () => void;
 
   isEditMode: boolean;
@@ -61,17 +70,30 @@ const initialState = {
   errors: 0,
 };
 
-
-export const useGameStore = create<GameStoreState>((set, get) => ({
+export const useGameStore = create<GameStoreState>((set) => ({
   ...initialState,
 
   addEmptyCategory: () =>
-    set((state) => ({
-      workingCategories: [
-        ...state.workingCategories,
-        { id: null, name: null, words: [], maxWords: null, solved: false },
-      ],
-    })),
+    set((state) => {
+      const hasEmptyCategory = state.workingCategories.some(
+        (cat) => cat.name == null || cat.maxWords == null,
+      );
+      if (hasEmptyCategory) return state;
+
+      const minExistingId = state.workingCategories.reduce((min, cat) => {
+        if (typeof cat.id !== "number") return min;
+        return Math.min(min, cat.id);
+      }, 0);
+
+      const tempId = minExistingId <= 0 ? minExistingId - 1 : -1;
+
+      return {
+        workingCategories: [
+          ...state.workingCategories,
+          { id: tempId, name: null, words: [], maxWords: null, solved: false },
+        ],
+      };
+    }),
 
   setWorkingCategories: (cats) => set({ workingCategories: cats }),
 
@@ -98,6 +120,17 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       ),
     })),
 
+  assignCategoryAndAddWord: (tempCategoryId, id, name, maxWords, word) =>
+    set((state) => ({
+      workingCategories: state.workingCategories.map((cat) => {
+        if (cat.id !== tempCategoryId) return cat;
+        const nextWords = cat.words.includes(word)
+          ? cat.words
+          : [...cat.words, word];
+        return { ...cat, id, name, maxWords, words: nextWords };
+      }),
+    })),
+
   addWordToCategory: (categoryId: number, word: string) =>
     set((state) => ({
       workingCategories: state.workingCategories.map((cat) => {
@@ -107,16 +140,21 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
       }),
     })),
 
-  solveCategory: (categoryId: number) => {
+  solveCategory: (categoryId: number) =>
     set((state) => {
-      const alreadySolved = state.solvedCategories.includes(categoryId);
+      const alreadySolved = state.solvedCategories.some(
+        (c) => c === categoryId,
+      );
+
       return {
+        workingCategories: state.workingCategories.map((cat) =>
+          cat.id === categoryId ? { ...cat, solved: true } : cat,
+        ),
         solvedCategories: alreadySolved
           ? state.solvedCategories
           : [...state.solvedCategories, categoryId],
       };
-    });
-  },
+    }),
 
   checkGameWon: (totalCategories: number) => {
     set((state) => ({
@@ -144,5 +182,3 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
     set((state) => ({ errors: state.errors + 1 }));
   },
 }));
-
-

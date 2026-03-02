@@ -1,9 +1,9 @@
 import type { Difficulty } from "@/types/game";
 import { useGameQuery } from "../api/useGameQuery";
 import { useGameStore, type WorkingCategory } from "../store/gameStore";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-export function useGameLogic(difficulty?: Difficulty) {
+export function useGameLogic(difficulty: Difficulty) {
   const { data, isLoading, error } = useGameQuery(difficulty);
 
   const selectedWord = useGameStore((s) => s.selectedWord);
@@ -13,6 +13,9 @@ export function useGameLogic(difficulty?: Difficulty) {
   const isGameWon = useGameStore((s) => s.isGameWon);
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
+  const assignCategoryAndAddWord = useGameStore(
+    (s) => s.assignCategoryAndAddWord,
+  );
 
   const setWorkingCategories = useGameStore((s) => s.setWorkingCategories);
   const selectWord = useGameStore((s) => s.selectWord);
@@ -23,158 +26,209 @@ export function useGameLogic(difficulty?: Difficulty) {
   const solveCategory = useGameStore((s) => s.solveCategory);
   const reset = useGameStore((s) => s.reset);
   const checkGameWon = useGameStore((s) => s.checkGameWon);
-  const addEmptyCategory = useGameStore((s) => s.addEmptyCategory)
-  const assignCategoryId = useGameStore((s) => s.assignCategoryId)
+  const addEmptyCategory = useGameStore((s) => s.addEmptyCategory);
+  const assignCategoryId = useGameStore((s) => s.assignCategoryId);
   const addPoint = useGameStore((s) => s.addPoint);
   const addError = useGameStore((s) => s.addError);
 
+  const selectionStartedWithRef = useRef<"word" | "category" | null>(null);
+
   const onWordClick = (word: string) => {
-    if (selectedWord === word) return deselectWord();
+    if (selectedWord === word) {
+      deselectWord();
+      if (selectedCategoryId == null) selectionStartedWithRef.current = null;
+      return;
+    }
+
+    if (selectedWord == null && selectedCategoryId == null) {
+      selectionStartedWithRef.current = "word";
+    }
+
     selectWord(word);
-  }
+  };
 
   const onCategoryClick = (categoryId: number) => {
-    if (selectedCategoryId === categoryId) return deselectCategory();
+    if (selectedCategoryId === categoryId) {
+      deselectCategory();
+      if (selectWord == null) selectionStartedWithRef.current = null;
+      return;
+    }
+
+    if (selectedWord == null && selectedCategoryId == null) {
+      selectionStartedWithRef.current = "category";
+    }
+
     selectCategory(categoryId);
   };
 
   // 1. Initiera workingCategories när spelet laddas (utifrån data.categories)
   useEffect(() => {
     reset();
+    selectionStartedWithRef.current = null;
   }, [difficulty, reset]);
 
-/*   useEffect(() => {
-    if (data) {
-      setWorkingCategories(
-        data.categories.map((cat) => ({
-          id: cat.id,
-          name: cat.name,
-          words: [],
-          maxWords: cat.words.length,
-          solved: false,
-        })),
-      );
-    } 
+  useEffect(() => {
+    if (!data) return;
+    setWorkingCategories([
+      { id: -1, name: null, words: [], maxWords: null, solved: false },
+    ]);
   }, [data, setWorkingCategories]);
- */
-  useEffect(() => { if (!data)  return console.log('nodata')
-    setWorkingCategories(
-        data.categories.map((cat) => ({
-          id: cat.id,
-          name: cat.name,
-          words: [],
-          maxWords: cat.words.length,
-          solved: false,
-        })),)
-        // console.log('data', data)
-        // console.log('workingcat', workingCategories)
-    }, [data, setWorkingCategories])
 
-  //2. Ord → kategori lookup (använd data.wordToCategory[word])
-
-  // isCategoryEmpty()
-  function isCategoryEmpty(cat: WorkingCategory) {
-    return cat.words.length === 0;
-  }
   // isCategoryFull()
   function isCategoryFull(cat: WorkingCategory) {
-    return cat.words.length >= cat.maxWords;
+    return cat.maxWords != null && cat.words.length >= cat.maxWords;
   }
+
   // isWordAlreadyPlaced()
-
   function isWordAlreadyPlaced(word: string) {
-    return addError() && workingCategories.some((cat) => cat.words.includes(word));
+    return workingCategories.some((cat) => cat.words.includes(word));
   }
+
   // isCorrectCategory()
-  function isCorrectCategory(word: string, categoryId: number) {
-    if (!data) return false;
-    const correctCategory = data.categories.find((cat) =>
-      cat.words.includes(word),
-    );
-    return correctCategory?.id === categoryId && addPoint();
-  }
+  // function isCorrectCategory(word: string, categoryId: number) {
+  //   if (!data) return false;
+  //   const correctCategory = data.categories.find((cat) =>
+  //     cat.words.includes(word));
+  //   return correctCategory?.id === categoryId;
+  // }
+
   // doesAnotherCategoryHaveSameId()
-  function doesAnotherCategoryHaveSameId(
-    realId: number,
-    selectedCategoryId: number,
-  ) {
-    return addError() && workingCategories.some(
-      (cat) => cat.id === realId && cat.id !== selectedCategoryId,
-    );
-  }
+  // function doesAnotherCategoryHaveSameId(
+  //   realId: number,
+  //   selectedCategoryId: number,
+  // ) {
+  //   return workingCategories.some(
+  //     (cat) => cat.id === realId && cat.id !== selectedCategoryId,
+  //   );
+  // }
 
-  const handleWordPlacement = useCallback((word: string, categoryId: number) => {
-    /*  alla helper funktioner kallas här */
-    if (!data) return;
-    
-    const selectedCategory = workingCategories.find((cat) => cat.id === categoryId);
-    console.log("selected cat:", selectedCategory)
-    if (!selectedCategory) return;
-    
-    console.log("is Cat full:", isCategoryFull(selectedCategory));
-    
-    // const correctCategoryId = data.categories.find((cat) =>
-    //   cat.words.includes(word),    
-    // )?.id;
-    // console.log("correct cat:", correctCategoryId)
+  const handleWordPlacement = useCallback(
+    (word: string, categoryId: number) => {
+      /*  alla helper funktioner kallas här */
+      if (!data) return;
 
-    if (
-      isCategoryFull(selectedCategory) ||
-      isWordAlreadyPlaced(word) ||
-      !isCorrectCategory(word, categoryId)
-    ) {
+      const startedWithWord = selectionStartedWithRef.current === "word";
+
+      const selectedCategory = workingCategories.find(
+        (cat) => cat.id === categoryId,
+      );
+      if (!selectedCategory) return;
+
+      if (isWordAlreadyPlaced(word)) {
+        addError();
+        deselectWord();
+        deselectCategory();
+        selectionStartedWithRef.current = null;
+        return;
+      }
+
+      const realCategory = data.categories.find((cat) =>
+        cat.words.includes(word),
+      );
+      if (!realCategory) {
+        addError();
+        deselectWord();
+        deselectCategory();
+        selectionStartedWithRef.current = null;
+        return;
+      }
+
+      let targetCategoryId = categoryId;
+      let targetMaxWords =
+        selectedCategory.maxWords ?? realCategory.words.length;
+      const isUnassigned =
+        selectedCategory.name == null || selectedCategory.maxWords == null;
+
+      if (isUnassigned) {
+        const duplicateAssignedCategory = workingCategories.some(
+          (cat) => cat.id === realCategory.id && cat.id !== selectedCategory.id,
+        );
+        if (duplicateAssignedCategory) {
+          addError();
+          deselectWord();
+          deselectCategory();
+          selectionStartedWithRef.current = null;
+          return;
+        }
+
+        if (typeof selectedCategory.id !== "number") {
+          addError();
+          deselectWord();
+          deselectCategory();
+          selectionStartedWithRef.current = null;
+          return;
+        }
+
+        assignCategoryAndAddWord(
+          selectedCategory.id,
+          realCategory.id,
+          realCategory.name,
+          realCategory.words.length,
+          word,
+        );
+
+        selectCategory(realCategory.id);
+        targetCategoryId = realCategory.id;
+        targetMaxWords = realCategory.words.length;
+      } else {
+        if (selectedCategory.id !== realCategory.id) {
+          addError();
+          deselectWord();
+          deselectCategory();
+          selectionStartedWithRef.current = null;
+          return;
+        }
+
+        if (isCategoryFull(selectedCategory)) {
+          addError();
+          deselectWord();
+          deselectCategory();
+          selectionStartedWithRef.current = null;
+          return;
+        }
+
+        addWordToCategory(targetCategoryId, word);
+      }
+
+      addPoint();
+
+      const nextWordCount = selectedCategory.words.length + 1;
+      if (targetMaxWords != null && nextWordCount >= targetMaxWords) {
+        solveCategory(categoryId);
+        deselectCategory();
+        selectionStartedWithRef.current = null;
+        deselectWord();
+        return;
+      }
+
       deselectWord();
-      return;
-    }
 
-    // if(correctCategoryId !== undefined){
-    //   if(isCategoryEmpty(selectedCategory)) {
-    //     if(doesAnotherCategoryHaveSameId(correctCategoryId, categoryId)) {
-    //       return error
-    //     }
-    //     else {
-          
-    //     }
-    //     } /* assingidtillcategory */
-
-    //   } if(!isCorrectCategory(word, categoryId)) {
-    //     return error
-    //   } /* addWordToCategory */
-        
-    
-    addWordToCategory(categoryId, word);
-
-    // const nextWordCount = isCategoryEmpty(selectedCategory);
-    // ? 1
-    // : selectedCategory.words.length + 1;
-    const nextWordCount = selectedCategory.words.length + 1;
-    if (selectedCategory.maxWords != null && nextWordCount >= selectedCategory.maxWords) {
-      solveCategory(categoryId);
-      deselectCategory();
-    }
-
-    deselectWord();
-    // if (nextWordCount >= selectedCategory.maxWords) {
-    //   solveCategory(categoryId);
-    //   deselectCategory();
-    // }
-
-  }, [
-    data,
-    workingCategories,
-    deselectWord,
-    addWordToCategory,
-    solveCategory,
-    deselectCategory,
-  ]);
+      if (startedWithWord) {
+        deselectCategory();
+        selectionStartedWithRef.current = null;
+      } else {
+        selectionStartedWithRef.current = "category";
+      }
+    },
+    [
+      data,
+      workingCategories,
+      assignCategoryAndAddWord,
+      addWordToCategory,
+      selectCategory,
+      addPoint,
+      addError,
+      deselectWord,
+      deselectCategory,
+      solveCategory,
+    ],
+  );
 
   useEffect(() => {
     if (!selectedWord || selectedCategoryId == null) return;
     handleWordPlacement(selectedWord, selectedCategoryId);
   }, [selectedWord, selectedCategoryId, handleWordPlacement]);
 
-  
-  
   // 8. Checka game won (alla kategorier fyllda)
   useEffect(() => {
     if (data) {
@@ -185,7 +239,6 @@ export function useGameLogic(difficulty?: Difficulty) {
   //  initWorkingCategories
 
   // ✔ handleWordPlacement
-
 
   // ✔ validatePlacement
 
@@ -218,9 +271,21 @@ export function useGameLogic(difficulty?: Difficulty) {
   (visa feedback, men store ska inte veta något om fel) */
 
   const maxCategories = data?.categories.length ?? 0;
-  const canAddCategory = workingCategories.length < maxCategories;
+  const openedCategories = workingCategories.length;
+  const allOpenedAreAssigned = workingCategories.every(
+    (cat) => cat.name != null && cat.maxWords != null && cat.words.length > 0,
+  );
 
-  // console.log('workingcategories gamelogic end',workingCategories)
+  const canAddCategory = openedCategories < maxCategories;
+  const onAddCategoryClick = () => {
+    if (!canAddCategory) return;
+    if (!allOpenedAreAssigned) return;
+
+    deselectWord();
+    deselectCategory();
+    
+    addEmptyCategory();
+  };
 
   return {
     data,
@@ -232,12 +297,11 @@ export function useGameLogic(difficulty?: Difficulty) {
     canAddCategory,
     onWordClick,
     onCategoryClick,
-    addEmptyCategory,
+    onAddCategoryClick,
     points,
     errors,
   };
 }
-
 
 /* function handleWordPlacement(word, categoryId):
 

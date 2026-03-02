@@ -1,11 +1,22 @@
 // import { WordGrid } from "@/features/game/api/WordGrid";
 // import { useGameLogicMock } from '../hooks/useGameLogic.mock'
-import { useGameLogic } from '../hooks/useGameLogic'
 import { useGridStore } from '../hooks/useGridStore'
 import { WordGrid } from './WordGrid'
 
-export function Gameboard({ difficulty }) {
-  const logic = useGameLogic(difficulty)
+type GameboardProps = {
+  logic: {
+    data: { allWords: string[] } | undefined;
+    isLoading: boolean;
+    error: unknown;
+    isGameWon: boolean;
+    reset: () => void;
+    workingCategories: { words: string[] }[];
+    onWordClick: (word: string) => void;
+  };
+};
+
+export function Gameboard({ logic }: GameboardProps) {
+  // const logic = useGameLogic(difficulty)
   const isGridMode = useGridStore((s) => s.isGridMode);
 
   if (logic.isLoading) {
@@ -39,8 +50,6 @@ export function Gameboard({ difficulty }) {
       </div>
     )
   }
-
-  
 
   // Filtrera bort ord som redan matchats
   const remainingWords =

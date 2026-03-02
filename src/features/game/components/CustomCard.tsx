@@ -26,6 +26,7 @@ type BaseCardProps = {
   articleTitle?: string;
   type: "category" | "completedCategory" | "article" | "plus" | "editable";
   onClick?: () => void;
+  selected?: boolean;
 };
 
 type CustomCardProps =
@@ -33,9 +34,10 @@ type CustomCardProps =
       type: "category" | "completedCategory" | "editable";
       categoryTitle: string;
       onClick?: () => void;
+      selected?: boolean;
     }
-  | { type: "article"; articleTitle: string; onClick?: () => void }
-  | { type: "plus"; onClick?: () => void };
+  | { type: "article"; articleTitle: string; onClick?: () => void; selected?: boolean }
+  | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
   children,
@@ -46,15 +48,21 @@ function BaseCard({
   articleTitle,
   type,
   onClick,
+  selected,
 }: BaseCardProps) {
   const completedStyling =
     type === "completedCategory"
       ? "brightness-60 hover:brightness-70"
       : "cursor-pointer hover:brightness-95";
+
+  const selectedStyling = selected ? "border-black brightness-95" : "";
+  
   const card = (
     <Card
       onClick={onClick}
-      className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${cardClasses ?? ""}`}
+      className={
+        `text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${cardClasses ?? ""}`
+      }
     >
       <CardContent className="p-0">
         {children}
@@ -77,7 +85,7 @@ function BaseCard({
 
 function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
   return (
-    <BaseCard type="article" onClick={props.onClick}>
+    <BaseCard type="article" onClick={props.onClick} selected={props.selected}>
       {props.articleTitle}
     </BaseCard>
   );
@@ -89,6 +97,7 @@ function AddCard(props: Extract<CustomCardProps, {type: "plus" }>) {
       type="plus"
       tooltip="Add another Category card"
       onClick={props.onClick}
+      selected={false}
     >
       <span>+</span>
     </BaseCard>
@@ -157,6 +166,7 @@ function CategoryCard(
           cardClasses={`${categoryColor}`}
           type={props.type}
           onClick={props.onClick}
+          selected={props.selected}
         >
           {categoryName}
         </BaseCard>
@@ -171,6 +181,7 @@ function CategoryCard(
       cardClasses={`${categoryColor}`}
       type={props.type}
       onClick={props.onClick}
+      selected={props.selected}
     >
       {categoryName}
     </BaseCard>
@@ -183,12 +194,18 @@ export function CustomCard(props: CustomCardProps) {
   switch (props.type) {
     case "category":
       return isEditMode ? (
-        <CategoryCard type="editable" categoryTitle={props.categoryTitle} />
+        <CategoryCard
+          type="editable"
+          categoryTitle={props.categoryTitle}
+          onClick={props.onClick}
+          selected={false}
+        />
       ) : (
         <CategoryCard
           type="category"
           categoryTitle={props.categoryTitle}
           onClick={props.onClick}
+          selected={props.selected}
         />
       );
     case "completedCategory":
@@ -197,6 +214,7 @@ export function CustomCard(props: CustomCardProps) {
           type="completedCategory"
           categoryTitle={props.categoryTitle}
           onClick={props.onClick}
+          selected={false}
         />
       );
     case "article":
@@ -205,6 +223,7 @@ export function CustomCard(props: CustomCardProps) {
           type="article"
           articleTitle={props.articleTitle}
           onClick={props.onClick}
+          selected={props.selected}
         />
       );
     case "plus":
