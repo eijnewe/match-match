@@ -22,6 +22,9 @@ export function CategoryBanner({
 }: CategoryBannerProps) {
   const isTwoRows = pinnedCategories.length > categoryCount / 2;
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
+  const lastErrorCategoryId = useGameStore((s) => s.lastErrorCategoryId);
+  const errorAnimationNonce = useGameStore((s) => s.errorAnimationNonce);
+  const setCategoryCustomName = useGameStore((s) => s.setCategoryCustomName);
 
   return (
     <div
@@ -34,25 +37,35 @@ export function CategoryBanner({
         const categoryId = cat.id;
         if (categoryId == null) return null;
 
+        const custom = cat.customName?.trim();
+
         const displayTitle = cat.solved
-          ? showSolvedCategoryName
-            ? (cat.name ?? "Unknown category")
-            : "Unknown category"
-          : cat.words.length === 0
-            ? "Empty category"
-            : "Unknown category";
+          ? (cat.name ?? "Unknown category")
+          : custom
+            ? custom
+            : cat.words.length === 0
+              ? "Empty category"
+              : "Unknown category";
 
         return (
           <CustomCard
-            key={`${categoryId}-${index}`}
+            key={`category-card-${index}`}
             type={cat.solved ? "completedCategory" : "category"}
             categoryTitle={displayTitle}
+            categoryWords={cat.words}
+            categoryLimit={cat.maxWords}
+            errorAnimationToken={
+              lastErrorCategoryId === categoryId ? errorAnimationNonce : 0
+            }
+            onCategoryTitleChange={(title) => setCategoryCustomName(categoryId, title)}
             onClick={() => onCategoryClick(categoryId)}
             selected={selectedCategoryId === categoryId}
           />
         );
       })}
-      {canAddCategory && <CustomCard type="plus" onClick={onAddCategoryClick} />}
+      {canAddCategory && (
+        <CustomCard type="plus" onClick={onAddCategoryClick} />
+      )}
     </div>
   );
 }

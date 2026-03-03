@@ -14,10 +14,11 @@ export function useGameLogic(difficulty: Difficulty) {
   const isGameWon = useGameStore((s) => s.isGameWon);
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
+  const triggerCategoryError = useGameStore((s) => s.triggerCategoryError);
+  
   const assignCategoryAndAddWord = useGameStore(
     (s) => s.assignCategoryAndAddWord,
   );
-
   const setWorkingCategories = useGameStore((s) => s.setWorkingCategories);
   const selectWord = useGameStore((s) => s.selectWord);
   const deselectWord = useGameStore((s) => s.deselectWord);
@@ -118,6 +119,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
       if (isWordAlreadyPlaced(word)) {
         addError();
+        triggerCategoryError(categoryId);
         deselectWord();
         deselectCategory();
         selectionStartedWithRef.current = null;
@@ -129,6 +131,7 @@ export function useGameLogic(difficulty: Difficulty) {
       );
       if (!realCategory) {
         addError();
+        triggerCategoryError(categoryId);
         deselectWord();
         deselectCategory();
         selectionStartedWithRef.current = null;
@@ -147,6 +150,7 @@ export function useGameLogic(difficulty: Difficulty) {
         );
         if (duplicateAssignedCategory) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -155,6 +159,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
         if (typeof selectedCategory.id !== "number") {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -175,6 +180,7 @@ export function useGameLogic(difficulty: Difficulty) {
       } else {
         if (selectedCategory.id !== realCategory.id) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -183,6 +189,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
         if (isCategoryFull(selectedCategory)) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -220,6 +227,7 @@ export function useGameLogic(difficulty: Difficulty) {
       selectCategory,
       addPoint,
       addError,
+      triggerCategoryError,
       deselectWord,
       deselectCategory,
       solveCategory,
@@ -311,6 +319,7 @@ export function useGameLogic(difficulty: Difficulty) {
     onAddCategoryClick,
     points,
     errors,
+    triggerCategoryError,
   };
 }
 
