@@ -2,8 +2,27 @@
 ## Project Structure
 ### Planning Stage
 During the planning stage, we got together to brain storm about what kind of app we would like to build. During this session, we also had to take into account what we believed we could achieve in the four weeks we had to our disposal. 
+
+![Brain Storm Board](/public/ReadMeImg%20(6).png)
+
 We quickly agreed on building a "mega connections"; a game of assigning words to categories without knowing the categories beforehand. We were inspired by the [NYT's Connections](https://www.nytimes.com/games/connections), as well as [Thomas Colthurst's 2025 Game](https://thomaswc.com/2025.html), and had ideas on how to improve on them both.
 
+![Inspiration Board](/public/ReadMeImg%20(3).png)
+
+Our main improvement was the mobile aspect of it- Thomas' game was very hard to navigate on a small screen, with a lot of scrolling. It was also lacking the color and design that we enjoyed in Connections. We imagined colour customization that could make it easier for the user to keep track of the categories, as well as pinning all the categories in a banner, rather than have them spread out across the board.  
+
+We continued by establishing what API to use: we didn't want to create up to 900 custom articles and categories ourselves. We settled on using Wikipedia, which contains a wide array of categories that suited our game. We also sat down to discuss the functionality of the game: how  the user would actually be playing.
+
+![Trello Board](/public/ReadMeImg%20(2).png)
+
+After this session, we started planning our sprints and created a Trello board to track our tickets and progress.
+
+![Sprint Planning](/public/ReadMeImg%20(5).png)
+![Trello Board](/public/ReadMeImg%20(4).png)
+
+When we had broken down the project in manageable pieces and created the relevant tickets, we started making wireframes to give ourselves a clearer idea of what we were building.
+
+![Wireframes](/public/ReadMeImg%20(1).png)
 
 ## Project Accessibility 
 
