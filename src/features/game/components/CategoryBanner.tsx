@@ -9,6 +9,7 @@ type CategoryBannerProps = {
   canAddCategory?: boolean;
   onAddCategoryClick?: () => void;
   onCategoryClick: (categoryId: number) => void;
+  showSolvedCategoryName?: boolean;
 };
 
 export function CategoryBanner({
@@ -17,6 +18,7 @@ export function CategoryBanner({
   canAddCategory = false,
   onAddCategoryClick,
   onCategoryClick,
+  showSolvedCategoryName = true,
 }: CategoryBannerProps) {
   const isTwoRows = pinnedCategories.length > categoryCount / 2;
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
@@ -32,11 +34,19 @@ export function CategoryBanner({
         const categoryId = cat.id;
         if (categoryId == null) return null;
 
+        const displayTitle = cat.solved
+          ? showSolvedCategoryName
+            ? (cat.name ?? "Unknown category")
+            : "Unknown category"
+          : cat.words.length === 0
+            ? "Empty category"
+            : "Unknown category";
+
         return (
           <CustomCard
             key={`${categoryId}-${index}`}
             type={cat.solved ? "completedCategory" : "category"}
-            categoryTitle={cat.name ?? "Empty category"}
+            categoryTitle={displayTitle}
             onClick={() => onCategoryClick(categoryId)}
             selected={selectedCategoryId === categoryId}
           />

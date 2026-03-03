@@ -16,6 +16,7 @@ import { ColorChanger } from "./ColorChanger";
 import { useCategoryColor } from "../hooks/useCategoryColor";
 import type React from "react";
 import { useGameStore } from "@/features/game/store/gameStore";
+import { useEffect } from "react";
 
 type BaseCardProps = {
   children: React.ReactNode;
@@ -118,6 +119,12 @@ function CategoryCard(
   );
   const { categoryColor, setCategoryColor } = useCategoryColor("card");
 
+  useEffect(() => {
+    setCategoryName(props.categoryTitle);
+  }, [props.categoryTitle, setCategoryName]);
+
+  const titleToRender = props.type === "editable" ? categoryName : props.categoryTitle;
+
   const customTooltipContent =
     props.type === "completedCategory" ? (
       <>
@@ -168,7 +175,7 @@ function CategoryCard(
           onClick={props.onClick}
           selected={props.selected}
         >
-          {categoryName}
+          {titleToRender}
         </BaseCard>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col w-fit">
@@ -183,7 +190,7 @@ function CategoryCard(
       onClick={props.onClick}
       selected={props.selected}
     >
-      {categoryName}
+      {titleToRender}
     </BaseCard>
   );
 }

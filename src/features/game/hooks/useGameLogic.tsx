@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef } from "react";
 export function useGameLogic(difficulty: Difficulty) {
   const { data, isLoading, error } = useGameQuery(difficulty);
 
+  const isEditMode = useGameStore((s) => s.isEditMode)
   const selectedWord = useGameStore((s) => s.selectedWord);
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
   const workingCategories = useGameStore((s) => s.workingCategories);
@@ -27,13 +28,13 @@ export function useGameLogic(difficulty: Difficulty) {
   const reset = useGameStore((s) => s.reset);
   const checkGameWon = useGameStore((s) => s.checkGameWon);
   const addEmptyCategory = useGameStore((s) => s.addEmptyCategory);
-  const assignCategoryId = useGameStore((s) => s.assignCategoryId);
   const addPoint = useGameStore((s) => s.addPoint);
   const addError = useGameStore((s) => s.addError);
 
   const selectionStartedWithRef = useRef<"word" | "category" | null>(null);
 
   const onWordClick = (word: string) => {
+    if (isEditMode) return;
     if (selectedWord === word) {
       deselectWord();
       if (selectedCategoryId == null) selectionStartedWithRef.current = null;
@@ -48,9 +49,10 @@ export function useGameLogic(difficulty: Difficulty) {
   };
 
   const onCategoryClick = (categoryId: number) => {
+    if (isEditMode) return;
     if (selectedCategoryId === categoryId) {
       deselectCategory();
-      if (selectWord == null) selectionStartedWithRef.current = null;
+      if (selectedWord == null) selectionStartedWithRef.current = null;
       return;
     }
 
@@ -194,7 +196,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
       const nextWordCount = selectedCategory.words.length + 1;
       if (targetMaxWords != null && nextWordCount >= targetMaxWords) {
-        solveCategory(categoryId);
+        solveCategory(targetCategoryId);
         deselectCategory();
         selectionStartedWithRef.current = null;
         deselectWord();
@@ -225,9 +227,18 @@ export function useGameLogic(difficulty: Difficulty) {
   );
 
   useEffect(() => {
+    if (isEditMode) {
+      deselectWord();
+      deselectCategory();
+      selectionStartedWithRef.current = null;
+    }
+  }, [isEditMode, deselectWord, deselectCategory]);
+
+  useEffect(() => {
+    if (isEditMode) return;
     if (!selectedWord || selectedCategoryId == null) return;
     handleWordPlacement(selectedWord, selectedCategoryId);
-  }, [selectedWord, selectedCategoryId, handleWordPlacement]);
+  }, [isEditMode, selectedWord, selectedCategoryId, handleWordPlacement]);
 
   // 8. Checka game won (alla kategorier fyllda)
   useEffect(() => {
