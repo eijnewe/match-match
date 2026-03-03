@@ -21,16 +21,20 @@ export function Gameboard({ logic }: GameboardProps) {
 
   if (logic.isLoading) {
     return (
-      <div className="grow self-start -mt-4 flex items-center justify-center">
-        Loading...
+      <div className="grow -mt-4 flex items-center justify-center">
+        <h2>
+          Loading...
+        </h2>
       </div>
     )
   }
 
   if (logic.error) {
     return (
-      <div className="grow self-start -mt-4 flex items-center justify-center text-red-500">
-        Error when loading game
+      <div className="grow -mt-4 flex items-center justify-center text-red-500">
+        <h2>
+          Error
+        </h2>
       </div>
     )
   }

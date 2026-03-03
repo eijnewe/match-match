@@ -18,7 +18,7 @@ export function CategoryBanner({
   onAddCategoryClick,
   onCategoryClick,
 }: CategoryBannerProps) {
-  const isTwoRows = pinnedCategories.length > categoryCount / 2;
+  const isTwoRows = pinnedCategories.length > 9;
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
 
   return (
