@@ -87,8 +87,8 @@ export const ALL_CATEGORIES = {
     name: "Theatrical Occupations",
     stripPatterns: [/\s\([^()]*\)/]
   },
-  3319679: {
-    name: "Carsharing Companies",
+  7256099: {
+    name: "The Simpsons Characters",
     stripPatterns: [/\s\([^()]*\)/]
   },
   1117038: {
@@ -107,9 +107,9 @@ export const ALL_CATEGORIES = {
     name: "Fonts",
     stripPatterns: [/\s\([^()]*\)/, " fonts"]
   },
-  750958: {
-    name: "Hats",
-    stripPatterns: [/\s\([^()]*\)/, " hat"]
+  704399: {
+    name: "Egyptian Gods",
+    stripPatterns: [/\s\([^()]*\)/]
   },
   9562608: {
     name: "Video Games made in 2000",
