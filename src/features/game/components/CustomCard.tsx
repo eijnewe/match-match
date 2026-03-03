@@ -25,25 +25,50 @@ type BaseCardProps = {
   categoryTitle?: string;
   articleTitle?: string;
   type: "category" | "completedCategory" | "article" | "plus" | "editable";
+  onClick?: () => void;
+  selected?: boolean;
 };
 
 type CustomCardProps =
   | {
-    type: "category" | "completedCategory" | "editable";
-    categoryTitle: string;
-  }
-  | { type: "article"; articleTitle: string }
-  | { type: "plus" };
+      type: "category" | "completedCategory" | "editable";
+      categoryTitle: string;
+      onClick?: () => void;
+      selected?: boolean;
+    }
+  | { type: "article"; articleTitle: string; onClick?: () => void; selected?: boolean }
+  | { type: "plus"; onClick?: () => void; selected?: boolean };
 
-function BaseCard({ children, tooltip, cardClasses, editable, categoryTitle, articleTitle, type }: BaseCardProps) {
-  const completedStyling = type === "completedCategory" ? "brightness-60 hover:brightness-70" : "cursor-pointer hover:brightness-95"
+function BaseCard({
+  children,
+  tooltip,
+  cardClasses,
+  editable,
+  categoryTitle,
+  articleTitle,
+  type,
+  onClick,
+  selected,
+}: BaseCardProps) {
+  const completedStyling =
+    type === "completedCategory"
+      ? "brightness-60 hover:brightness-70"
+      : "cursor-pointer hover:brightness-95";
+
+  const selectedStyling = selected ? "border-black brightness-95" : "";
+  
   const card = (
-    <Card className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${cardClasses ?? ""}`}>
+    <Card
+      onClick={onClick}
+      className={
+        `text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${cardClasses ?? ""}`
+      }
+    >
       <CardContent className="p-0">
         {children}
       </CardContent>
     </Card>
-  )
+  );
 
   if (tooltip) {
     return (
@@ -59,15 +84,24 @@ function BaseCard({ children, tooltip, cardClasses, editable, categoryTitle, art
 }
 
 function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
-  return <BaseCard type="article">{props.articleTitle}</BaseCard>;
+  return (
+    <BaseCard type="article" onClick={props.onClick} selected={props.selected}>
+      {props.articleTitle}
+    </BaseCard>
+  );
 }
 
-function AddCard() {
+function AddCard(props: Extract<CustomCardProps, {type: "plus" }>) {
   return (
-    <BaseCard type="plus" tooltip="Add another Category card">
+    <BaseCard
+      type="plus"
+      tooltip="Add another Category card"
+      onClick={props.onClick}
+      selected={false}
+    >
       <span>+</span>
     </BaseCard>
-  )
+  );
 }
 
 function CategoryCard(
@@ -94,33 +128,35 @@ function CategoryCard(
       <>
         {[...sortedWords].sort().join(", ").trim()}
 
-        <span className="font-bold"> {sortedWords.length}/{limit}</span>
-
+        <span className="font-bold">
+          {" "}
+          {sortedWords.length} / {limit}
+        </span>
       </>
-    )
-  const customPopoverContent = <>
-    <span className="flex flex-row items-center">
-      <Tooltip>
-        <TooltipTrigger>
-          <Edit className="mr-2" />
-        </TooltipTrigger>
-        <TooltipContent>
-          Edit the Category title
-        </TooltipContent>
-      </Tooltip>
-      <Textarea
-        value={categoryName}
-        className="resize-none w-full min-h-8"
-        maxLength={25}
-        rows={1}
-        onChange={(e) => setCategoryName(e.target.value)}
-        onBlur={() => {
-          if (!categoryName.trim()) setCategoryName(defaultCategoryTitle);
-        }}
-      />
-    </span>
-    <ColorChanger handleClick={setCategoryColor} />
-  </>
+    );
+  const customPopoverContent = (
+    <>
+      <span className="flex flex-row items-center">
+        <Tooltip>
+          <TooltipTrigger>
+            <Edit className="mr-2" />
+          </TooltipTrigger>
+          <TooltipContent>Edit the Category title</TooltipContent>
+        </Tooltip>
+        <Textarea
+          value={categoryName}
+          className="resize-none w-full min-h-8"
+          maxLength={25}
+          rows={1}
+          onChange={(e) => setCategoryName(e.target.value)}
+          onBlur={() => {
+            if (!categoryName.trim()) setCategoryName(defaultCategoryTitle);
+          }}
+        />
+      </span>
+      <ColorChanger handleClick={setCategoryColor} />
+    </>
+  );
 
   return props.type === "editable" ? (
     <Popover>
@@ -129,6 +165,8 @@ function CategoryCard(
           tooltip={customTooltipContent}
           cardClasses={`${categoryColor}`}
           type={props.type}
+          onClick={props.onClick}
+          selected={props.selected}
         >
           {categoryName}
         </BaseCard>
@@ -142,6 +180,8 @@ function CategoryCard(
       tooltip={customTooltipContent}
       cardClasses={`${categoryColor}`}
       type={props.type}
+      onClick={props.onClick}
+      selected={props.selected}
     >
       {categoryName}
     </BaseCard>
@@ -154,21 +194,40 @@ export function CustomCard(props: CustomCardProps) {
   switch (props.type) {
     case "category":
       return isEditMode ? (
-        <CategoryCard type="editable" categoryTitle={props.categoryTitle} />
+        <CategoryCard
+          type="editable"
+          categoryTitle={props.categoryTitle}
+          onClick={props.onClick}
+          selected={false}
+        />
       ) : (
-        <CategoryCard type="category" categoryTitle={props.categoryTitle} />
+        <CategoryCard
+          type="category"
+          categoryTitle={props.categoryTitle}
+          onClick={props.onClick}
+          selected={props.selected}
+        />
       );
     case "completedCategory":
       return (
         <CategoryCard
           type="completedCategory"
           categoryTitle={props.categoryTitle}
+          onClick={props.onClick}
+          selected={false}
         />
       );
     case "article":
-      return <ArticleCard type="article" articleTitle={props.articleTitle} />;
+      return (
+        <ArticleCard
+          type="article"
+          articleTitle={props.articleTitle}
+          onClick={props.onClick}
+          selected={props.selected}
+        />
+      );
     case "plus":
-      return <AddCard />;
+      return <AddCard type="plus" onClick={props.onClick} />;
     default:
       return null;
   }
