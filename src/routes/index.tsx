@@ -27,9 +27,9 @@ function Index() {
             <AlertDialogTrigger>
               How to play
             </AlertDialogTrigger>
-            <AlertDialogContent className={"flex flex-col items-center max-h-[90vh] overflow-scroll lg:overflow-hidden"}>
+            <AlertDialogContent className={"flex flex-col items-center max-h-[90vh] lg:overflow-clip overflow-auto"}>
               <HowToPlay />
-              <AlertDialogCancel className={"w-fit cursor-pointer -mt-3"}>
+              <AlertDialogCancel className={"w-fit cursor-pointer -mt-3 bg-primary text-(--stark)"}>
                 Let's Go!
               </AlertDialogCancel>
             </AlertDialogContent>
