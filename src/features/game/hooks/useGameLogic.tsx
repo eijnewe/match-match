@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef } from "react";
 export function useGameLogic(difficulty: Difficulty) {
   const { data, isLoading, error } = useGameQuery(difficulty);
 
+  const isEditMode = useGameStore((s) => s.isEditMode)
   const selectedWord = useGameStore((s) => s.selectedWord);
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
   const workingCategories = useGameStore((s) => s.workingCategories);
@@ -13,10 +14,11 @@ export function useGameLogic(difficulty: Difficulty) {
   const isGameWon = useGameStore((s) => s.isGameWon);
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
+  const triggerCategoryError = useGameStore((s) => s.triggerCategoryError);
+  
   const assignCategoryAndAddWord = useGameStore(
     (s) => s.assignCategoryAndAddWord,
   );
-
   const setWorkingCategories = useGameStore((s) => s.setWorkingCategories);
   const selectWord = useGameStore((s) => s.selectWord);
   const deselectWord = useGameStore((s) => s.deselectWord);
@@ -27,13 +29,13 @@ export function useGameLogic(difficulty: Difficulty) {
   const reset = useGameStore((s) => s.reset);
   const checkGameWon = useGameStore((s) => s.checkGameWon);
   const addEmptyCategory = useGameStore((s) => s.addEmptyCategory);
-  const assignCategoryId = useGameStore((s) => s.assignCategoryId);
   const addPoint = useGameStore((s) => s.addPoint);
   const addError = useGameStore((s) => s.addError);
 
   const selectionStartedWithRef = useRef<"word" | "category" | null>(null);
 
   const onWordClick = (word: string) => {
+    if (isEditMode) return;
     if (selectedWord === word) {
       deselectWord();
       if (selectedCategoryId == null) selectionStartedWithRef.current = null;
@@ -48,9 +50,10 @@ export function useGameLogic(difficulty: Difficulty) {
   };
 
   const onCategoryClick = (categoryId: number) => {
+    if (isEditMode) return;
     if (selectedCategoryId === categoryId) {
       deselectCategory();
-      if (selectWord == null) selectionStartedWithRef.current = null;
+      if (selectedWord == null) selectionStartedWithRef.current = null;
       return;
     }
 
@@ -116,6 +119,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
       if (isWordAlreadyPlaced(word)) {
         addError();
+        triggerCategoryError(categoryId);
         deselectWord();
         deselectCategory();
         selectionStartedWithRef.current = null;
@@ -127,6 +131,7 @@ export function useGameLogic(difficulty: Difficulty) {
       );
       if (!realCategory) {
         addError();
+        triggerCategoryError(categoryId);
         deselectWord();
         deselectCategory();
         selectionStartedWithRef.current = null;
@@ -145,6 +150,7 @@ export function useGameLogic(difficulty: Difficulty) {
         );
         if (duplicateAssignedCategory) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -153,6 +159,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
         if (typeof selectedCategory.id !== "number") {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -173,6 +180,7 @@ export function useGameLogic(difficulty: Difficulty) {
       } else {
         if (selectedCategory.id !== realCategory.id) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -181,6 +189,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
         if (isCategoryFull(selectedCategory)) {
           addError();
+          triggerCategoryError(categoryId);
           deselectWord();
           deselectCategory();
           selectionStartedWithRef.current = null;
@@ -194,7 +203,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
       const nextWordCount = selectedCategory.words.length + 1;
       if (targetMaxWords != null && nextWordCount >= targetMaxWords) {
-        solveCategory(categoryId);
+        solveCategory(targetCategoryId);
         deselectCategory();
         selectionStartedWithRef.current = null;
         deselectWord();
@@ -218,6 +227,7 @@ export function useGameLogic(difficulty: Difficulty) {
       selectCategory,
       addPoint,
       addError,
+      triggerCategoryError,
       deselectWord,
       deselectCategory,
       solveCategory,
@@ -225,9 +235,18 @@ export function useGameLogic(difficulty: Difficulty) {
   );
 
   useEffect(() => {
+    if (isEditMode) {
+      deselectWord();
+      deselectCategory();
+      selectionStartedWithRef.current = null;
+    }
+  }, [isEditMode, deselectWord, deselectCategory]);
+
+  useEffect(() => {
+    if (isEditMode) return;
     if (!selectedWord || selectedCategoryId == null) return;
     handleWordPlacement(selectedWord, selectedCategoryId);
-  }, [selectedWord, selectedCategoryId, handleWordPlacement]);
+  }, [isEditMode, selectedWord, selectedCategoryId, handleWordPlacement]);
 
   // 8. Checka game won (alla kategorier fyllda)
   useEffect(() => {
@@ -300,6 +319,7 @@ export function useGameLogic(difficulty: Difficulty) {
     onAddCategoryClick,
     points,
     errors,
+    triggerCategoryError,
   };
 }
 

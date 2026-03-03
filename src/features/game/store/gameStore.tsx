@@ -3,6 +3,7 @@ import { create } from "zustand";
 export interface WorkingCategory {
   id: number | null;
   name: string | null;
+  customName?: string | null;
   words: string[];
   maxWords: number | null;
   solved: boolean;
@@ -23,6 +24,7 @@ interface GameStoreState {
   addError: () => void | null;
 
   setWorkingCategories: (cats: WorkingCategory[]) => void;
+  setCategoryCustomName: (categoryId: number, customName: string | null) => void;
 
   selectWord: (word: string) => void;
   deselectWord: () => void;
@@ -56,6 +58,10 @@ interface GameStoreState {
   isEditMode: boolean;
   toggleEditMode: () => void;
   setEditMode: (value: boolean) => void;
+
+  lastErrorCategoryId: number | null;
+  errorAnimationNonce: number;
+  triggerCategoryError: (categoryId: number) => void;
 }
 
 const initialState = {
@@ -68,6 +74,8 @@ const initialState = {
   isEditMode: false,
   points: 0,
   errors: 0,
+  lastErrorCategoryId: null,
+  errorAnimationNonce: 0,
 };
 
 export const useGameStore = create<GameStoreState>((set) => ({
@@ -95,7 +103,22 @@ export const useGameStore = create<GameStoreState>((set) => ({
       };
     }),
 
-  setWorkingCategories: (cats) => set({ workingCategories: cats }),
+  setWorkingCategories: (cats) => 
+    set({ 
+      workingCategories: cats.map((c) => ({
+        ...c,
+        customName: c.customName ?? null,
+      })),
+    }),
+
+  setCategoryCustomName: (categoryId, customName) =>
+    set((state) => ({
+      workingCategories: state.workingCategories.map((cat) =>
+        cat.id === categoryId
+          ? { ...cat, customName: customName?.trim() ? customName.trim() : null } 
+          : cat,
+      ),
+    })),
 
   selectWord: (word: string) => {
     set({ selectedWord: word });
@@ -181,4 +204,10 @@ export const useGameStore = create<GameStoreState>((set) => ({
   addError: () => {
     set((state) => ({ errors: state.errors + 1 }));
   },
+
+  triggerCategoryError: (categoryId: number) =>
+    set((state) => ({
+      lastErrorCategoryId: categoryId,
+      errorAnimationNonce: state.errorAnimationNonce + 1,
+    })),
 }));
