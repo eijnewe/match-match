@@ -21,6 +21,7 @@ function Index() {
           <Button
             size="lg"
             className="w-29.5"
+            nativeButton={false}
             render={<Link to="/game">Start game</Link>}
           />
           <AlertDialog>
