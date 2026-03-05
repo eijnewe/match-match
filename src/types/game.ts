@@ -1,6 +1,6 @@
 import type { GameCategory } from './category'
 
-export type Difficulty = 'easy' | 'medium' | 'hard'
+export type Difficulty = 'easy' | 'medium' | 'hard' | number
 
 export interface GameData {
   difficulty: Difficulty

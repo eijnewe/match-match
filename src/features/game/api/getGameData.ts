@@ -9,16 +9,19 @@ function shuffle<T>(arr: T[]): T[] {
 
 const difficultyConfig = { easy: 3, medium: 4, hard: 5 } as const
 
+function resolveCount(difficulty: Difficulty): number {
+  if (typeof difficulty === 'number') return Math.max(1, Math.min(30, difficulty))
+    return difficultyConfig[difficulty]
+}
+
 export async function getGameData(difficulty: Difficulty): Promise<GameData> {
-  const count = difficultyConfig[difficulty]
+  const count = resolveCount(difficulty)
 
   const allIds = Object.keys(ALL_CATEGORIES).map(
     Number,
   ) as (keyof typeof ALL_CATEGORIES)[]
 
   const chosenIds = shuffle(allIds).slice(0, count)
-
-  console.log(chosenIds)
 
   const categories = await Promise.all(
     chosenIds.map((id) => fetchCategory(id, count)),
