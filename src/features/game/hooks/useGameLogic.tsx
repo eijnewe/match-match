@@ -15,7 +15,7 @@ export function useGameLogic(difficulty: Difficulty) {
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
   const triggerCategoryError = useGameStore((s) => s.triggerCategoryError);
-  
+
   const assignCategoryAndAddWord = useGameStore(
     (s) => s.assignCategoryAndAddWord,
   );
@@ -51,6 +51,14 @@ export function useGameLogic(difficulty: Difficulty) {
 
   const onCategoryClick = (categoryId: number) => {
     if (isEditMode) return;
+
+    const category = workingCategories.find((cat) => cat.id === categoryId);
+    if (!category) return;
+
+    if (isCategoryFull(category)) {
+      return
+    }
+    
     if (selectedCategoryId === categoryId) {
       deselectCategory();
       if (selectedWord == null) selectionStartedWithRef.current = null;
@@ -302,7 +310,7 @@ export function useGameLogic(difficulty: Difficulty) {
 
     deselectWord();
     deselectCategory();
-    
+
     addEmptyCategory();
   };
 
