@@ -115,7 +115,7 @@ export const useGameStore = create<GameStoreState>((set) => ({
     set((state) => ({
       workingCategories: state.workingCategories.map((cat) =>
         cat.id === categoryId
-          ? { ...cat, customName: customName?.trim() ? customName.trim() : null } 
+          ? { ...cat, customName: customName || null } 
           : cat,
       ),
     })),
