@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -111,9 +110,17 @@ export function Header() {
               )}
 
               <div className="flex items-center gap-1.5">
-                {!isCompactHeader && editBtn}
-                {fullscreenBtn}
-                <CollapsibleTrigger className={"bg-transparent cursor-pointerbg-primary cursor-pointer text-primary-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"}>
+                {!isCompactHeader && (
+                  <>
+                    {editBtn}
+                    {fullscreenBtn}
+                  </>
+                )}
+                <CollapsibleTrigger
+                  className={
+                    "bg-transparent cursor-pointerbg-primary cursor-pointer text-primary-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"
+                  }
+                >
                   <Menu className="text-accent-foreground" />
                 </CollapsibleTrigger>
               </div>
@@ -121,13 +128,10 @@ export function Header() {
 
             <div className="absolute left-0 right-0 bg-accent z-50 -mt-px">
               <CollapsibleContent className="flex flex-col text-sm shadow-xl">
-
                 <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
-                      <Label
-                        htmlFor="grid-mode" className="flex-1 text-sm"
-                      >
+                      <Label htmlFor="grid-mode" className="flex-1 text-sm">
                         <Link to="/" className="flex-1">
                           Home
                         </Link>
@@ -144,18 +148,16 @@ export function Header() {
 
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between *:cursor-pointer">
-                      <Label
-                        htmlFor="grid-mode" className="flex-1 text-sm"
-                      >
+                      <Label htmlFor="grid-mode" className="flex-1 text-sm">
                         Grid
                       </Label>
                       <Switch
                         id="grid-mode"
                         onClick={toggleGridMode}
                         aria-pressed={isGridMode}
-                        checked={isGridMode}>
+                        checked={isGridMode}
+                      >
                         {isGridMode ? "Grid" : "Flex"}
-
                       </Switch>
                     </div>
                   )}
@@ -170,7 +172,8 @@ export function Header() {
                       render={
                         <div className="flex items-center justify-between w-full text-sm text-accent-foreground">
                           <Label
-                            htmlFor="how-to-play" className="flex-1 text-sm cursor-pointer"
+                            htmlFor="how-to-play"
+                            className="flex-1 text-sm cursor-pointer"
                           >
                             How to play
                           </Label>

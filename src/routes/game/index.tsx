@@ -1,4 +1,3 @@
-import { BackButton } from '@/components/BackButton'
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -17,7 +16,6 @@ function GameIndex() {
 
   return (
     <>
-      <BackButton type='back' />
       <PageContainer>
         <div className='flex items-center flex-col'>
           <h3>Choose difficulty</h3>
