@@ -32,12 +32,11 @@ export function Header() {
         aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
         data-state={isEditMode ? "open" : "closed"}
         className="data-[state=open]:bg-primary/80
-    data-[state=open]:text-primary-foreground bg-transparent cursor-pointerbg-primary cursor-pointer text-accent-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none">
+    data-[state=open]:text-primary-foreground bg-transparent cursor-pointerbg-primary cursor-pointer text-accent-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"
+      >
         <Edit />
       </TooltipTrigger>
-      <TooltipContent>
-        Toggle Editing mode
-      </TooltipContent>
+      <TooltipContent>Toggle Editing mode</TooltipContent>
     </Tooltip>
   );
 
@@ -69,15 +68,13 @@ export function Header() {
         className="data-[state=open]:bg-primary/80
     data-[state=open]:text-primary-foreground bg-transparent cursor-pointerbg-primary cursor-pointer text-accent-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"
         onClick={handleFullscreenToggle}
-        aria-label={isHeaderHidden ? "Show header" : "Hide header"}>
+        aria-label={isHeaderHidden ? "Show header" : "Hide header"}
+      >
         <Maximize2 className="text-accent-foreground" />
       </TooltipTrigger>
-      <TooltipContent>
-        Toggle Fullscreen mode
-      </TooltipContent>
+      <TooltipContent>Toggle Fullscreen mode</TooltipContent>
     </Tooltip>
   );
-
 
   return (
     <div className="test shrink-0">
@@ -98,7 +95,8 @@ export function Header() {
               <Link to="/">
                 <img
                   src="/src/assets/IconWoHand.png"
-                  alt="home"
+                  alt="Home"
+                  sr-only=""
                   className="h-12"
                 />
               </Link>
@@ -120,6 +118,7 @@ export function Header() {
                   className={
                     "bg-transparent cursor-pointerbg-primary cursor-pointer text-primary-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"
                   }
+                  aria-label="Open menu"
                 >
                   <Menu className="text-accent-foreground" />
                 </CollapsibleTrigger>
@@ -131,11 +130,9 @@ export function Header() {
                 <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] flex flex-col gap-2 pl-3.5 pr-2.5">
                   {!isCompactHeader && (
                     <div className="flex items-center justify-between">
-                      <Label htmlFor="grid-mode" className="flex-1 text-sm">
-                        <Link to="/" className="flex-1">
-                          Home
-                        </Link>
-                      </Label>
+                      <Link id="home" to="/" className="flex-1 font-medium">
+                        Home
+                      </Link>
                     </div>
                   )}
 
@@ -156,6 +153,7 @@ export function Header() {
                         onClick={toggleGridMode}
                         aria-pressed={isGridMode}
                         checked={isGridMode}
+                        aria-label="Toggle grid mode"
                       >
                         {isGridMode ? "Grid" : "Flex"}
                       </Switch>
@@ -167,26 +165,27 @@ export function Header() {
                   open={isHowToPlayOpen}
                   onOpenChange={setIsHowToPlayOpen}
                 >
-                  <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] pl-3.5 pr-2.5 pt-1.5 pb-1.5 *:cursor-pointer">
+                  <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] pl-3.5 pr-2.5 pt-1.5 pb-1.5">
                     <CollapsibleTrigger
                       render={
-                        <div className="flex items-center justify-between w-full text-sm text-accent-foreground">
-                          <Label
-                            htmlFor="how-to-play"
-                            className="flex-1 text-sm cursor-pointer"
-                          >
+                        <div className="flex w-full items-center justify-between text-left text-sm text-accent-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
+                          <span className="flex-1 text-sm font-medium">
                             How to play
-                          </Label>
+                          </span>
                           {isHowToPlayOpen ? (
-                            <ChevronUp className="h-4" />
+                            <ChevronUp className="h-4" aria-hidden="true" />
                           ) : (
-                            <ChevronDown className="h-4" />
+                            <ChevronDown className="h-4" aria-hidden="true" />
                           )}
                         </div>
                       }
                     />
                   </div>
-                  <CollapsibleContent className="bg-muted pt-4 pb-4 p-2.5 border-t border-border">
+                  <CollapsibleContent
+                    id="how-to-play-content"
+                    aria-labelledby="how-to-play-trigger"
+                    className="bg-muted pt-4 pb-4 p-2.5 border-t border-border"
+                  >
                     <HowToPlay />
                   </CollapsibleContent>
                 </Collapsible>
