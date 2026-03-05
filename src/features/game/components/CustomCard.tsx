@@ -35,16 +35,21 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-    type: "category" | "completedCategory" | "editable";
-    categoryTitle: string;
-    categoryWords: string[];
-    categoryLimit: number | null;
-    errorAnimationToken?: number;
-    onCategoryTitleChange?: (title: string) => void;
-    onClick?: () => void;
-    selected?: boolean;
-  }
-  | { type: "article"; articleTitle: string; onClick?: () => void; selected?: boolean }
+      type: "category" | "completedCategory" | "editable";
+      categoryTitle: string;
+      categoryWords: string[];
+      categoryLimit: number | null;
+      errorAnimationToken?: number;
+      onCategoryTitleChange?: (title: string) => void;
+      onClick?: () => void;
+      selected?: boolean;
+    }
+  | {
+      type: "article";
+      articleTitle: string;
+      onClick?: () => void;
+      selected?: boolean;
+    }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
@@ -67,13 +72,9 @@ function BaseCard({
   const card = (
     <Card
       onClick={onClick}
-      className={
-        `text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${errorStyling} ${cardClasses ?? ""}`
-      }
+      className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${errorStyling} ${cardClasses ?? ""}`}
     >
-      <CardContent className="p-0">
-        {children}
-      </CardContent>
+      <CardContent className="p-0">{children}</CardContent>
     </Card>
   );
 
@@ -126,7 +127,7 @@ function CategoryCard(
     setIsShaking(true);
     const t = setTimeout(() => setIsShaking(false), 350);
     return () => clearTimeout(t);
-  }, [props.errorAnimationToken])
+  }, [props.errorAnimationToken]);
 
   const limit = props.categoryLimit ?? props.categoryWords.length;
   const sortedWords = [...props.categoryWords].sort((a, b) =>
@@ -151,6 +152,8 @@ function CategoryCard(
       </>
     );
 
+  const [openEdit, setOpenEdit] = useState(false);
+
   const customPopoverContent = (
     <>
       <span className="flex flex-row items-center">
@@ -161,11 +164,17 @@ function CategoryCard(
           <TooltipContent>Edit the Category title</TooltipContent>
         </Tooltip>
         <Textarea
-          value={props.categoryTitle}
+          placeholder={props.categoryTitle}
           className="resize-none w-full min-h-8"
           maxLength={25}
           rows={1}
           onChange={(e) => props.onCategoryTitleChange?.(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.currentTarget.blur();
+              setOpenEdit(false);
+            }
+          }}
         />
       </span>
       <ColorChanger handleClick={setCategoryColor} />
@@ -173,7 +182,7 @@ function CategoryCard(
   );
 
   return props.type === "editable" ? (
-    <Popover>
+    <Popover open={openEdit} onOpenChange={setOpenEdit}>
       <PopoverTrigger className="h-full w-full">
         <BaseCard
           tooltip={!isTouchDevice() ? customTooltipContent : undefined}
