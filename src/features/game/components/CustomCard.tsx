@@ -10,12 +10,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Edit } from "lucide-react";
+import { Edit, X } from "lucide-react";
 import { ColorChanger } from "./ColorChanger";
 import { useCategoryColor } from "../hooks/useCategoryColor";
 import type React from "react";
 import { useGameStore } from "@/features/game/store/gameStore";
 import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
 type BaseCardProps = {
   children: React.ReactNode;
@@ -27,17 +29,21 @@ type BaseCardProps = {
   errored?: boolean;
 };
 
+const isTouchDevice = () =>
+  typeof window !== "undefined" &&
+  ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "category" | "completedCategory" | "editable";
+    categoryTitle: string;
+    categoryWords: string[];
+    categoryLimit: number | null;
+    errorAnimationToken?: number;
+    onCategoryTitleChange?: (title: string) => void;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | { type: "article"; articleTitle: string; onClick?: () => void; selected?: boolean }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
@@ -57,7 +63,7 @@ function BaseCard({
       : "cursor-pointer hover:brightness-95";
 
   const selectedStyling = selected ? "border-(--stark) brightness-95" : "";
-  
+
   const card = (
     <Card
       onClick={onClick}
@@ -74,7 +80,9 @@ function BaseCard({
   if (tooltip) {
     return (
       <Tooltip>
-        <TooltipTrigger className="h-full w-full">{card}</TooltipTrigger>
+        <TooltipTrigger className="h-full w-full">
+          {card}
+        </TooltipTrigger>
         <TooltipContent side="left" className={"text-center flex flex-col"}>
           {tooltip}
         </TooltipContent>
@@ -92,7 +100,7 @@ function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
   );
 }
 
-function AddCard(props: Extract<CustomCardProps, {type: "plus" }>) {
+function AddCard(props: Extract<CustomCardProps, { type: "plus" }>) {
   return (
     <BaseCard
       type="plus"
@@ -168,14 +176,47 @@ function CategoryCard(
     <Popover>
       <PopoverTrigger className="h-full w-full">
         <BaseCard
-          tooltip={customTooltipContent}
-          cardClasses={`${categoryColor}`}
+          tooltip={!isTouchDevice() ? customTooltipContent : undefined}
+          cardClasses={`${categoryColor} relative`}
           type={props.type}
           onClick={props.onClick}
           selected={props.selected}
           errored={isShaking}
         >
-          {props.categoryTitle}
+          <div className="flex flex-col items-center">
+            {props.categoryTitle}
+
+            {isTouchDevice() && (
+              <Drawer>
+                <DrawerTrigger>
+                  <Badge className="absolute -top-1.5 -right-1 opacity-85">
+                    {`${sortedWords.length}/${limit}`}
+                  </Badge>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>
+                      {props.categoryTitle}:
+                    </DrawerTitle>
+                    <DrawerDescription>
+                      <div className="text-md">
+                        {sortedWords.join(", ").trim()}
+                      </div>
+                      <br />
+                      <div className="font-bold">
+                        {props.type === "completedCategory"
+                          ? "Complete"
+                          : `${sortedWords.length} out of ${limit} words total`}
+                      </div>
+                    </DrawerDescription>
+                  </DrawerHeader>
+                  <DrawerClose className="absolute top-3 right-3">
+                    <X />
+                  </DrawerClose>
+                </DrawerContent>
+              </Drawer>
+            )}
+          </div>
         </BaseCard>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col w-fit">
@@ -184,14 +225,47 @@ function CategoryCard(
     </Popover>
   ) : (
     <BaseCard
-      tooltip={customTooltipContent}
-      cardClasses={`${categoryColor}`}
+      tooltip={!isTouchDevice() ? customTooltipContent : undefined}
+      cardClasses={`${categoryColor} relative`}
       type={props.type}
       onClick={props.onClick}
       selected={props.selected}
       errored={isShaking}
     >
-      {props.categoryTitle}
+      <div className="w-full h-full flex justify-center items-center">
+        {props.categoryTitle}
+
+        {isTouchDevice() && props.type !== "completedCategory" && (
+          <Drawer>
+            <DrawerTrigger>
+              <Badge className="absolute -top-1.5 -right-1 opacity-85">
+                {`${sortedWords.length}/${limit}`}
+              </Badge>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>
+                  {props.categoryTitle}:
+                </DrawerTitle>
+                <DrawerDescription>
+                  <div className="text-md">
+                    {sortedWords.join(", ").trim()}
+                  </div>
+                  <br />
+                  <div className="font-bold">
+                    {props.type === "completedCategory"
+                      ? "Complete"
+                      : `${sortedWords.length} out of ${limit} words total`}
+                  </div>
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerClose className="absolute top-3 right-3">
+                <X />
+              </DrawerClose>
+            </DrawerContent>
+          </Drawer>
+        )}
+      </div>
     </BaseCard>
   );
 }
@@ -253,6 +327,6 @@ export function CustomCard(props: CustomCardProps) {
   }
 }
 
-// Styling: 
+// Styling:
 // For selected cards="border-black brightness-95" X
 // For error selection="animate-shake"
