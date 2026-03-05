@@ -1,17 +1,3 @@
-// visas när spelet är klart
-
-// visar poäng
-// visar antalet misstag
-// visare antalet word
-
-// visar kategorier, går att klicka på för att se alla orden i kategorin
-
-// knapp för att dela resultat
-// stäng ner
-
-// knapp för att starta om spelet?
-
-// import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Share } from "lucide-react";
@@ -21,22 +7,17 @@ import { useState } from "react";
 type Category = {
   name: string;
   words: string[];
+  color?: string;
 };
 
 type EndScreenProps = {
   score: number;
   mistakes: number;
   categories: Category[];
+  onClose?: () => void;
 };
 
-export function EndScreen({
-  score = 12,
-  mistakes = 3,
-  categories = [
-    { name: "Ye", words: ["Hund", "Katt"] },
-    { name: "Mat", words: ["Pizza", "Köttbullar"] },
-  ],
-}: EndScreenProps) {
+export function EndScreen({ score, mistakes, categories, onClose }: EndScreenProps) {
   const totalWords = categories.reduce((total, category) => {
     return total + category.words.length;
   }, 0);
@@ -44,12 +25,12 @@ export function EndScreen({
   const [open, setOpen] = useState(true);
 
   const handleShareResult = async () => {
-    const shareText = `Jag fick ${score} poäng med ${mistakes} misstag och klarade ${totalWords} ord! 🎉`;
+    const shareText = `I got ${score} points and ${mistakes} mistakes, with a total of ${totalWords} words!`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Resultat från matchmatch",
+          title: "Game results",
           text: shareText,
           //   url: window.location.href,
         });
@@ -65,12 +46,15 @@ export function EndScreen({
   return (
     <Dialog
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+          onClose?.();
+        }
+      }}
     >
       {" "}
-      <DialogContent className="shadow-none  bg-accent p-10 rounded-xl w-[420px] text-center rounded-xl">
-        {/* <div className="bg-gradient-to-r from-primary to-secondary text-primary-foreground">
-      <div className=""> */}
+      <DialogContent className="shadow-none  bg-accent p-10 rounded-xl w-105 text-center">
         <DialogHeader>
           <DialogTitle className="text-2xl">You did it!</DialogTitle>
         </DialogHeader>
@@ -104,26 +88,24 @@ export function EndScreen({
         <div className="mx-auto w-full mt-4">
           {" "}
           <h3 className="text-sm font-bold mb-2 font-sans">Categories</h3>
-          <Accordion
-            type="multiple"
-            collapsible
-          >
+          <Accordion>
             {categories.map((category) => (
               <AccordionItem
                 key={category.name}
                 value={category.name}
               >
                 <AccordionTrigger
-                  className="font-sans font-bold p-2
-           hover:bg-muted rounded-md
-           data-[state=open]:bg-primary/30
-           transition-colors"
+                  className={`font-sans p-3 
+                hover:bg-muted rounded-md 
+                data-[state=open]:bg-primary/30
+                transition-colors 
+                 ${category.color ?? ""}`}
                 >
                   {category.name}
                 </AccordionTrigger>
 
-                <AccordionContent className="text-left">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1 ">
+                <AccordionContent className="text-center pb-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 overflow-y-auto mt-2">
                     {category.words.map((word) => (
                       <div
                         key={word}
@@ -145,14 +127,21 @@ export function EndScreen({
           <Button
             variant="outline"
             onClick={handleShareResult}
-            className="p-3"
+            className="p-3 flex items-center gap-2 justify-center transition-opacity hover:opacity-80"
           >
-            <Share size="14" /> Share your result{" "}
+            <Share
+              size={14}
+              aria-hidden="true"
+            />
+            Share your results{" "}
           </Button>
           <Button
             variant="default"
             className="p-3"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              onClose?.();
+            }}
           >
             Close
           </Button>
