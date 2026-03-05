@@ -1,8 +1,9 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useGameStore } from "../store/gameStore";
 
 export function PointCounter() {
-    const points = 0;
-    const errors = 0;
+    const points = useGameStore((s) => s.points);
+    const errors = useGameStore((s) => s.errors);
 
     return (
         <div className="flex *:m-2 text-xs">

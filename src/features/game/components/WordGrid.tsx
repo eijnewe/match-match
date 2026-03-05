@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { CustomCard } from './CustomCard'
+import { useGameStore } from '../store/gameStore'
 
 /* className={clsx(
         'gap-2',
@@ -11,10 +12,13 @@ import { CustomCard } from './CustomCard'
 type WordGridProps = {
   words: string[]
   display: string
+  onWordClick: (word: string) => void
 }
 
-export function WordGrid({ words, display }: WordGridProps) {
+export function WordGrid({ words, display, onWordClick }: WordGridProps) {
   const isGrid = display == 'grid'
+  const selectedWord = useGameStore((s) => s.selectedWord);
+
   return (
     <div
       className={clsx(
@@ -25,7 +29,13 @@ export function WordGrid({ words, display }: WordGridProps) {
       )}
     >
       {words.map((w) => (
-        <CustomCard key={w} type="article" articleTitle={w} />
+        <CustomCard 
+          key={w} 
+          type="article" 
+          articleTitle={w} 
+          onClick={() => onWordClick(w)}
+          selected={selectedWord === w}
+        />
       ))}
       {/* <Button
         variant={'outline'}

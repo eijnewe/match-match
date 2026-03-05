@@ -27,17 +27,14 @@ export function Header() {
 
   const editBtn = (
     <Tooltip>
-      <TooltipTrigger>
-        <Button
-          className="bg-transparent cursor-pointer data-[state=open]:bg-muted"
-          size="icon-lg"
-          onClick={toggleEditMode}
-          aria-pressed={isEditMode}
-          aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
-          data-state={isEditMode ? "open" : "closed"}
-        >
-          <Edit className="text-accent-foreground" />
-        </Button>
+      <TooltipTrigger
+        onClick={toggleEditMode}
+        aria-pressed={isEditMode}
+        aria-label={isEditMode ? "Disable edit mode" : "Enable edit mode"}
+        data-state={isEditMode ? "open" : "closed"}
+        className="data-[state=open]:bg-primary/80
+    data-[state=open]:text-primary-foreground bg-transparent cursor-pointerbg-primary cursor-pointer text-accent-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none">
+        <Edit />
       </TooltipTrigger>
       <TooltipContent>
         Toggle Editing mode
@@ -69,15 +66,12 @@ export function Header() {
 
   const fullscreenBtn = (
     <Tooltip>
-      <TooltipTrigger>
-        <Button
-          className="bg-transparent cursor-pointer"
-          onClick={handleFullscreenToggle}
-          aria-label={isHeaderHidden ? "Show header" : "Hide header"}
-          size="icon-lg"
-        >
-          <Maximize2 className="text-accent-foreground" />
-        </Button>
+      <TooltipTrigger
+        className="data-[state=open]:bg-primary/80
+    data-[state=open]:text-primary-foreground bg-transparent cursor-pointerbg-primary cursor-pointer text-accent-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"
+        onClick={handleFullscreenToggle}
+        aria-label={isHeaderHidden ? "Show header" : "Hide header"}>
+        <Maximize2 className="text-accent-foreground" />
       </TooltipTrigger>
       <TooltipContent>
         Toggle Fullscreen mode
@@ -119,13 +113,9 @@ export function Header() {
               <div className="flex items-center gap-1.5">
                 {!isCompactHeader && editBtn}
                 {fullscreenBtn}
-                <CollapsibleTrigger
-                  render={
-                    <Button variant={"ghost"} size="icon-lg" className={"cursor-pointer"}>
-                      <Menu className="text-accent-foreground" />
-                    </Button>
-                  }
-                />
+                <CollapsibleTrigger className={"bg-transparent cursor-pointerbg-primary cursor-pointer text-primary-foreground hover:bg-primary/80 h-8 w-8 gap-1 px-2 text-xs/relaxed has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 focus-visible:border-ring focus-visible:ring-ring/30 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-md border border-transparent bg-clip-padding font-medium focus-visible:ring-2 aria-invalid:ring-2 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none"}>
+                  <Menu className="text-accent-foreground" />
+                </CollapsibleTrigger>
               </div>
             </div>
 

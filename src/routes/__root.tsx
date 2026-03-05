@@ -1,6 +1,5 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { ThemeProvider } from '@/components/theme-provider'
-import { PageContainer } from '@/components/layout/PageContainer'
 import { Header } from '@/components/header'
 
 export const Route = createRootRoute({
