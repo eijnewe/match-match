@@ -1,5 +1,6 @@
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { CustomTextArea } from '@/features/game/components/CustomTextArea'
 import type { Difficulty } from '@/types/game'
@@ -14,6 +15,16 @@ export const Route = createFileRoute('/game/')({
 function GameIndex() {
   const difficulties: Difficulty[] = ['easy', 'medium', 'hard']
 
+  const isTouchDevice = () =>
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  const customInformation = (<> Choose a custom amount of <b>Category</b> cards.<br />
+    Each Category will have as many <b>Article</b> cards as there are Categories: with 4 Categories, you have a total of 16 Article cards to sort.<br />
+    With the maximum amount of 30 Categories, you get 900 cards.</>);
+  const customTrigger = (<h4 className='-mb-3 flex items-center justify-center text-md'>
+    Custom difficulty
+    <InfoIcon size="16" className='ml-1' />
+  </h4>)
   return (
     <>
       <PageContainer>
@@ -38,19 +49,30 @@ function GameIndex() {
                 ></Button>
               </li>
             ))}
-            <Tooltip>
-              <TooltipTrigger>
-                <h4 className='-mb-3 flex items-center justify-center text-md'>
-                  Custom difficulty
-                  <InfoIcon size="16" className='ml-1' />
-                </h4>
-              </TooltipTrigger>
-              <TooltipContent className="text-center">
-                Choose a custom amount of <b>Category</b> cards.<br/>
-                Each Category will have as many <b>Article</b> cards as there are Categories: with 4 Categories, you have a total of 16 Article cards to sort.<br />
-                With the maximum amount of 30 Categories, you get 900 cards.
-              </TooltipContent>
-            </Tooltip>
+            {!isTouchDevice() ?
+              <Tooltip>
+                <TooltipTrigger>
+                  {customTrigger}
+                </TooltipTrigger>
+                <TooltipContent className="text-center">
+                  {customInformation}
+                </TooltipContent>
+              </Tooltip> :
+              <Drawer>
+                <DrawerTrigger>
+                  {customTrigger}
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>
+                      Custom Difficulty
+                    </DrawerTitle>
+                    <DrawerDescription>
+                      {customInformation}
+                    </DrawerDescription>
+                  </DrawerHeader>
+                </DrawerContent>
+              </Drawer>}
             <li>
               <CustomTextArea />
             </li>

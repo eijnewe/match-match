@@ -20,11 +20,20 @@ export function CategoryBanner({
   onCategoryClick,
   showSolvedCategoryName = true,
 }: CategoryBannerProps) {
-  const isTwoRows = pinnedCategories.length > 9;
+
+
+  const isTouchDevice = () =>
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  const categoryThreshold = isTouchDevice() ? 5 : 9;
+  const isTwoRows = pinnedCategories.length > categoryThreshold;
+
   const selectedCategoryId = useGameStore((s) => s.selectedCategoryId);
   const lastErrorCategoryId = useGameStore((s) => s.lastErrorCategoryId);
   const errorAnimationNonce = useGameStore((s) => s.errorAnimationNonce);
   const setCategoryCustomName = useGameStore((s) => s.setCategoryCustomName);
+
+
 
   return (
     <div
