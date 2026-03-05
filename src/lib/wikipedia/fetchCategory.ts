@@ -8,8 +8,16 @@ export async function fetchCategory(pageId: keyof typeof ALL_CATEGORIES,
 
   const members = await fetchCategoryMembers(pageId);
 
-  let words = members.slice(0, limit).map((m) => m.title);
 
+  const maxStart = members.length - limit
+  const randomIndex = Math.floor(Math.random() * (maxStart + 1));
+
+
+
+
+  let words = members.slice(randomIndex,randomIndex + limit).map((m) => m.title);
+
+  
   for (const pattern of meta.stripPatterns) {
     words = words.map((w) => w.replace(pattern, ""));
   }

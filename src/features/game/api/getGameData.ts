@@ -18,8 +18,6 @@ export async function getGameData(difficulty: Difficulty): Promise<GameData> {
 
   const chosenIds = shuffle(allIds).slice(0, count)
 
-  console.log(chosenIds)
-
   const categories = await Promise.all(
     chosenIds.map((id) => fetchCategory(id, count)),
   )
