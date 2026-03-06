@@ -63,8 +63,8 @@ export const ALL_CATEGORIES = {
     name: "Horse Colors",
     stripPatterns: [' horse', ' gene', /\s\([^()]*\)/]
   },
-  35245756: {
-    name: "Doctor Who episodes",
+  44548582: {
+    name: "Black Mirror Episodes",
     stripPatterns: [/\s\([^()]*\)/]
   },
   8319540: {
@@ -91,8 +91,8 @@ export const ALL_CATEGORIES = {
     name: "The Simpsons Characters",
     stripPatterns: [/\s\([^()]*\)/]
   },
-  1117038: {
-    name: "Fashion Magazines",
+  8518594: {
+    name: "British Confectionery",
     stripPatterns: [/\s\([^()]*\)/]
   },
   695341: {
@@ -101,11 +101,11 @@ export const ALL_CATEGORIES = {
   },
   1642774: {
     name: "Skateboarding Tricks",
-    stripPatterns: [/\s\([^()]*\)/]
+    stripPatterns: [/\s\([^()]*\)/, " skateboarding tricks"]
   },
   38596685: {
     name: "Fonts",
-    stripPatterns: [/\s\([^()]*\)/, " fonts"]
+    stripPatterns: [/\s\([^()]*\)/, " fonts", " Fonts"]
   },
   704399: {
     name: "Egyptian Gods",
@@ -131,3 +131,7 @@ export const ALL_CATEGORIES = {
       stripPatterns: readonly (string | RegExp)[]
     }
   >
+
+
+  // access the page by adding pageID at the end of 
+  // https://en.wikipedia.org/?curid=
