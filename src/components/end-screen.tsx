@@ -109,9 +109,11 @@ export function EndScreen({ score, mistakes, categories, onClose }: EndScreenPro
                     {category.words.map((word) => (
                       <div
                         key={word}
-                        className="bg-muted rounded-md p-1"
+                        className="bg-muted rounded-md p-1 flex justify-center items-center"
                       >
-                        {word}
+                        <a href={`https://en.wikipedia.org/wiki/${word}`} target="_blank" className="hover:cursor-help">
+                          {word}
+                        </a>
                       </div>
                     ))}
                   </div>
