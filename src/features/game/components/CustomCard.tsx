@@ -35,21 +35,21 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "category" | "completedCategory" | "editable";
+    categoryTitle: string;
+    categoryWords: string[];
+    categoryLimit: number | null;
+    errorAnimationToken?: number;
+    onCategoryTitleChange?: (title: string) => void;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | {
-      type: "article";
-      articleTitle: string;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "article";
+    articleTitle: string;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
@@ -164,6 +164,7 @@ function CategoryCard(
           <TooltipContent>Edit the Category title</TooltipContent>
         </Tooltip>
         <Textarea
+          name="Custom Category Title"
           placeholder={props.categoryTitle}
           className="resize-none w-full min-h-8"
           maxLength={25}
@@ -257,15 +258,13 @@ function CategoryCard(
                   {props.categoryTitle}:
                 </DrawerTitle>
                 <DrawerDescription>
-                  <div className="text-md">
-                    {sortedWords.join(", ").trim()}
-                  </div>
+                  {sortedWords.join(", ").trim()}
                   <br />
-                  <div className="font-bold">
+                  <p className="font-bold">
                     {props.type === "completedCategory"
                       ? "Complete"
                       : `${sortedWords.length} out of ${limit} words total`}
-                  </div>
+                  </p>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerClose className="absolute top-3 right-3">
