@@ -208,15 +208,15 @@ function CategoryCard(
                       {props.categoryTitle}:
                     </DrawerTitle>
                     <DrawerDescription>
-                      <div className="text-md">
+                      <span className="text-md">
                         {sortedWords.join(", ").trim()}
-                      </div>
+                      </span>
                       <br />
-                      <div className="font-bold">
+                      <span className="font-bold">
                         {props.type === "completedCategory"
                           ? "Complete"
                           : `${sortedWords.length} out of ${limit} words total`}
-                      </div>
+                      </span>
                     </DrawerDescription>
                   </DrawerHeader>
                   <DrawerClose className="absolute top-3 right-3">
@@ -257,15 +257,15 @@ function CategoryCard(
                   {props.categoryTitle}:
                 </DrawerTitle>
                 <DrawerDescription>
-                  <div className="text-md">
+                  <span className="text-md">
                     {sortedWords.join(", ").trim()}
-                  </div>
+                  </span>
                   <br />
-                  <div className="font-bold">
+                  <span className="font-bold">
                     {props.type === "completedCategory"
                       ? "Complete"
                       : `${sortedWords.length} out of ${limit} words total`}
-                  </div>
+                  </span>
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerClose className="absolute top-3 right-3">
