@@ -35,21 +35,21 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "category" | "completedCategory" | "editable";
+    categoryTitle: string;
+    categoryWords: string[];
+    categoryLimit: number | null;
+    errorAnimationToken?: number;
+    onCategoryTitleChange?: (title: string) => void;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | {
-      type: "article";
-      articleTitle: string;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "article";
+    articleTitle: string;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
@@ -219,8 +219,8 @@ function CategoryCard(
                       </div>
                     </DrawerDescription>
                   </DrawerHeader>
-                  <DrawerClose className="absolute top-3 right-3">
-                    <X />
+                  <DrawerClose autoFocus className=''>
+                    <X className='w-5 absolute right-5 top-5' />
                   </DrawerClose>
                 </DrawerContent>
               </Drawer>
@@ -252,6 +252,9 @@ function CategoryCard(
               </Badge>
             </DrawerTrigger>
             <DrawerContent>
+              <DrawerClose autoFocus className=''>
+                <X className='w-5 absolute right-5 top-5' />
+              </DrawerClose>
               <DrawerHeader>
                 <DrawerTitle>
                   {props.categoryTitle}:
@@ -268,9 +271,6 @@ function CategoryCard(
                   </div>
                 </DrawerDescription>
               </DrawerHeader>
-              <DrawerClose className="absolute top-3 right-3">
-                <X />
-              </DrawerClose>
             </DrawerContent>
           </Drawer>
         )}
