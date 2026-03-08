@@ -35,21 +35,21 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "category" | "completedCategory" | "editable";
+    categoryTitle: string;
+    categoryWords: string[];
+    categoryLimit: number | null;
+    errorAnimationToken?: number;
+    onCategoryTitleChange?: (title: string) => void;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | {
-      type: "article";
-      articleTitle: string;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "article";
+    articleTitle: string;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
@@ -71,17 +71,27 @@ function BaseCard({
 
   const card = (
     <Card
-      onClick={onClick}
+      role="radio"
+      tabIndex={0}
+      aria-checked={selected}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }} onClick={onClick}
       className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${errorStyling} ${cardClasses ?? ""}`}
     >
-      <CardContent className="p-0">{children}</CardContent>
+      <CardContent className="p-0">
+        {children}
+      </CardContent>
     </Card>
   );
 
   if (tooltip) {
     return (
       <Tooltip>
-        <TooltipTrigger className="h-full w-full">
+        <TooltipTrigger  tabIndex={-1}className="h-full w-full">
           {card}
         </TooltipTrigger>
         <TooltipContent side="left" className={"text-center flex flex-col"}>
@@ -109,7 +119,7 @@ function AddCard(props: Extract<CustomCardProps, { type: "plus" }>) {
       onClick={props.onClick}
       selected={false}
     >
-      <span>+</span>
+      +
     </BaseCard>
   );
 }
@@ -197,8 +207,17 @@ function CategoryCard(
 
             {isTouchDevice() && (
               <Drawer>
-                <DrawerTrigger>
-                  <Badge className="absolute -top-1.5 -right-1 opacity-85">
+                <DrawerTrigger
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.currentTarget.click();
+                    }
+                  }}
+                  className="absolute -top-1.5 -right-1 opacity-85">
+                  <Badge>
                     {`${sortedWords.length}/${limit}`}
                   </Badge>
                 </DrawerTrigger>
@@ -231,7 +250,7 @@ function CategoryCard(
       <PopoverContent className="flex flex-col w-fit">
         {customPopoverContent}
       </PopoverContent>
-    </Popover>
+    </Popover >
   ) : (
     <BaseCard
       tooltip={!isTouchDevice() ? customTooltipContent : undefined}
@@ -246,8 +265,17 @@ function CategoryCard(
 
         {isTouchDevice() && props.type !== "completedCategory" && (
           <Drawer>
-            <DrawerTrigger>
-              <Badge className="absolute -top-1.5 -right-1 opacity-85">
+            <DrawerTrigger
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              }}
+              className="absolute -top-1.5 -right-1 opacity-85">
+              <Badge>
                 {`${sortedWords.length}/${limit}`}
               </Badge>
             </DrawerTrigger>
