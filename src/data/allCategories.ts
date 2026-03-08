@@ -122,6 +122,22 @@ export const ALL_CATEGORIES = {
   18236595: {
     name: "Apple Varieties",
     stripPatterns: [/\s\([^()]*\)/, ' apple', ' Apples', ' Apple', ' apples']
+  },
+  6882533: {
+    name: "Mammals in Africa",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  762842: {
+    name: "Stephen King Novels",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  908675: {
+    name: "NFL Teams",
+    stripPatterns: []
+  },
+  7199231: {
+    name: "Swedish Pop Groups",
+    stripPatterns: [/\s\([^()]*\)/]
   }
 
 } as const satisfies Record<
