@@ -14,6 +14,7 @@ import { Label } from "./ui/label";
 import { useGameStore } from "@/features/game/store/gameStore";
 import { useGridStore } from "@/features/game/hooks/useGridStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Button } from "@base-ui/react";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -168,7 +169,7 @@ export function Header() {
                   <div className="ml-auto w-[40vw] sm:w-[35vw] md:w-[25vw] lg:w-[20vw] pl-3.5 pr-2.5 pt-1.5 pb-1.5">
                     <CollapsibleTrigger
                       render={
-                        <div className="flex w-full items-center justify-between text-left text-sm text-accent-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
+                        <Button className="flex w-full items-center justify-between text-left text-sm text-accent-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
                           <span className="flex-1 text-sm font-medium">
                             How to play
                           </span>
@@ -177,7 +178,7 @@ export function Header() {
                           ) : (
                             <ChevronDown className="h-4" aria-hidden="true" />
                           )}
-                        </div>
+                        </Button>
                       }
                     />
                   </div>
