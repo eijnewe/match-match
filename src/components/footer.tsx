@@ -1,4 +1,5 @@
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
+import { X } from "lucide-react";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export function Footer() {
@@ -17,6 +18,9 @@ export function Footer() {
                     {footerTrigger}
                 </DrawerTrigger>
                 <DrawerContent>
+                    <DrawerClose autoFocus className=''>
+                        <X className='w-5 absolute right-5 top-5' />
+                    </DrawerClose>
                     <DrawerHeader>
                         <DrawerTitle>
                             matchmatch

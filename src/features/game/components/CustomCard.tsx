@@ -220,8 +220,8 @@ function CategoryCard(
                       </div>
                     </DrawerDescription>
                   </DrawerHeader>
-                  <DrawerClose className="absolute top-3 right-3">
-                    <X />
+                  <DrawerClose autoFocus className=''>
+                    <X className='w-5 absolute right-5 top-5' />
                   </DrawerClose>
                 </DrawerContent>
               </Drawer>
@@ -253,6 +253,9 @@ function CategoryCard(
               </Badge>
             </DrawerTrigger>
             <DrawerContent>
+              <DrawerClose autoFocus className=''>
+                <X className='w-5 absolute right-5 top-5' />
+              </DrawerClose>
               <DrawerHeader>
                 <DrawerTitle>
                   {props.categoryTitle}:
@@ -267,9 +270,6 @@ function CategoryCard(
                   </p>
                 </DrawerDescription>
               </DrawerHeader>
-              <DrawerClose className="absolute top-3 right-3">
-                <X />
-              </DrawerClose>
             </DrawerContent>
           </Drawer>
         )}
