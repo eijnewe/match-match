@@ -54,14 +54,13 @@ export function EndScreen({ score, mistakes, categories, onClose }: EndScreenPro
       }}
     >
       {" "}
-      <DialogContent className="shadow-none  bg-accent p-10 rounded-xl w-105 text-center">
+      <DialogContent className="shadow-none bg-accent p-6 w-[90vw] rounded-xl max-w-md text-center max-h-[90vh] flex flex-col gap-3">
+        {" "}
         <DialogHeader>
           <DialogTitle className="text-2xl">You did it!</DialogTitle>
         </DialogHeader>
-
         {/* Stats */}
-
-        <div className="mt-4 grid grid-cols-2 text-center ">
+        <div className="mt-3 grid grid-cols-2 text-center ">
           <div>
             {" "}
             <p className="text-sm text-muted-foreground">Points</p>
@@ -85,46 +84,50 @@ export function EndScreen({ score, mistakes, categories, onClose }: EndScreenPro
             <p className="font-semibold">{totalWords}</p>{" "}
           </div>
         </div>
-        <div className="mx-auto w-full mt-4">
+        <div className="m-auto w-full mt-4 max-h-[40vh] ">
           {" "}
           <h3 className="text-sm font-bold mb-2 font-sans">Categories</h3>
-          <Accordion>
-            {categories.map((category) => (
-              <AccordionItem
-                key={category.name}
-                value={category.name}
-              >
-                <AccordionTrigger
-                  className={`font-sans p-3 
+          <div className="overflow-y-auto max-h-[30vh]">
+            <Accordion>
+              {categories.map((category) => (
+                <AccordionItem
+                  key={category.name}
+                  value={category.name}
+                >
+                  <AccordionTrigger
+                    className={`font-sans p-3
                 hover:bg-muted rounded-md 
                 data-[state=open]:bg-primary/30
                 transition-colors 
                  ${category.color ?? ""}`}
-                >
-                  {category.name}
-                </AccordionTrigger>
+                  >
+                    {category.name}
+                  </AccordionTrigger>
 
-                <AccordionContent className="text-center pb-2">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 overflow-y-auto mt-2">
-                    {category.words.map((word) => (
-                      <div
-                        key={word}
-                        className="bg-muted rounded-md p-1 flex justify-center items-center"
-                      >
-                        <a href={`https://en.wikipedia.org/wiki/${word}`} target="_blank" className="hover:cursor-help">
-                          {word}
-                        </a>
-                      </div>
-                    ))}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                  <AccordionContent className="text-center pb-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-40 overflow-y-auto mt-2">
+                      {category.words.map((word) => (
+                        <div
+                          key={word}
+                          className="bg-muted rounded-md p-1 flex justify-center items-center"
+                        >
+                          <a
+                            href={`https://en.wikipedia.org/wiki/${word}`}
+                            target="_blank"
+                            className="hover:cursor-help"
+                          >
+                            {word}
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
-
         {/* Buttons */}
-
         <div className="flex flex-col gap-4">
           <Button
             variant="outline"
