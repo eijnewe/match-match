@@ -1,11 +1,11 @@
 import { PageContainer } from '@/components/layout/PageContainer'
 import { Button } from '@/components/ui/button'
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { CustomTextArea } from '@/features/game/components/CustomTextArea'
 import type { Difficulty } from '@/types/game'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { InfoIcon } from 'lucide-react'
+import { InfoIcon, X } from 'lucide-react'
 
 export const Route = createFileRoute('/game/')({
   component: GameIndex,
@@ -26,7 +26,6 @@ function GameIndex() {
     <InfoIcon size="16" className='ml-1' />
   </h4>)
   return (
-    <>
       <PageContainer>
         <div className='flex items-center flex-col'>
           <h3>Choose difficulty</h3>
@@ -63,6 +62,9 @@ function GameIndex() {
                   {customTrigger}
                 </DrawerTrigger>
                 <DrawerContent>
+                  <DrawerClose autoFocus className=''>
+                    <X className='w-5 absolute right-5 top-5'/>
+                  </DrawerClose>
                   <DrawerHeader>
                     <DrawerTitle>
                       Custom Difficulty
@@ -79,6 +81,5 @@ function GameIndex() {
           </ul>
         </div>
       </PageContainer>
-    </>
   )
 }

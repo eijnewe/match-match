@@ -21,6 +21,7 @@ export function WordGrid({ words, display, onWordClick }: WordGridProps) {
 
   return (
     <div
+    role='radiogroup'
       className={clsx(
         'gap-2',
         isGrid ?

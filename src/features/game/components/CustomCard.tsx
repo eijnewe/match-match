@@ -35,21 +35,21 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "category" | "completedCategory" | "editable";
+    categoryTitle: string;
+    categoryWords: string[];
+    categoryLimit: number | null;
+    errorAnimationToken?: number;
+    onCategoryTitleChange?: (title: string) => void;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | {
-      type: "article";
-      articleTitle: string;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    type: "article";
+    articleTitle: string;
+    onClick?: () => void;
+    selected?: boolean;
+  }
   | { type: "plus"; onClick?: () => void; selected?: boolean };
 
 function BaseCard({
@@ -64,24 +64,34 @@ function BaseCard({
   const errorStyling = errored ? "animate-shake" : "";
   const completedStyling =
     type === "completedCategory"
-      ? "brightness-60 hover:brightness-70"
+      ? "brightness-70 hover:brightness-80 order-last bg-card"
       : "cursor-pointer hover:brightness-95";
 
   const selectedStyling = selected ? "border-(--stark) brightness-95" : "";
 
   const card = (
     <Card
-      onClick={onClick}
+      role="radio"
+      tabIndex={0}
+      aria-checked={selected}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }} onClick={onClick}
       className={`text-center h-full w-full inline-flex justify-center p-1 leading-4 border ${completedStyling} ${selectedStyling} ${errorStyling} ${cardClasses ?? ""}`}
     >
-      <CardContent className="p-0">{children}</CardContent>
+      <CardContent className="p-0">
+        {children}
+      </CardContent>
     </Card>
   );
 
   if (tooltip) {
     return (
       <Tooltip>
-        <TooltipTrigger className="h-full w-full">
+        <TooltipTrigger  tabIndex={-1}className="h-full w-full">
           {card}
         </TooltipTrigger>
         <TooltipContent side="left" className={"text-center flex flex-col"}>
@@ -109,7 +119,7 @@ function AddCard(props: Extract<CustomCardProps, { type: "plus" }>) {
       onClick={props.onClick}
       selected={false}
     >
-      <span>+</span>
+      +
     </BaseCard>
   );
 }
@@ -164,6 +174,7 @@ function CategoryCard(
           <TooltipContent>Edit the Category title</TooltipContent>
         </Tooltip>
         <Textarea
+          name="Custom Category Title"
           placeholder={props.categoryTitle}
           className="resize-none w-full min-h-8"
           maxLength={25}
@@ -197,8 +208,17 @@ function CategoryCard(
 
             {isTouchDevice() && (
               <Drawer>
-                <DrawerTrigger>
-                  <Badge className="absolute -top-1.5 -right-1 opacity-85">
+                <DrawerTrigger
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.currentTarget.click();
+                    }
+                  }}
+                  className="absolute -top-1.5 -right-1 opacity-85">
+                  <Badge>
                     {`${sortedWords.length}/${limit}`}
                   </Badge>
                 </DrawerTrigger>
@@ -219,8 +239,8 @@ function CategoryCard(
                       </span>
                     </DrawerDescription>
                   </DrawerHeader>
-                  <DrawerClose className="absolute top-3 right-3">
-                    <X />
+                  <DrawerClose autoFocus className=''>
+                    <X className='w-5 absolute right-5 top-5' />
                   </DrawerClose>
                 </DrawerContent>
               </Drawer>
@@ -231,7 +251,7 @@ function CategoryCard(
       <PopoverContent className="flex flex-col w-fit">
         {customPopoverContent}
       </PopoverContent>
-    </Popover>
+    </Popover >
   ) : (
     <BaseCard
       tooltip={!isTouchDevice() ? customTooltipContent : undefined}
@@ -246,31 +266,38 @@ function CategoryCard(
 
         {isTouchDevice() && props.type !== "completedCategory" && (
           <Drawer>
-            <DrawerTrigger>
-              <Badge className="absolute -top-1.5 -right-1 opacity-85">
+            <DrawerTrigger
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              }}
+              className="absolute -top-1.5 -right-1 opacity-85">
+              <Badge>
                 {`${sortedWords.length}/${limit}`}
               </Badge>
             </DrawerTrigger>
             <DrawerContent>
+              <DrawerClose autoFocus className=''>
+                <X className='w-5 absolute right-5 top-5' />
+              </DrawerClose>
               <DrawerHeader>
                 <DrawerTitle>
                   {props.categoryTitle}:
                 </DrawerTitle>
                 <DrawerDescription>
-                  <span className="text-md">
-                    {sortedWords.join(", ").trim()}
-                  </span>
+                  {sortedWords.join(", ").trim()}
                   <br />
-                  <span className="font-bold">
+                  <p className="font-bold">
                     {props.type === "completedCategory"
                       ? "Complete"
                       : `${sortedWords.length} out of ${limit} words total`}
-                  </span>
+                  </p>
                 </DrawerDescription>
               </DrawerHeader>
-              <DrawerClose className="absolute top-3 right-3">
-                <X />
-              </DrawerClose>
             </DrawerContent>
           </Drawer>
         )}

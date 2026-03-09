@@ -14,6 +14,7 @@ export function CustomTextArea() {
                 min={4}
                 max={30}
                 onChange={(e) => setCustomDifficulty(Number(e.target.value))}
+                name="Custom Input"
             />
             <Button
                 size="lg"
