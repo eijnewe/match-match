@@ -58,7 +58,7 @@ export function useGameLogic(difficulty: Difficulty) {
     if (isCategoryFull(category)) {
       return
     }
-    
+
     if (selectedCategoryId === categoryId) {
       deselectCategory();
       if (selectedWord == null) selectionStartedWithRef.current = null;
@@ -274,11 +274,11 @@ export function useGameLogic(difficulty: Difficulty) {
   // ✔ computeDerivedState
 
   /*  1. Initiera workingCategories när spelet laddas X
-  (utifrån data.categories) 
+  (utifrån data.categories)
   2. Ord → kategori lookup X
-  (använd data.wordToCategory[word]) 
+  (använd data.wordToCategory[word])
   3. Reagera på UI‑state X
-  När selectedWord + selectedCategoryId finns → försök lägga in ordet. 
+  När selectedWord + selectedCategoryId finns → försök lägga in ordet.
   4. Validera drag X
   Är kategorin tom?
   Finns en annan kategori med samma ID?
@@ -291,7 +291,7 @@ export function useGameLogic(difficulty: Difficulty) {
   7. Markera kategori som solved X
   (när words.length === maxWords)
   8. Checka game won X
-  (alla kategorier fyllda) 
+  (alla kategorier fyllda)
   9. Max antal kategorier X
   (styr plus‑knappen i UI)
   10. Felhantering
@@ -328,6 +328,7 @@ export function useGameLogic(difficulty: Difficulty) {
     points,
     errors,
     triggerCategoryError,
+
   };
 }
 

@@ -2,7 +2,7 @@ import { ALL_CATEGORIES } from '@/data/allCategories'
 import { fetchCategory } from '@/lib/wikipedia/fetchCategory'
 import type { Difficulty, GameData } from '@/types/game'
 
-// enkel shuffle
+//shuffle
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5)
 }
@@ -10,8 +10,9 @@ function shuffle<T>(arr: T[]): T[] {
 const difficultyConfig = { easy: 3, medium: 4, hard: 5 } as const
 
 function resolveCount(difficulty: Difficulty): number {
-  if (typeof difficulty === 'number') return Math.max(1, Math.min(30, difficulty))
-    return difficultyConfig[difficulty]
+  if (typeof difficulty === 'number')
+    return Math.max(1, Math.min(30, difficulty))
+  return difficultyConfig[difficulty]
 }
 
 export async function getGameData(difficulty: Difficulty): Promise<GameData> {
@@ -27,7 +28,18 @@ export async function getGameData(difficulty: Difficulty): Promise<GameData> {
     chosenIds.map((id) => fetchCategory(id, count)),
   )
 
-  const allWords = shuffle(categories.flatMap((c) => c.words))
+  console.log(categories)
 
-  return { difficulty, categories, allWords }
+  const allWords = categories.flatMap((c) => c.words)
+  const uniqueWords = new Set(allWords)
+
+  if (uniqueWords.size !== allWords.length) {
+    console.log('duplicates found')
+    // duplicates found → redo
+    return getGameData(difficulty)
+  }
+
+  return { difficulty, categories, allWords: shuffle([...uniqueWords]) }
 }
+
+//fetch om ifall dubletter i all words
