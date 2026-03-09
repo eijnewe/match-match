@@ -37,6 +37,7 @@ export function CategoryBanner({
 
   return (
     <div
+      role="radiogroup"
       className={clsx(
         "grid grid-flow-col gap-1 bg-border dark:bg-border w-full left-0 pl-3 pr-3 pt-2 pb-2 overflow-x-auto items-stretch max-h-60 auto-rows-fr",
         isTwoRows ? "grid-rows-2" : "grid-rows-1",
