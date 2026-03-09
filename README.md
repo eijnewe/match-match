@@ -30,8 +30,9 @@ We implemented styling and colors with contrast in mind to make sure the text wa
 ### WAI-ARIA & HTML 
 We have added WAI-ARIA labels on our custom focusable elements so they work with screen readers. For native components and elements we have used HTML attributes with clear descriptions. 
 ### Other a11y
+The app is available on both desktop and mobile screens; tooltips with crucial information on desktop have been converted to pop-ups (shadcn drawer components) on mobile so that the information is still available. In one place the tooltips were instead changed into a small badge with minimal information that, when pressed, would open a drawer with further info.
 We have made sure the app also is able to be navigated through and the game playable with keyboard only. 
-Labels, forms and input have been clearly labelled. The app is available on both desktop and mobile screens.
+Labels, forms and input have been clearly labelled. 
 
 ## Game Functionality
 Before a new game, the user gets to choose difficulty: this reflects the number of categories and articles belonging to each category. For example, 10 will generate 10 categories with 10 articles each.
