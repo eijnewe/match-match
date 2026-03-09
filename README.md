@@ -25,6 +25,13 @@ When we had broken down the project in manageable pieces and created the relevan
 ![Wireframes](/public/ReadMeImg%20(1).png)
 
 ## Project Accessibility 
+### Styling
+We implemented styling and colors with contrast in mind to make sure the text was legible, both in light and dark modes. We followed standard font sizing to ensure no text got too small.
+### WAI-ARIA & HTML 
+We have added WAI-ARIA labels on our custom focusable elements so they work with screen readers. For native components and elements we have used HTML attributes with clear descriptions. 
+### Other a11y
+We have made sure the app also is able to be navigated through and the game playable with keyboard only. 
+Labels, forms and input have been clearly labelled. The app is available on both desktop and mobile screens.
 
 ## Game Functionality
 Before a new game, the user gets to choose difficulty: this reflects the number of categories and articles belonging to each category. For example, 10 will generate 10 categories with 10 articles each.
