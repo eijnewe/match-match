@@ -64,7 +64,7 @@ function BaseCard({
   const errorStyling = errored ? "animate-shake" : "";
   const completedStyling =
     type === "completedCategory"
-      ? "brightness-60 hover:brightness-70"
+      ? "brightness-70 hover:brightness-80 order-last bg-card"
       : "cursor-pointer hover:brightness-95";
 
   const selectedStyling = selected ? "border-(--stark) brightness-95" : "";
