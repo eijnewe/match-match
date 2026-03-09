@@ -1,85 +1,108 @@
-import { PageContainer } from '@/components/layout/PageContainer'
-import { Button } from '@/components/ui/button'
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { CustomTextArea } from '@/features/game/components/CustomTextArea'
-import type { Difficulty } from '@/types/game'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { InfoIcon, X } from 'lucide-react'
+import { PageContainer } from "@/components/layout/PageContainer";
+import { Button } from "@/components/ui/button";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { CustomTextArea } from "@/features/game/components/CustomTextArea";
+import type { Difficulty } from "@/types/game";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { InfoIcon, X } from "lucide-react";
 
-export const Route = createFileRoute('/game/')({
+export const Route = createFileRoute("/game/")({
   component: GameIndex,
-})
-
+});
 
 function GameIndex() {
-  const difficulties: Difficulty[] = ['easy', 'medium', 'hard']
+  const difficulties: Difficulty[] = ["easy", "medium", "hard"];
 
   const isTouchDevice = () =>
     typeof window !== "undefined" &&
     ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-  const customInformation = (<> Choose a custom amount of <b>Category</b> cards.<br />
-    Each Category will have as many <b>Article</b> cards as there are Categories: with 4 Categories, you have a total of 16 Article cards to sort.<br />
-    With the maximum amount of 30 Categories, you get 900 cards.</>);
-  const customTrigger = (<h4 className='-mb-3 flex items-center justify-center text-md'>
-    Custom difficulty
-    <InfoIcon size="16" className='ml-1' />
-  </h4>)
+  const customInformation = (
+    <>
+      {" "}
+      Choose a custom amount of <b>Category</b> cards.
+      <br />
+      Each Category will have as many <b>Article</b> cards as there are
+      Categories: with 4 Categories, you have a total of 16 Article cards to
+      sort.
+      <br />
+      With the maximum amount of 30 Categories, you get 900 cards.
+    </>
+  );
+  const customTrigger = (
+    <h4 className="-mb-3 flex items-center justify-center text-md">
+      Custom difficulty
+      <InfoIcon size="16" className="ml-1" />
+    </h4>
+  );
   return (
-      <PageContainer>
-        <div className='flex items-center flex-col'>
-          <h3>Choose difficulty</h3>
-          <ul className="flex flex-col *:m-2">
-            {difficulties.map((d: Difficulty) => (
-              <li key={d}>
-                <Button
-                  size="lg"
-                  className={'w-full'}
-                  nativeButton={false}
-                  render={
-                    <Link
-                      to="/game/$difficulty"
-                      className="capitalize"
-                      params={{ difficulty: d }}
-                    >
-                      {d}
-                    </Link>
-                  }
-                ></Button>
-              </li>
-            ))}
-            {!isTouchDevice() ?
-              <Tooltip>
-                <TooltipTrigger>
-                  {customTrigger}
-                </TooltipTrigger>
-                <TooltipContent className="text-center">
-                  {customInformation}
-                </TooltipContent>
-              </Tooltip> :
-              <Drawer>
-                <DrawerTrigger>
-                  {customTrigger}
-                </DrawerTrigger>
-                <DrawerContent>
-                  <DrawerClose autoFocus className=''>
-                    <X className='w-5 absolute right-5 top-5'/>
-                  </DrawerClose>
-                  <DrawerHeader>
-                    <DrawerTitle>
-                      Custom Difficulty
-                    </DrawerTitle>
-                    <DrawerDescription>
-                      {customInformation}
-                    </DrawerDescription>
-                  </DrawerHeader>
-                </DrawerContent>
-              </Drawer>}
-            <li>
-              <CustomTextArea />
+    <PageContainer>
+      <div className="flex items-center flex-col">
+        <h3>Choose difficulty</h3>
+        <ul className="flex flex-col *:m-2">
+          {difficulties.map((d: Difficulty) => (
+            <li key={d}>
+              <Button
+                size="lg"
+                className={"w-full"}
+                nativeButton={false}
+                render={
+                  <Link
+                    to="/game/$difficulty"
+                    className="capitalize"
+                    params={{ difficulty: d }}
+                  >
+                    {d}
+                  </Link>
+                }
+              ></Button>
             </li>
-          </ul>
-        </div>
-      </PageContainer>
-  )
+          ))}
+          {!isTouchDevice() ? (
+            <Tooltip>
+              <TooltipTrigger>{customTrigger}</TooltipTrigger>
+              <TooltipContent className="text-center">
+                {customInformation}
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <Drawer>
+              <DrawerTrigger>{customTrigger}</DrawerTrigger>
+              <DrawerContent>
+                <DrawerClose asChild>
+                  <button
+                    type="button"
+                    autoFocus
+                    aria-label="Close drawer"
+                    className="absolute right-5 top-5"
+                  >
+                    <X className="w-5" aria-hidden="true" />
+                  </button>
+                </DrawerClose>
+                <DrawerHeader>
+                  <DrawerTitle>Custom Difficulty</DrawerTitle>
+                  <DrawerDescription>{customInformation}</DrawerDescription>
+                </DrawerHeader>
+              </DrawerContent>
+            </Drawer>
+          )}
+          <li>
+            <CustomTextArea />
+          </li>
+        </ul>
+      </div>
+    </PageContainer>
+  );
 }

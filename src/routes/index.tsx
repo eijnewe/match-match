@@ -12,12 +12,17 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <>
-      <PageContainer className='gap-4 sm:flex-row flex-col'>
-        <div className='flex items-center flex-col'>
-          <img src='/src/assets/IconWoHand.png' alt='logo' width="100px" className='animate-bounce [animation-duration:3s] mb-4' />
-          <h2 className='text-(--stark) sm:text-3xl text-md'>matchmatch</h2>
+      <PageContainer className="gap-4 sm:flex-row flex-col">
+        <div className="flex items-center flex-col">
+          <img
+            src="/src/assets/IconWoHand.png"
+            alt="logo"
+            width="100px"
+            className="animate-bounce [animation-duration:3s] mb-4"
+          />
+          <h2 className="text-(--stark) sm:text-3xl text-md">matchmatch</h2>
         </div>
-        <div className='flex flex-col items-center *:m-2'>
+        <div className="flex flex-col items-center *:m-2">
           <Button
             size="lg"
             className="w-29.5"
@@ -25,12 +30,20 @@ function Index() {
             render={<Link to="/game">Start game</Link>}
           />
           <AlertDialog>
-            <AlertDialogTrigger>
-              How to play
-            </AlertDialogTrigger>
-            <AlertDialogContent className={"flex flex-col items-center max-h-[90vh] lg:overflow-clip overflow-auto"}>
+            <AlertDialogTrigger>How to play</AlertDialogTrigger>
+            <AlertDialogContent
+              aria-label="How to play"
+              className={
+                "flex flex-col items-center max-h-[90vh] lg:overflow-clip overflow-auto"
+              }
+            >
               <HowToPlay />
-              <AlertDialogCancel className={"w-fit cursor-pointer -mt-3 bg-primary text-(--stark)"}>
+              <AlertDialogCancel
+                className={
+                  "w-fit cursor-pointer -mt-3 bg-primary text-(--stark)"
+                }
+                aria-label="Close pop-up"
+              >
                 Let's Go!
               </AlertDialogCancel>
             </AlertDialogContent>
@@ -39,5 +52,5 @@ function Index() {
       </PageContainer>
       <Footer />
     </>
-  )
+  );
 }
