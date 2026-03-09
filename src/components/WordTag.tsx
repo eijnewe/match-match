@@ -3,7 +3,6 @@ interface WordTagProps {
   bgColor: "primary" | "secondary" | "chart-5" | "sidebar-primary" 
 }
 export function WordTag({ type, bgColor = "primary" }: WordTagProps) {
-  console.log("bgColor:",bgColor);
   const bgVar = `var(--${bgColor})`;
 
   return (
