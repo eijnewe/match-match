@@ -2,17 +2,10 @@ import clsx from 'clsx'
 import { CustomCard } from './CustomCard'
 import { useGameStore } from '../store/gameStore'
 
-/* className={clsx(
-        'gap-2',
-        isGrid ?
-          'grid grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-[4rem]'
-        : 'flex flex-wrap',
-      )} */
-
 type WordGridProps = {
-  words: string[]
-  display: string
-  onWordClick: (word: string) => void
+  readonly words: string[]
+  readonly display: string
+  readonly onWordClick: (word: string) => void
 }
 
 export function WordGrid({ words, display, onWordClick }: WordGridProps) {
@@ -38,38 +31,6 @@ export function WordGrid({ words, display, onWordClick }: WordGridProps) {
           selected={selectedWord === w}
         />
       ))}
-      {/* <Button
-        variant={'outline'}
-        key={w}
-        className={clsx(
-          'grow whitespace-normal break-normal py-2',
-          isGrid ? 'h-auto' : 'min-h-3.5',
-        )}
-      >
-        {w}
-      </Button> */}
-
-      {/*   {words.map((word, rowIndex) => (
-        <div
-          key={rowIndex}
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${columns}, 1fr)`,
-          }}
-        >
-          {Array.from({ length: columns }).map((_, colIndex) => (
-            <div
-              key={colIndex}
-              style={{
-                border: "1px solid gray",
-                aspectRatio: "1 / 1",
-              }}
-            >
-              {word[colIndex] ?? ""}
-            </div>
-          ))}
-        </div>
-      ))} */}
     </div>
   )
 }

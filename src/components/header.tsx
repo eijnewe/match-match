@@ -97,7 +97,6 @@ export function Header() {
                 <img
                   src="/src/assets/IconWoHand.png"
                   alt="Home"
-                  sr-only=""
                   className="h-12"
                 />
               </Link>

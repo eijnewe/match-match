@@ -1,8 +1,8 @@
-import { Button } from "./ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Share } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 type Category = {
   name: string;
@@ -11,10 +11,10 @@ type Category = {
 };
 
 type EndScreenProps = {
-  score: number;
-  mistakes: number;
-  categories: Category[];
-  onClose?: () => void;
+  readonly score: number;
+  readonly mistakes: number;
+  readonly categories: Category[];
+  readonly onClose?: () => void;
 };
 
 export function EndScreen({ score, mistakes, categories, onClose }: EndScreenProps) {

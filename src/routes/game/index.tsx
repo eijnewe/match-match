@@ -11,7 +11,6 @@ export const Route = createFileRoute('/game/')({
   component: GameIndex,
 })
 
-
 function GameIndex() {
   const difficulties: Difficulty[] = ['easy', 'medium', 'hard']
 
@@ -40,7 +39,7 @@ function GameIndex() {
                     <Link
                       to="/game/$difficulty"
                       className="capitalize"
-                      params={{ difficulty: d }}
+                      params={{ difficulty: d.toString() }}
                     >
                       {d}
                     </Link>

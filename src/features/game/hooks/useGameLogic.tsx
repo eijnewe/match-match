@@ -95,24 +95,6 @@ export function useGameLogic(difficulty: Difficulty) {
     return workingCategories.some((cat) => cat.words.includes(word));
   }
 
-  // isCorrectCategory()
-  // function isCorrectCategory(word: string, categoryId: number) {
-  //   if (!data) return false;
-  //   const correctCategory = data.categories.find((cat) =>
-  //     cat.words.includes(word));
-  //   return correctCategory?.id === categoryId;
-  // }
-
-  // doesAnotherCategoryHaveSameId()
-  // function doesAnotherCategoryHaveSameId(
-  //   realId: number,
-  //   selectedCategoryId: number,
-  // ) {
-  //   return workingCategories.some(
-  //     (cat) => cat.id === realId && cat.id !== selectedCategoryId,
-  //   );
-  // }
-
   const handleWordPlacement = useCallback(
     (word: string, categoryId: number) => {
       /*  alla helper funktioner kallas här */

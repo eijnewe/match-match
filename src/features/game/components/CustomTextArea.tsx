@@ -22,7 +22,7 @@ export function CustomTextArea() {
                 nativeButton={false}
                 render={
                     <Link to="/game/$difficulty"
-                        params={{ difficulty: customDifficulty }}>
+                        params={{ difficulty: customDifficulty.toString() }}>
                         Start Custom Game
                     </Link>
                 } />

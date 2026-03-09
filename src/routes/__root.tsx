@@ -11,17 +11,8 @@ function RootComponent() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="flex flex-col h-screen overflow-hidden">
        <Header />
-       {/*  <div className="w-full bg-amber-600 h-16 shrink-0"></div> */}
         <Outlet />
       </div>
-      {/*  <div className="flex flex-col h-screen">
-        <Header />
-        <div className="flex flex-col flex-1 items-stretch">
-          <PageContainer>
-            <Outlet />
-          </PageContainer>
-        </div>
-      </div> */}
     </ThemeProvider>
   )
 }
