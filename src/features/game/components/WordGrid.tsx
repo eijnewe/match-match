@@ -1,6 +1,6 @@
-import clsx from 'clsx'
-import { CustomCard } from './CustomCard'
-import { useGameStore } from '../store/gameStore'
+import clsx from "clsx";
+import { CustomCard } from "./CustomCard";
+// import { useGameStore } from "../store/gameStore";
 
 /* className={clsx(
         'gap-2',
@@ -10,30 +10,29 @@ import { useGameStore } from '../store/gameStore'
       )} */
 
 type WordGridProps = {
-  words: string[]
-  display: string
-  onWordClick: (word: string) => void
-}
+  words: string[];
+  display: string;
+  selectedWord: string | null;
+  onWordClick: (word: string) => void;
+};
 
-export function WordGrid({ words, display, onWordClick }: WordGridProps) {
-  const isGrid = display == 'grid'
-  const selectedWord = useGameStore((s) => s.selectedWord);
+export function WordGrid({ words, display, onWordClick, selectedWord }: WordGridProps) {
+  const isGrid = display == "grid";
+  // const selectedWord = useGameStore((s) => s.selectedWord);
 
   return (
     <div
-    role='radiogroup'
+      role="radiogroup"
       className={clsx(
-        'gap-2',
-        isGrid ?
-          'grid place-items-stretch grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-auto'
-        : 'flex flex-wrap content-start *:w-fit *:p-2',
+        "gap-2",
+        isGrid ? "grid place-items-stretch grid-cols-[repeat(auto-fit,minmax(6rem,1fr))] auto-rows-auto" : "flex flex-wrap content-start *:w-fit *:p-2",
       )}
     >
       {words.map((w) => (
-        <CustomCard 
-          key={w} 
-          type="article" 
-          articleTitle={w} 
+        <CustomCard
+          key={w}
+          type="article"
+          articleTitle={w}
           onClick={() => onWordClick(w)}
           selected={selectedWord === w}
         />
@@ -71,5 +70,5 @@ export function WordGrid({ words, display, onWordClick }: WordGridProps) {
         </div>
       ))} */}
     </div>
-  )
+  );
 }

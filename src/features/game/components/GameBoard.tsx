@@ -7,16 +7,21 @@ import { useGameStore } from "../store/gameStore";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AiHint } from "@/components/ai-hint";
 
 type GameboardProps = {
   logic: {
-    data: { allWords: string[] } | undefined;
+    data:
+      | {
+          allWords: string[];
+          categories: { name: string; words: string[] }[];
+        }
+      | undefined;
     isLoading: boolean;
     error: unknown;
     isGameWon: boolean;
     reset: () => void;
     workingCategories: { words: string[]; name: string; color?: string }[];
-    onWordClick: (word: string) => void;
   };
 };
 
@@ -26,6 +31,7 @@ export function Gameboard({ logic }: GameboardProps) {
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
   const [showResults, setShowResults] = useState(true);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
 
   if (logic.isLoading) {
     return (
@@ -79,7 +85,14 @@ export function Gameboard({ logic }: GameboardProps) {
       <WordGrid
         words={remainingWords}
         display={isGridMode ? "grid" : "flex"}
-        onWordClick={logic.onWordClick}
+        selectedWord={selectedWord}
+        onWordClick={(word) => {
+          setSelectedWord(word);
+        }}
+      />
+      <AiHint
+        selectedWord={selectedWord}
+        categories={logic.data?.categories ?? []}
       />
     </div>
     /*  <WordGrid
