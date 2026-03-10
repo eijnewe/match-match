@@ -74,11 +74,7 @@ export function Gameboard({ logic }: GameboardProps) {
     );
   }
 
-  // Filtrera bort ord som redan matchats
   const remainingWords = logic.data?.allWords.filter((word) => !logic.workingCategories.some((cat) => cat.words.includes(word))) ?? [];
-
-  // Extrahera pinnedCategories som array av kategorinamn (för CategoryBanner)
-  // const pinnedCategories = logic.data?.categories.map((cat) => cat.name) ?? []
 
   return (
     <div className="overflow-y-auto flex-1 p-3">

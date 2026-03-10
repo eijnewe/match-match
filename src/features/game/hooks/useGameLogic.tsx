@@ -75,7 +75,6 @@ export function useGameLogic(difficulty: Difficulty) {
     selectCategory(categoryId)
   }
 
-  // 1. Initiera workingCategories när spelet laddas (utifrån data.categories)
   useEffect(() => {
     reset()
     selectionStartedWithRef.current = null
@@ -87,8 +86,6 @@ export function useGameLogic(difficulty: Difficulty) {
       { id: -1, name: null, words: [], maxWords: null, solved: false },
     ])
   }, [data, setWorkingCategories])
-
-  // isCategoryFull()
 
   const handleWordPlacement = useCallback(
     (word: string, categoryId: number) => {
@@ -241,46 +238,11 @@ export function useGameLogic(difficulty: Difficulty) {
     handleWordPlacement(selectedWord, selectedCategoryId)
   }, [isEditMode, selectedWord, selectedCategoryId, handleWordPlacement])
 
-  // 8. Checka game won (alla kategorier fyllda)
   useEffect(() => {
     if (data) {
       checkGameWon(data.categories.length)
     }
   }, [solvedCategories, data, checkGameWon])
-
-  //  initWorkingCategories
-
-  // ✔ handleWordPlacement
-
-  // ✔ validatePlacement
-
-  // ✔ detectSolvedCategories
-
-  // ✔ computeDerivedState
-
-  /*  1. Initiera workingCategories när spelet laddas X
-  (utifrån data.categories)
-  2. Ord → kategori lookup X
-  (använd data.wordToCategory[word])
-  3. Reagera på UI‑state X
-  När selectedWord + selectedCategoryId finns → försök lägga in ordet.
-  4. Validera drag X
-  Är kategorin tom?
-  Finns en annan kategori med samma ID?
-  Är ordet redan placerat?
-  Är kategorin full?
-  5. Tom kategori → sätt ID
-  (uppdatera workingCategory.id)
-  6. Lägg in ord i kategori X
-  (kalla store‑action)
-  7. Markera kategori som solved X
-  (när words.length === maxWords)
-  8. Checka game won X
-  (alla kategorier fyllda)
-  9. Max antal kategorier X
-  (styr plus‑knappen i UI)
-  10. Felhantering
-  (visa feedback, men store ska inte veta något om fel) */
 
   const maxCategories = data?.categories.length ?? 0
   const openedCategories = workingCategories.length
@@ -315,38 +277,3 @@ export function useGameLogic(difficulty: Difficulty) {
     triggerCategoryError,
   }
 }
-
-/* function handleWordPlacement(word, categoryId):
-
-    1. Get the working category the player clicked on
-       → workingCategory = getWorkingCategoryById(categoryId)
-
-    2. Get the real category ID for the word (from server data)
-       → realCategoryId = getRealCategoryIdForWord(word)
-
-    3. If the word is already placed anywhere → reject
-       → if isWordAlreadyPlaced(word): return error
-
-    4. If the working category is already full → reject
-       → if isCategoryFull(workingCategory): return error
-
-    5. If the working category is empty:
-         - Check if another category already has the realCategoryId
-           → if doesAnotherCategoryHaveSameId(realCategoryId, categoryId):
-                return error
-         - Assign the category its real ID
-           → assignCategoryId(workingCategory, realCategoryId)
-
-    6. If the working category is NOT empty:
-         - Check if the word belongs to this category
-           → if not isCorrectCategory(word, workingCategory.id):
-                return error
-
-    7. Place the word into the category
-       → addWordToWorkingCategory(categoryId, word)
-
-    8. Clear selectedWord (but keep selectedCategoryId)
-       → deselectWord()
-
-    9. Done — UI will update automatically
- */
