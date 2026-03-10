@@ -32,7 +32,6 @@ export function EndScreen({ score, mistakes, categories, onClose }: EndScreenPro
         await navigator.share({
           title: "Game results",
           text: shareText,
-          //   url: window.location.href,
         });
       } catch (error) {
         console.log("Delning avbröts", error);

@@ -18,7 +18,7 @@ function Index() {
             src="/src/assets/IconWoHand.png"
             alt="logo"
             width="100px"
-            className="animate-bounce [animation-duration:3s] mb-4"
+            className="animate-bounce animation-duration-[3s] mb-4"
           />
           <h2 className="text-(--stark) sm:text-3xl text-md">matchmatch</h2>
         </div>

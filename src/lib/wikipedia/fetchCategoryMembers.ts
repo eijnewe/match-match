@@ -13,9 +13,7 @@ export async function fetchCategoryMembers(
   const url = Wikipedia.categoryMembers(pageId)
   const res = await fetch(url)
   const data = await res.json()
-
   const pages = Object.values(data.query.pages) as WikipediaPage[]
 
-  // filtrerar bort redirect-sidor och icke-artiklar
   return pages.filter((p) => !p.redirect && p.ns === 0)
 }

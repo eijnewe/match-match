@@ -7,11 +7,8 @@ export async function fetchCategory(
   limit: number,
 ): Promise<GameCategory> {
   const meta = ALL_CATEGORIES[pageId]
-
   const members = await fetchCategoryMembers(pageId)
-
-  // console.log('members', members)
-
+  
   const titles = new Set(
     members.map((m) => {
       let title = m.title
@@ -24,14 +21,8 @@ export async function fetchCategory(
     }),
   )
 
-  // console.log('titles', titles)
-
   const maxStart = titles.size - limit
-
   const randomIndex = Math.floor(Math.random() * (maxStart + 1))
-
-
-
   const words = [...titles].slice(randomIndex, randomIndex + limit)
 
 
