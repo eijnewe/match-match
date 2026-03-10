@@ -25,14 +25,29 @@ When we had broken down the project in manageable pieces and created the relevan
 ![Wireframes](/public/ReadMeImg%20(1).png)
 
 ## Project Accessibility 
+
+We aimed to keep the game usable with keyboard, screen readers, and touch devices.
+
 ### Styling
 We implemented styling and colors with contrast in mind to make sure the text was legible, both in light and dark modes. We followed standard font sizing to ensure no text got too small.
 ### WAI-ARIA & HTML 
-We have added WAI-ARIA labels on our custom focusable elements so they work with screen readers. For native components and elements we have used HTML attributes with clear descriptions. 
-### Other a11y
-The app is available on both desktop and mobile screens; tooltips with crucial information on desktop have been converted to pop-ups (shadcn drawer components) on mobile so that the information is still available. In one place the tooltips were instead changed into a small badge with minimal information that, when pressed, would open a drawer with further info.
-We have made sure the app also is able to be navigated through and the game playable with keyboard only. 
-Labels, forms and input have been clearly labelled. 
+We have added WAI-ARIA labels on our custom focusable elements so they work with screen readers. For native components and elements we have used HTML attributes with clear descriptions. Examples include:
+- Accessible names for icon-only controls (for example, drawer close buttons with `aria-label`)
+- State communication for custom selectable cards (for example, `role="radio"` and `aria-checked`)
+- Clear labels and descriptions for inputs and form controls
+### Keyboard Accessibility
+The game is fully playable with keyboard only:
+- Interactive controls are focusable and operable with keyboard
+- Selection actions support standard key activation (`Enter` / `Space`)
+- Drawers can be dismissed with `Escape` and via a focusable close button
+- Focus-visible styles are used so keyboard users can see where focus is
+### Responsive Accessibility (Desktop and Mobile)
+The app is built for both desktop and mobile:
+- On desktop, contextual help is shown with tooltips
+- On touch/mobile devices, equivalent help is provided through drawers/pop-ups (shadcn drawer components)
+- In places where tooltip content is too large, a compact trigger opens a drawer with full information
+### Labels, Forms, and Inputs
+Labels, form fields, and text inputs are clearly labeled to support screen readers and improve form usability.
 
 ## Game Functionality
 Before a new game, the user gets to choose difficulty: this reflects the number of categories on the game board. All categories will have as many matching articles as there are categories: a choice of 5 categories will generate a total of 25 articles on the board. The maximum amount of 30 categories will generate 900 articles. The user will also have the option to choose a custom amount of categories.
