@@ -1,7 +1,7 @@
 # MATCH-MATCH Game by WARJ
 ## Project Structure
 ### Planning Stage
-During the planning stage, we got together to brain storm about what kind of app we would like to build. During this session, we also had to take into account what we believed we could achieve in the four weeks we had to our disposal. 
+During the planning stage, we got together to brain storm about what kind of app we would like to build. During this session, we also had to take into account what we believed we could achieve in the four weeks we had at our disposal. 
 
 ![Brain Storm Board](/public/ReadMeImg%20(6).png)
 
@@ -35,27 +35,25 @@ We have made sure the app also is able to be navigated through and the game play
 Labels, forms and input have been clearly labelled. 
 
 ## Game Functionality
-Before a new game, the user gets to choose difficulty: this reflects the number of categories and articles belonging to each category. For example, 10 will generate 10 categories with 10 articles each.
+Before a new game, the user gets to choose difficulty: this reflects the number of categories on the game board, as well as the number of articles belonging to each category. For example, a choice of 5 categories will generate a total of 25 articles on the board. The maxiumum amount of 30 categories will generate 900 articles. The user will also have the option to choose a custom amount of categories.
 At the start of a new game, the game board will show all the article cards.
 
 ### Category Cards
  In the category bar, an empty category card and a "+" card will show. If the empty category card has been assigned at least one article, then clicking the "+" will create a new empty category card. Only as many category cards as there are categories can be created.
- Category cards will have a generic placeholder name, but the titles can be edited by the user. The user will not know the categories until they have been assigned all their article cards.
+ Category cards will have a generic placeholder name, but the titles can be edited by the user. The user will not know a category's title until they have assigned it all its correct article cards.
 
 The "+" category will always be to the furthest right in the category bar. It will disappear when all category cards have been created.
 
 When a category has been completed, its title will be shown, its opacity will increase, and it will be fixed at the end of the category bar. The completed category card will not have any possible interactions other than viewing the full list of articles.
 
-The "+" card will always be furthest right, even if there are completed category cards.
-
 #### Interactions
 - During gameplay, toggling Editing Mode will let the user edit the color and title of the category cards.
-- On hover, the Category Card will show a full list of all the articles it contains, as well as a counter, such as 12/20 cards.
-- On click, a Category Card will be selected; after this any article cards can be selected to match them with the category. The category will remain selected until the user deselects it.
+- On hover, the Category Card will show a full list of all the articles it contains, as well as a counter, such as 12/20 cards. On mobile this will be shown as a badge of the total of cards, and upon a tap, the full list will show in a drawer.
+- On click, a Category Card will be selected; after this any article cards can be selected to match them with the category. The category will remain selected until the user deselects it or makes a mistake.
 
 ### Word/Article Cards
 To pair an article with a category, the user must first click the article, then select a category card.
-If there already are articles in the category card and they do not match the selected article, the user will get an error and the article card will be deselected. The category card will have a short change in appearance to display that an error occurred.
+If there already are articles in the category card and they do not match the selected article, the user will get an error and the article card will be deselected. The category card has a short change in appearance to display that an error occurred.
 
 If an article is selected and then attempted to be put in an empty category card, but the article's category already has been started in another card, the game will react as if the user tried to put the article in the wrong card. 
 
