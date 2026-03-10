@@ -9,7 +9,12 @@ import { AiHint } from "@/components/ai-hint";
 
 type GameboardProps = {
   readonly logic: {
-    data: { allWords: string[] } | undefined;
+    data:
+      | {
+          allWords: string[];
+          categories: { name: string; words: string[] }[];
+        }
+      | undefined;
     isLoading: boolean;
     error: unknown;
     isGameWon: boolean;
