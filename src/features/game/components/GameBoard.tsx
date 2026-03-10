@@ -4,17 +4,22 @@ import { useGameStore } from "../store/gameStore";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { AiHint } from "@/components/ai-hint";
 import { EndScreen } from "./end-screen";
 
 type GameboardProps = {
   readonly logic: {
-    data: { allWords: string[] } | undefined;
+    data:
+      | {
+          allWords: string[];
+          categories: { name: string; words: string[] }[];
+        }
+      | undefined;
     isLoading: boolean;
     error: unknown;
     isGameWon: boolean;
     reset: () => void;
     workingCategories: { words: string[]; name: string; color?: string }[];
-    onWordClick: (word: string) => void;
   };
 };
 
@@ -23,6 +28,7 @@ export function Gameboard({ logic }: GameboardProps) {
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
   const [showResults, setShowResults] = useState(true);
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
 
   if (logic.isLoading) {
     return (
@@ -65,18 +71,21 @@ export function Gameboard({ logic }: GameboardProps) {
     );
   }
 
-  // Filtrera bort ord som redan matchats
   const remainingWords = logic.data?.allWords.filter((word) => !logic.workingCategories.some((cat) => cat.words.includes(word))) ?? [];
-
-  // Extrahera pinnedCategories som array av kategorinamn (för CategoryBanner)
-  // const pinnedCategories = logic.data?.categories.map((cat) => cat.name) ?? []
 
   return (
     <div className="overflow-y-auto flex-1 p-3">
       <WordGrid
         words={remainingWords}
         display={isGridMode ? "grid" : "flex"}
-        onWordClick={logic.onWordClick}
+        selectedWord={selectedWord}
+        onWordClick={(word) => {
+          setSelectedWord(word);
+        }}
+      />
+      <AiHint
+        selectedWord={selectedWord}
+        categories={logic.data?.categories ?? []}
       />
     </div>
   );
