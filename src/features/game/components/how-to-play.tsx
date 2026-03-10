@@ -44,11 +44,6 @@ export function HowToPlay() {
         <p>
           Hover over a <WordTag type="category" bgColor="chart-5" /> card to see the full list of{" "}
           <WordTag type="words" bgColor="primary" /> assigned to it.
-          Tap a <WordTag type="category" bgColor="chart-5" /> card to see the full list of{" "}
-          <WordTag type="words" bgColor="primary" /> assigned to it. You can also select a{" "}
-          <WordTag type="category" bgColor="chart-5" /> card and then tap on various{" "}
-          <WordTag type="word" bgColor="primary" /> cards you want to match — the{" "}
-          <WordTag type="category" bgColor="chart-5" /> card will remain selected even if you make an error.
         </p>
       )}
       <p>
