@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useGameStore } from "@/features/game/store/gameStore";
 
 type Category = {
-  name: string;
+  name: string | null
   words: string[];
 };
 

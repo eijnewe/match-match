@@ -20,12 +20,12 @@ function GamePage() {
   const parsedDifficulty = parseDifficultyParam(difficulty);
 
   const logic = useGameLogic(parsedDifficulty);
-  const categoryCount = logic.data?.categories.length ?? 0;
+  // const categoryCount = logic.data?.categories.length ?? 0;
   return (
     <main className="flex-1 flex flex-col min-h-0">
       <CategoryBanner
         pinnedCategories={logic.workingCategories}
-        categoryCount={categoryCount}
+        // categoryCount={categoryCount}
         canAddCategory={logic.canAddCategory}
         onAddCategoryClick={logic.onAddCategoryClick}
         onCategoryClick={logic.onCategoryClick}
