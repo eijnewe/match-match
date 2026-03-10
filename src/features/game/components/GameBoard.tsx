@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { EndScreen } from "./end-screen";
+import { AiHint } from "@/components/ai-hint";
 
 type GameboardProps = {
   readonly logic: {
@@ -78,6 +79,7 @@ export function Gameboard({ logic }: GameboardProps) {
         display={isGridMode ? "grid" : "flex"}
         onWordClick={logic.onWordClick}
       />
+      <AiHint categories={logic.data?.categories ?? []} />
     </div>
   );
 }

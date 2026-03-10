@@ -11,17 +11,8 @@ type CategoryBannerProps = {
   readonly categoryCount?: number;
 };
 
-export function CategoryBanner({
-  pinnedCategories = [],
-  canAddCategory = false,
-  onAddCategoryClick,
-  onCategoryClick,
-  categoryCount = 0
-}: CategoryBannerProps) {
-
-  const isTouchDevice = () =>
-    typeof window !== "undefined" &&
-    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+export function CategoryBanner({ pinnedCategories = [], canAddCategory = false, onAddCategoryClick, onCategoryClick, categoryCount = 0 }: CategoryBannerProps) {
+  const isTouchDevice = () => typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
   const categoryThreshold = isTouchDevice() ? 5 : 9;
   const isTwoRows = pinnedCategories.length > categoryThreshold;
 
@@ -33,6 +24,7 @@ export function CategoryBanner({
   return (
     <div
       role="radiogroup"
+      aria-label="Category Group"
       className={clsx(
         "grid grid-flow-col gap-1 bg-border dark:bg-border w-full left-0 pl-3 pr-3 pt-2 pb-2 overflow-x-auto items-stretch max-h-60 auto-rows-fr",
         isTwoRows ? "grid-rows-2" : "grid-rows-1",
@@ -44,13 +36,7 @@ export function CategoryBanner({
 
         const custom = cat.customName;
 
-        const displayTitle = cat.solved
-          ? (cat.name ?? "Unknown category")
-          : custom
-            ? custom
-            : cat.words.length === 0
-              ? "Empty category"
-              : "Unknown category";
+        const displayTitle = cat.solved ? (cat.name ?? "Unknown category") : custom ? custom : cat.words.length === 0 ? "Empty category" : "Unknown category";
 
         return (
           <CustomCard
@@ -59,9 +45,7 @@ export function CategoryBanner({
             categoryTitle={displayTitle}
             categoryWords={cat.words}
             categoryLimit={cat.maxWords}
-            errorAnimationToken={
-              lastErrorCategoryId === categoryId ? errorAnimationNonce : 0
-            }
+            errorAnimationToken={lastErrorCategoryId === categoryId ? errorAnimationNonce : 0}
             onCategoryTitleChange={(title) => setCategoryCustomName(categoryId, title)}
             onClick={() => onCategoryClick(categoryId)}
             selected={selectedCategoryId === categoryId}
@@ -69,7 +53,10 @@ export function CategoryBanner({
         );
       })}
       {canAddCategory && (
-        <CustomCard type="plus" onClick={onAddCategoryClick} />
+        <CustomCard
+          type="plus"
+          onClick={onAddCategoryClick}
+        />
       )}
     </div>
   );
