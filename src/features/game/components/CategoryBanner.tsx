@@ -8,10 +8,9 @@ type CategoryBannerProps = {
   readonly canAddCategory?: boolean;
   readonly onAddCategoryClick?: () => void;
   readonly onCategoryClick: (categoryId: number) => void;
-  readonly categoryCount?: number;
 };
 
-export function CategoryBanner({ pinnedCategories = [], canAddCategory = false, onAddCategoryClick, onCategoryClick, categoryCount = 0 }: CategoryBannerProps) {
+export function CategoryBanner({ pinnedCategories = [], canAddCategory = false, onAddCategoryClick, onCategoryClick }: CategoryBannerProps) {
   const isTouchDevice = () => typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0);
   const categoryThreshold = isTouchDevice() ? 5 : 9;
   const isTwoRows = pinnedCategories.length > categoryThreshold;
