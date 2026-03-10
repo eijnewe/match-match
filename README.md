@@ -47,14 +47,13 @@ src/
 ├── features/ #Functionality organized by feature
 │   └── game/
 │       ├── api/ #API calls and data fetching
-│       │   ├── getArticles.tsx
 │       │   ├── getGameData.ts
 │       │   └── useGameQuery.ts
 │       ├── components/
 │       │   ├── CategoryBanner.tsx
 │       │   └── ... (more components)
 │       ├── hooks/
-│       │   ├── categoryName.tsx
+│       │   ├── useGameLogic.tsx
 │       │   └── ... (more hooks)
 │       └── store/
 │           └── gameStore.tsx
