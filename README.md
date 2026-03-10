@@ -35,7 +35,7 @@ We have made sure the app also is able to be navigated through and the game play
 Labels, forms and input have been clearly labelled. 
 
 ## Game Functionality
-Before a new game, the user gets to choose difficulty: this reflects the number of categories on the game board, as well as the number of articles belonging to each category. For example, a choice of 5 categories will generate a total of 25 articles on the board. The maxiumum amount of 30 categories will generate 900 articles. The user will also have the option to choose a custom amount of categories.
+Before a new game, the user gets to choose difficulty: this reflects the number of categories on the game board. All categories will have as many matching articles as there are categories: a choice of 5 categories will generate a total of 25 articles on the board. The maximum amount of 30 categories will generate 900 articles. The user will also have the option to choose a custom amount of categories.
 At the start of a new game, the game board will show all the article cards.
 
 ### Category Cards
