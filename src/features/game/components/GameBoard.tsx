@@ -7,19 +7,19 @@ import { Button } from "@/components/ui/button";
 import { EndScreen } from "./end-screen";
 import { AiHint } from "@/components/ai-hint";
 
-type GameboardProps = {
+export type GameboardProps = {
   readonly logic: {
-    data:
+    data?:
       | {
           allWords: string[];
-          categories: { name: string; words: string[] }[];
+          categories: { name: string | null; words: string[] }[];
         }
       | undefined;
     isLoading: boolean;
     error: unknown;
     isGameWon: boolean;
     reset: () => void;
-    workingCategories: { words: string[]; name: string; color?: string }[];
+    workingCategories: { words: string[]; name: string | null; color?: string }[];
     onWordClick: (word: string) => void;
   };
 };
@@ -51,11 +51,14 @@ export function Gameboard({ logic }: GameboardProps) {
       <div className="flex flex-col items-center">
         {showResults && (
           <EndScreen
-            score={points}
-            mistakes={errors}
-            categories={logic.workingCategories}
-            onClose={() => setShowResults(false)}
-          />
+  score={points}
+  mistakes={errors}
+  categories={logic.workingCategories.map((c) => ({
+    ...c,
+    name: c.name ?? "Unknown",
+  }))}
+  onClose={() => setShowResults(false)}
+/>
         )}
 
         {!showResults && (
@@ -84,7 +87,12 @@ export function Gameboard({ logic }: GameboardProps) {
         display={isGridMode ? "grid" : "flex"}
         onWordClick={logic.onWordClick}
       />
-      <AiHint categories={logic.data?.categories ?? []} />
+      <AiHint
+  categories={logic.data?.categories.map((c) => ({
+    ...c,
+    name: c.name ?? "Unknown",
+  })) ?? []}
+/>
     </div>
   );
 }

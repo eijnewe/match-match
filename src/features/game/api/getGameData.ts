@@ -2,7 +2,6 @@ import { ALL_CATEGORIES } from '@/data/allCategories'
 import { fetchCategory } from '@/lib/wikipedia/fetchCategory'
 import type { Difficulty, GameData } from '@/types/game'
 
-//shuffle
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5)
 }
@@ -28,18 +27,12 @@ export async function getGameData(difficulty: Difficulty): Promise<GameData> {
     chosenIds.map((id) => fetchCategory(id, count)),
   )
 
-  console.log(categories)
-
   const allWords = categories.flatMap((c) => c.words)
   const uniqueWords = new Set(allWords)
 
   if (uniqueWords.size !== allWords.length) {
-    console.log('duplicates found')
-    // duplicates found → redo
     return getGameData(difficulty)
   }
 
   return { difficulty, categories, allWords: shuffle([...uniqueWords]) }
 }
-
-//fetch om ifall dubletter i all words
