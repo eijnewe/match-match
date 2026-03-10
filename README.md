@@ -24,6 +24,59 @@ When we had broken down the project in manageable pieces and created the relevan
 
 ![Wireframes](/public/ReadMeImg%20(1).png)
 
+## Architecture
+
+This project uses a **feature-based, modular architecture** combined with **domain-oriented organization** and **file-based routing**.
+
+We chose this approach because it is **simple to start with and scales well** as the project grows. Since we were initially uncertain about the final scope, it was important to use a structure that stays maintainable over time. The codebase emphasizes **readability through vertical slicing**: each feature contains exactly what it needs (components, logic, types, and utilities), which keeps responsibilities clear and reduces unnecessary coupling.
+
+Routing is implemented with **TanStack Router** using a **file-based routing** setup. This provides strong **consistency and organization**, supports **scalability**, enables **code-splitting**, and adds **type-safety** across routes. We also use **path parameters** to render the game board dynamically.
+```
+src/
+├── assets/
+│   └── IconWoHand.png
+├── components/ #Global ui components 
+│   ├── footer.tsx
+│   ├── header.tsx  
+│   ├── ... (more components)
+│   ├── layout/
+│   │   └── PageContainer.tsx
+│   └── ui/ #Shadcn reusable ui components
+├── data/ 
+│   └── allCategories.ts #Static data (categories)
+├── features/ #Functionality organized by feature
+│   └── game/
+│       ├── api/ #API calls and data fetching
+│       │   ├── getArticles.tsx
+│       │   ├── getGameData.ts
+│       │   └── useGameQuery.ts
+│       ├── components/
+│       │   ├── CategoryBanner.tsx
+│       │   └── ... (more components)
+│       ├── hooks/
+│       │   ├── categoryName.tsx
+│       │   └── ... (more hooks)
+│       └── store/
+│           └── gameStore.tsx
+├── index.css
+├── lib/
+│   ├── utils.ts
+│   └── wikipedia/ #Functions for fetching data from Wikipedia
+│       ├── client.ts
+│       ├── fetchCategory.ts
+│       └── fetchCategoryMembers.ts
+├── main.tsx
+├── routeTree.gen.ts
+├── routes/ #Tanstack file-based routing
+│   ├── __root.tsx
+│   ├── game/
+│   │   ├── $difficulty.tsx
+│   │   └── index.tsx
+│   └── index.tsx
+└── types/
+    ├── category.ts
+    └── game.ts
+```
 ## Project Accessibility 
 
 We aimed to keep the game usable with keyboard, screen readers, and touch devices.
