@@ -42,5 +42,3 @@ export function PointCounter() {
         </div >
     )
 }
-
-// Point change styling="font-bold scale-150 transition-transform ease-in-out duration-300"

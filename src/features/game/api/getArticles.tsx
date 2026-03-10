@@ -15,7 +15,7 @@ export function Articles({ category, limit = 10 }) {
     const { data, error } = useQuery({
         queryKey: ['articles', { category, limit }],
         queryFn: fetchArticles,
-        enabled: !!category, // I think this means, if there isn't a category, don't go fetchin'???
+        enabled: !!category,
         select: data => ({
             ...data,
             query: {

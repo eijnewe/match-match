@@ -28,13 +28,13 @@ import {
 } from "@/components/ui/drawer";
 
 type BaseCardProps = {
-  children: React.ReactNode;
-  tooltip?: React.ReactNode;
-  cardClasses?: string;
-  type: "category" | "completedCategory" | "article" | "plus" | "editable";
-  onClick?: () => void;
-  selected?: boolean;
-  errored?: boolean;
+  readonly children: React.ReactNode;
+  readonly tooltip?: React.ReactNode;
+  readonly cardClasses?: string;
+  readonly type: "category" | "completedCategory" | "article" | "plus" | "editable";
+  readonly onClick?: () => void;
+  readonly selected?: boolean;
+  readonly errored?: boolean;
 };
 
 const isTouchDevice = () =>
@@ -43,22 +43,25 @@ const isTouchDevice = () =>
 
 type CustomCardProps =
   | {
-      type: "category" | "completedCategory" | "editable";
-      categoryTitle: string;
-      categoryWords: string[];
-      categoryLimit: number | null;
-      errorAnimationToken?: number;
-      onCategoryTitleChange?: (title: string) => void;
-      onClick?: () => void;
-      selected?: boolean;
-    }
+    readonly type: "category" | "completedCategory" | "editable";
+    readonly categoryTitle: string;
+    readonly categoryWords: string[];
+    readonly categoryLimit: number | null;
+    readonly errorAnimationToken?: number;
+    readonly onCategoryTitleChange?: (title: string) => void;
+    readonly onClick?: () => void;
+    readonly selected?: boolean;
+  }
   | {
-      type: "article";
-      articleTitle: string;
-      onClick?: () => void;
-      selected?: boolean;
-    }
-  | { type: "plus"; onClick?: () => void; selected?: boolean };
+    readonly type: "article";
+    readonly articleTitle: string;
+    readonly onClick?: () => void;
+    readonly selected?: boolean;
+  }
+  | {
+    readonly type: "plus"; onClick?: () => void; 
+    readonly selected?: boolean
+  };
 
 function BaseCard({
   children,
@@ -120,7 +123,7 @@ function ArticleCard(props: Extract<CustomCardProps, { type: "article" }>) {
   );
 }
 
-function AddCard(props: Extract<CustomCardProps, { type: "plus" }>) {
+function AddCard(props: Readonly<Extract<CustomCardProps, { type: "plus" }>>) {
   return (
     <BaseCard
       type="plus"
@@ -239,11 +242,9 @@ function CategoryCard(
                         {sortedWords.join(", ").trim()}
                       </span>
                       <br />
-                      <span className="font-bold">
-                        {props.type === "completedCategory"
-                          ? "Complete"
-                          : `${sortedWords.length} out of ${limit} words total`}
-                      </span>
+                      <div className="font-bold">
+                        {`${sortedWords.length} out of ${limit} words total`}
+                      </div>
                     </DrawerDescription>
                   </DrawerHeader>
                   <DrawerClose asChild>
@@ -312,9 +313,7 @@ function CategoryCard(
                   {sortedWords.join(", ").trim()}
                   <br />
                   <p className="font-bold">
-                    {props.type === "completedCategory"
-                      ? "Complete"
-                      : `${sortedWords.length} out of ${limit} words total`}
+                    {`${sortedWords.length} out of ${limit} words total`}
                   </p>
                 </DrawerDescription>
               </DrawerHeader>
@@ -382,7 +381,3 @@ export function CustomCard(props: CustomCardProps) {
       return null;
   }
 }
-
-// Styling:
-// For selected cards="border-black brightness-95" X
-// For error selection="animate-shake"

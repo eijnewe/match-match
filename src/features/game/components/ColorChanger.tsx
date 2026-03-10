@@ -2,7 +2,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Circle, Palette } from "lucide-react";
 
 interface BProps {
-    handleClick: (arg: string) => void
+    readonly handleClick: (arg: string) => void
 }
 
 export function ColorChanger({ handleClick }: BProps) {

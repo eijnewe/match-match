@@ -4,23 +4,20 @@ import type { WorkingCategory } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 
 type CategoryBannerProps = {
-  pinnedCategories?: WorkingCategory[];
-  categoryCount?: number;
-  canAddCategory?: boolean;
-  onAddCategoryClick?: () => void;
-  onCategoryClick: (categoryId: number) => void;
-  showSolvedCategoryName?: boolean;
+  readonly pinnedCategories?: WorkingCategory[];
+  readonly canAddCategory?: boolean;
+  readonly onAddCategoryClick?: () => void;
+  readonly onCategoryClick: (categoryId: number) => void;
+  readonly categoryCount?: number;
 };
 
 export function CategoryBanner({
   pinnedCategories = [],
-  categoryCount = 0,
   canAddCategory = false,
   onAddCategoryClick,
   onCategoryClick,
-  showSolvedCategoryName = true,
+  categoryCount = 0
 }: CategoryBannerProps) {
-
 
   const isTouchDevice = () =>
     typeof window !== "undefined" &&
@@ -32,8 +29,6 @@ export function CategoryBanner({
   const lastErrorCategoryId = useGameStore((s) => s.lastErrorCategoryId);
   const errorAnimationNonce = useGameStore((s) => s.errorAnimationNonce);
   const setCategoryCustomName = useGameStore((s) => s.setCategoryCustomName);
-
-
 
   return (
     <div

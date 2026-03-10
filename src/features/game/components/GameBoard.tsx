@@ -1,15 +1,13 @@
-// import { WordGrid } from "@/features/game/api/WordGrid";
-// import { useGameLogicMock } from '../hooks/useGameLogic.mock'
 import { useGridStore } from "../hooks/useGridStore";
 import { WordGrid } from "./WordGrid";
-import { EndScreen } from "@/components/end-screen";
 import { useGameStore } from "../store/gameStore";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { EndScreen } from "./end-screen";
 
 type GameboardProps = {
-  logic: {
+  readonly logic: {
     data: { allWords: string[] } | undefined;
     isLoading: boolean;
     error: unknown;
@@ -21,7 +19,6 @@ type GameboardProps = {
 };
 
 export function Gameboard({ logic }: GameboardProps) {
-  // const logic = useGameLogic(difficulty)
   const isGridMode = useGridStore((s) => s.isGridMode);
   const points = useGameStore((s) => s.points);
   const errors = useGameStore((s) => s.errors);
@@ -82,21 +79,5 @@ export function Gameboard({ logic }: GameboardProps) {
         onWordClick={logic.onWordClick}
       />
     </div>
-    /*  <WordGrid
-        words={remainingWords}
-        display="grid"
-        onWordClick={logic.handleCategoryClick}
-      /> */
   );
-
-  {
-    /* <div className="grow self-start -mt-4">
-      <CategoryBanner
-        pinnedCategories={pinnedCategories}
-        onAddCategory={logic.addPinnedCategory}
-        onRemoveCategory={logic.removePinnedCategory}
-        categoryCount={logic.data?.categories.length ?? 0}
-      />
-    </div> */
-  }
 }

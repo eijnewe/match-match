@@ -148,6 +148,5 @@ export const ALL_CATEGORIES = {
     }
   >
 
-
   // access the page by adding pageID at the end of 
   // https://en.wikipedia.org/?curid=
