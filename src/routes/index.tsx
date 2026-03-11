@@ -4,6 +4,7 @@ import { PageContainer } from '@/components/layout/PageContainer'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { HowToPlay } from '@/features/game/components/how-to-play'
 import { Footer } from '@/components/footer'
+import iconWoHand from '../assets/IconWoHand.png'
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -15,7 +16,7 @@ function Index() {
       <PageContainer className="gap-4 sm:flex-row flex-col">
         <div className="flex items-center flex-col">
           <img
-            src="/src/assets/IconWoHand.png"
+            src={iconWoHand}
             alt="logo"
             width="100px"
             className="animate-bounce animation-duration-[3s] mb-4"
