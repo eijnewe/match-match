@@ -138,6 +138,26 @@ export const ALL_CATEGORIES = {
   7199231: {
     name: "Swedish Pop Groups",
     stripPatterns: [/\s\([^()]*\)/]
+  },
+  26766520: {
+    name: ":Eurovision Winning Songs",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  17546768: {
+    name: "Shakespearean Phrases",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  869421: {
+    name: "Parts of Speech",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  31452799: {
+    name: "Mountaineering Equipment",
+    stripPatterns: [/\s\([^()]*\)/]
+  },
+  2113967: {
+    name: "Shades of Blue",
+    stripPatterns: [/\s\([^()]*\)/]
   }
 
 } as const satisfies Record<
