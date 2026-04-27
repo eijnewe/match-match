@@ -3,6 +3,7 @@ import { Gameboard } from "@/features/game/components/GameBoard";
 import { useGameLogic } from "@/features/game/hooks/useGameLogic";
 import { createFileRoute } from "@tanstack/react-router";
 import type { Difficulty } from "@/types/game";
+import FloatingVideo from "@/components/youtube-overlay";
 
 export const Route = createFileRoute("/game/$difficulty")({
   component: GamePage,
@@ -29,6 +30,7 @@ function GamePage() {
         onCategoryClick={logic.onCategoryClick}
       />
       <Gameboard logic={logic} />
+      <FloatingVideo/>
     </main>
   );
 }
