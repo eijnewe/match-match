@@ -2,7 +2,7 @@ import { Music } from "lucide-react";
 import React, { useState } from "react";
 
 
-const FloatingVideo: React.FC = ({ videoId }) => {
+const FloatingVideo: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   return (
