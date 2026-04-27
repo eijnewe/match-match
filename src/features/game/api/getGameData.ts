@@ -6,7 +6,7 @@ function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5)
 }
 
-const difficultyConfig = { easy: 3, medium: 4, hard: 5 } as const
+const difficultyConfig = { easy: 5, medium: 7, hard: 10 } as const
 
 function resolveCount(difficulty: Difficulty): number {
   if (typeof difficulty === 'number')

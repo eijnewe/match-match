@@ -69,7 +69,20 @@ function GameIndex() {
                 }
               ></Button>
             </li>
+            
           ))}
+          <Button
+                size="lg"
+                nativeButton={false}
+                render={
+                  <Link
+                    to="/game/30"
+                    className="capitalize" 
+                  >
+                    Extreme
+                  </Link>
+                }
+              ></Button>
           {!isTouchDevice() ? (
             <Tooltip>
               <TooltipTrigger>{customTrigger}</TooltipTrigger>
