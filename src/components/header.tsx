@@ -15,7 +15,7 @@ import { useGameStore } from "@/features/game/store/gameStore";
 import { useGridStore } from "@/features/game/hooks/useGridStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { Button } from "@base-ui/react";
-import iconWoHand from "../assets/IconWoHand.png";
+import icon from "../assets/MatchMatchIcon.png";
 
 export function Header() {
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -95,7 +95,7 @@ export function Header() {
           >
             <div className="flex items-center gap-2 pt-2 pb-2 justify-between px-2">
               <Link to="/">
-                <img src={iconWoHand} alt="Home" className="h-12" />
+                <img src={icon} alt="Home" className="h-12" />
               </Link>
 
               {!isCompactHeader && (
