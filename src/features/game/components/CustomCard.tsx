@@ -308,13 +308,13 @@ function CategoryCard(
                 </button>
               </DrawerClose>
               <DrawerHeader>
-                <DrawerTitle>{props.categoryTitle}:</DrawerTitle>
+                <DrawerTitle>{props.categoryTitle}</DrawerTitle>
                 <DrawerDescription>
                   {sortedWords.join(", ").trim()}
                   <br />
-                  <p className="font-bold">
+                  <span className="font-bold">
                     {`${sortedWords.length} out of ${limit} words total`}
-                  </p>
+                  </span>
                 </DrawerDescription>
               </DrawerHeader>
             </DrawerContent>
