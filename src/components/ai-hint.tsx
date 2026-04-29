@@ -16,7 +16,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { CustomCard } from "@/features/game/components/CustomCard";
 
 type Category = {
   name: string | null
