@@ -35,7 +35,7 @@ export function CategoryBanner({ pinnedCategories = [], canAddCategory = false, 
 
         const custom = cat.customName;
 
-        function truncate(str) {
+        function truncate(str: string) {
           if (str.length <= 15) return str;
           return str.slice(0, 15) + "...";
         }
