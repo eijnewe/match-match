@@ -8,11 +8,11 @@ interface BProps {
 export function ColorChanger({ handleClick }: BProps) {
 
     const colors = [
-        { id: "1", circleClass: "fill-sidebar-ring", cardClass: "bg-[var(--sidebar-ring)]" },
-        { id: "2", circleClass: "fill-primary", cardClass: "bg-[var(--primary)]" },
-        { id: "3", circleClass: "fill-sidebar-primary", cardClass: "bg-[var(--sidebar-primary)]" },
-        { id: "4", circleClass: "fill-secondary", cardClass: "bg-[var(--secondary)]" },
-        { id: "5", circleClass: "fill-chart-5", cardClass: "bg-[var(--chart-5)]" }
+        { id: "1", circleClass: "fill-sidebar-ring", cardClass: "bg-[var(--sidebar-ring)]", name: "Yellow"},
+        { id: "2", circleClass: "fill-primary", cardClass: "bg-[var(--primary)]", name: "Red"},
+        { id: "3", circleClass: "fill-sidebar-primary", cardClass: "bg-[var(--sidebar-primary)]", name: "Purple"},
+        { id: "4", circleClass: "fill-secondary", cardClass: "bg-[var(--secondary)]", name: "Blue"},
+        { id: "5", circleClass: "fill-chart-5", cardClass: "bg-[var(--chart-5)]", name: "Green" }
     ]
 
     return <div className="flex">
@@ -26,7 +26,14 @@ export function ColorChanger({ handleClick }: BProps) {
         </Tooltip>
         <div className="ml-2 flex">
             {colors.map((color) => (
-                <Circle className={`cursor-pointer stroke-none hover:drop-shadow-sm/60 ${color.circleClass}`} key={color.id} onClick={() => handleClick(color.cardClass)} />
+                <button 
+                key={color.name}
+                onClick={() => handleClick(color.cardClass)}
+                >
+                    <Circle 
+                    className={`cursor-pointer stroke-none hover:drop-shadow-sm/60 ${color.circleClass}`} key={color.id}  
+                    />
+                </button>
             ))}
         </div>
     </div>
