@@ -27,6 +27,14 @@ export function ColorChanger({ handleClick }: BProps) {
         <div className="ml-2 flex">
             {colors.map((color) => (
                 <Circle className={`cursor-pointer stroke-foreground stroke-1 hover:drop-shadow-sm/60 ${color.circleClass}`} key={color.id} onClick={() => handleClick(color.cardClass)} />
+                <button 
+                key={color.name}
+                onClick={() => handleClick(color.cardClass)}
+                >
+                    <Circle 
+                    className={`cursor-pointer stroke-none hover:drop-shadow-sm/60 ${color.circleClass}`} key={color.id}  
+                    />
+                </button>
             ))}
         </div>
     </div>
