@@ -1,0 +1,1 @@
+import{j as n,g as r}from"./index-tjH7bNYg.js";function s({className:e,children:t}){return n.jsx("main",{className:r("mx-auto p-4 md:p-6 w-full grow flex place-content-center justify-center items-center",e),children:t})}export{s as P};
