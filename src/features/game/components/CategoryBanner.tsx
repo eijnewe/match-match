@@ -35,7 +35,14 @@ export function CategoryBanner({ pinnedCategories = [], canAddCategory = false, 
 
         const custom = cat.customName;
 
-        const displayTitle = cat.solved ? (cat.name ?? "Unknown category") : custom ? custom : cat.words.length === 0 ? "Empty category" : "Unknown category";
+        function truncate(str) {
+          if (str.length <= 15) return str;
+          return str.slice(0, 15) + "...";
+        }
+        const title = truncate(cat.words.join(", "));
+        const emptyTitle = <span className="opacity-75">Empty Category</span>
+
+        const displayTitle = cat.solved ? (cat.name ?? title) : custom ? custom : cat.words.length === 0 ? emptyTitle : title;
 
         return (
           <CustomCard
