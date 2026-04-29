@@ -24,9 +24,12 @@ export function HowToPlay() {
       <p>
         {isTouchDevice() ? 'Tap': 'Click'} a <WordTag type="word" bgColor="primary" /> to select it, and then {isTouchDevice() ? 'tap': 'click'} the <WordTag type="category" bgColor="chart-5" /> card you believe it belongs to. If they are a match, the  <WordTag type="word" bgColor="primary" /> card will disappear and you will get a point! If not, the  <WordTag type="word" bgColor="primary" /> card remains on the <WordTag type="grid" bgColor="secondary" /> and you will get an error point.
       </p>
-      <p>You can also select a <WordTag type="category" bgColor="chart-5" /> card and then {isTouchDevice() ? 'tap': 'click'} on various <WordTag type="word" bgColor="primary" /> cards you want to match- the <WordTag type="category" bgColor="chart-5" /> card will remain selected even if you make an error.</p>
+      <p>You can also select a <WordTag type="category" bgColor="chart-5" /> card and then {isTouchDevice() ? 'tap': 'click'} on various <WordTag type="word" bgColor="primary" /> cards you want to match- the <WordTag type="category" bgColor="chart-5" /> card will remain selected until you make an error.</p>
       <p>
         If a <WordTag type="word" bgColor="primary" /> won't go into an empty <WordTag type="category" bgColor="chart-5" />, that means you've already started on its <WordTag type="category" bgColor="chart-5" /> in another card!
+      </p>
+      <p>
+        You can also use the Hint button to get some help along the way: to get a hint,  select a <WordTag type="word" bgColor="primary" /> that you are uncertain of, and the hint will show you another <WordTag type="word" bgColor="primary" /> in the same <WordTag type="category" bgColor="chart-5" />. Using the Hint will give you one error point.
       </p>
     </div>
     <div>

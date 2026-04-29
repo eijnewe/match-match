@@ -5,6 +5,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.headerIcon {
+  background-image: url('/src/assets/MatchMatchIcon.png');
+}
+
+@media (prefers-color-scheme: dark) {
+  .headerIcon {
+    background-image: url('/src/assets/DarkModeIcon.png');
+  }
+}
 
 :root {
   --font-climate: "Climate Crisis", sans-serif;
@@ -42,6 +51,12 @@
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: #EBCB4E;
   --stark: #000000;
+  --choice-1: #F5CB5C;
+  --choice-2: #A3E4F5;
+  --choice-3: #F49097;
+  --choice-4: #75D19D;
+  --choice-5: #BDBBDD;
+
 }
 
 .dark {
@@ -77,6 +92,11 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: #87742D;
   --stark: #FFFFFF;
+  --choice-1: #6e5b29;
+  --choice-2: #415b62;
+  --choice-3: #7a484c;
+  --choice-4: #3b694f;
+  --choice-5: #5f5e6f;
 }
 
 @theme inline {
@@ -119,6 +139,11 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --color-choice-1: var(--choice-1);
+  --color-choice-2: var(--choice-2);
+  --color-choice-3: var(--choice-3);
+  --color-choice-4: var(--choice-4);
+  --color-choice-5: var(--choice-5)
 }
 
 @layer base {
